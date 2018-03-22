@@ -1,28 +1,27 @@
 import React, { Component } from 'react'
 import {
-  Image,
+  View,
   Text,
   TouchableHighlight,
-  View,
+  Image,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import DrawerImage from '../../asset/drawer.png'
 import styles from './styles/Home.styles'
 
-
-export default class Home extends Component {
+export default class Edit extends Component {
   constructor(props) {
     super(props)
     this.openDrawer = this.openDrawer.bind(this)
   }
 
-  static navigationOptions = {
-    drawerLabel: '主頁',
-  }
-
   openDrawer() {
     this.props.navigation.navigate('DrawerOpen')
   }
+
+  static navigationOptions = {
+    drawerLabel: '修改個人資料',
+  };
 
   render() {
     return <View style={styles.container}>
@@ -31,14 +30,14 @@ export default class Home extends Component {
           <Image style={styles.drawerIcon} source={DrawerImage} />
         </TouchableHighlight>
         <Text style={styles.title}>
-          主頁
+          修改個人資料的頁面
         </Text>
       </View>
     </View>
   }
 }
 
-Home.propTypes = {
+Edit.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
