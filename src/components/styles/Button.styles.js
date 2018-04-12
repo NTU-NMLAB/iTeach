@@ -10,7 +10,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 10,
-    borderRadius: 30,
+    borderRadius: 20,
     backgroundColor: '#3A8FB7',
   },
   buttonLabel: {

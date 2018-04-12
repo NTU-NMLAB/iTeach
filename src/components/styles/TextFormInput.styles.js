@@ -13,8 +13,9 @@ export default StyleSheet.create({
     padding: 10,
     margin: 10,
     borderColor: '#3A8FB7',
-    borderWidth: 1,
+    borderWidth: 1.7,
     borderRadius: 10,
     color: '#3A8FB7',
+    fontSize: 18,
   },
 })

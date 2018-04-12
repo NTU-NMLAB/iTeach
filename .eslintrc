@@ -21,11 +21,12 @@
     "jest": true
   },
   "rules" : {
-    "arrow-body-style" : "warn",
+    "arrow-body-style": "warn",
     "comma-dangle": "warn",
-    "no-console":"off",
+    "no-console": "off",
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "semi": ["error", "never"],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "class-methods-use-this": "off"
   }
 }

@@ -13,7 +13,7 @@ const Button = (props) => {
     <View style={styles.buttonContainer}>
       <TouchableHighlight
         underlayColor='steelblue'
-        onPress={() => onPress && onPress()}
+        onPress={onPress}
         style={styles.button}>
         <Text style={styles.buttonLabel}>
           {label}

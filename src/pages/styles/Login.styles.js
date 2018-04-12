@@ -1,8 +1,14 @@
 import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
+  statusbar: {
+    top: -40,
+    height: 20,
+    width: '100%',
+    backgroundColor: '#3A8FB7',
+  },
   container: {
-    marginTop: 20,
+    marginTop: 40,
     flex: 1,
     backgroundColor: '#FFFFFF',
   },

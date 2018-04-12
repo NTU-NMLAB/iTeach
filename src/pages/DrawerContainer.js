@@ -1,53 +1,51 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Text, View, AsyncStorage } from 'react-native'
+import { Text, View } from 'react-native'
 import styles from './styles/DrawerContainer.styles'
+import navAction from '../actions/nav.action'
 
+const mapStateToProps = state => ({
+  username: state.account.username,
+})
 
-export default class DrawerContainer extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      status: '',
-      username: '',
-      email: '',
-    }
-  }
+const mapDispatchToProps = dispatch => ({
+  nav: {
+    classMenu: () => { dispatch(navAction.classMenu()) },
+    editProfile: () => { dispatch(navAction.editProfile()) },
+    channels: () => { dispatch(navAction.channels()) },
+    closeDrawer: () => { dispatch(navAction.closeDrawer()) },
+  },
+})
 
-  async componentDidMount() {
-    // 從本地資料庫中撈出舊帳戶資料
-    const storeState = await AsyncStorage.getItem('iTeachStore')
-    this.setState(JSON.parse(storeState))
-  }
-
+class DrawerContainer extends Component {
   render() {
-    const { navigation } = this.props
     return (
       <View style={styles.container}>
         <View style={styles.buttonContainer}>
           <Text
             style={styles.usernameItem}>
-            {this.state.username}
+            {this.props.username}
           </Text>
           <Text
-            onPress={() => navigation.navigate('Home')}
+            onPress={this.props.nav.classMenu}
             style={styles.drawerItem}>
-            主頁
+            課程選單
           </Text>
           <Text
-            onPress={() => navigation.navigate('EditProfile')}
+            onPress={this.props.nav.editProfile}
             style={styles.drawerItem}>
             修改個人資料
           </Text>
           <Text
-            onPress={() => navigation.navigate('Channels')}
+            onPress={this.props.nav.channels}
             style={styles.drawerItem}>
             切換頻道
           </Text>
         </View>
         <View style={styles.footerContainer}>
           <Text
-            onPress={() => navigation.navigate('DrawerClose')}
+            onPress={this.props.nav.closeDrawer}
             style={styles.drawerItem}>
             取消
           </Text>
@@ -58,7 +56,13 @@ export default class DrawerContainer extends Component {
 }
 
 DrawerContainer.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
+  nav: PropTypes.shape({
+    classMenu: PropTypes.func.isRequired,
+    editProfile: PropTypes.func.isRequired,
+    channels: PropTypes.func.isRequired,
+    closeDrawer: PropTypes.func.isRequired,
   }).isRequired,
+  username: PropTypes.string.isRequired,
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContainer)
