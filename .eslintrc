@@ -5,11 +5,11 @@
     "react-native"
   ],
   "parserOptions": {
-    "ecmaVersion": 7,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+  "ecmaVersion": 7,
+  "sourceType": "module",
+  "ecmaFeatures": {
+    "jsx": true
+  }
   },
   "extends" : [
     "eslint:recommended",
@@ -17,12 +17,16 @@
     "airbnb-base"
   ],
   "env": {
-    "react-native/react-native": true
+    "react-native/react-native": true,
+    "jest": true
   },
   "rules" : {
-    "arrow-body-style" : "warn",
+    "arrow-body-style": "warn",
     "comma-dangle": "warn",
-    "no-console":"off",
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
+    "no-console": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "semi": ["error", "never"],
+    "indent": ["error", 2],
+    "class-methods-use-this": "off"
   }
 }

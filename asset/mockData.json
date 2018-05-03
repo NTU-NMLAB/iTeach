@@ -1,0 +1,32 @@
+{
+  "type": "classMenu/classList/set",
+  "payload": [
+    {
+      "teacher": "林宗男",
+      "title": "網路與多媒體實驗",
+      "color": "red",
+      "semester": "107學年上學期",
+      "classroom": "電二１４４",
+      "time": "星期一１８:３０ＰＭ",
+      "website": "https://my.ntu.edu.tw/"
+    }, 
+    {
+      "teacher": "林宗男",
+      "title": "機器學習及其深層與結構化",
+      "color": "blue",
+      "semester": "107學年下學期",
+      "classroom": "博理１０１",
+      "time": "星期二１０:３０ＡＭ",
+      "website": "https://www.google.com"
+    }, 
+    {
+      "teacher": "林宗男",
+      "title": "資料庫系統-從SQL到NoSQL",
+      "color": "green",
+      "semester": "107學年上學期",
+      "classroom": "明達２１３",
+      "time": "星期三０９:１０ＰＭ",
+      "website": "https://web.ee.ntu.edu.tw/"
+    }
+  ]
+}
