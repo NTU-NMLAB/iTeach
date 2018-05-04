@@ -15,6 +15,7 @@ import Multi from '../pages/Quiz/Multi'
 import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
+import DrawLots from '../pages/DrawLots'
 
 export default SwitchNavigator({
   Login: {
@@ -52,6 +53,9 @@ export default SwitchNavigator({
   },
   HistoryRecord: {
     screen: HistoryRecord,
+  },
+  DrawLots: {
+    screen: DrawLots, // Page for 隨機抽籤
   },
   Pages: DrawerNavigator({
     EditProfile: {
