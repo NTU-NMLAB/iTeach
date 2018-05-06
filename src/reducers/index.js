@@ -7,6 +7,7 @@ import account from './account'
 import RootNavigator from '../navigator/RootNavigator'
 import onlinePeerList from './onlinePeerList'
 import multiPeer from './multiPeer'
+import drawLots from './drawLots'
 
 // define states
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   account: account.initialState,
   onlinePeerList: onlinePeerList.initialState,
   multiPeer: multiPeer.initialState,
+  drawLots: drawLots.initialState,
   initComplete: false,
 }
 
@@ -29,6 +31,7 @@ const reducerMap = {
   account: account.reducerMap,
   onlinePeerList: onlinePeerList.reducerMap,
   multiPeer: multiPeer.reducerMap,
+  drawLots: drawLots.reducerMap,
   addCourse: state => state,
   initComplete: state => ({ ...state, initComplete: true }),
 }
