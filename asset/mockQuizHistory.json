@@ -1,0 +1,160 @@
+{
+  "Questions": [
+    {
+      "type": "單選題",
+      "description": "現在台大的校長是？",
+      "options": [
+        {
+          "option": "A",
+          "description": "郭大維"
+        },
+        {
+          "option": "B",
+          "description": "管中閔"
+        },
+        {
+          "option": "C",
+          "description": "吳茂昆"
+        },
+        {
+          "option": "D",
+          "description": "林宗男"
+        },
+      ],
+      "answer": "A",
+      "time": "2018/05/08 23:12",
+      "correctRate": "72"
+    },
+    {
+      "type": "多選題",
+      "description": "下列哪些國家為目前台灣的邦交國？",
+      "options": [
+        {
+          "option": "A",
+          "description": "聖多美普林西比"
+        },
+        {
+          "option": "B",
+          "description": "布吉納法索"
+        },
+        {
+          "option": "C",
+          "description": "薩爾瓦多"
+        },
+        {
+          "option": "D",
+          "description": "多明尼加"
+        },
+        {
+          "option": "E",
+          "description": "梵蒂岡"
+        },
+      ],
+      "answer": "BCE",
+      "time": "2018/05/08 23:21",
+      "correctRate": "25"
+    },
+    {
+      "type": "是非題",
+      "description": "2778675242701187是一個質數。",
+      "options": [
+        {
+          "option": "A",
+          "description": "yes"
+        },
+        {
+          "option": "B",
+          "description": "no"
+        },
+      ],
+      "answer": "B",
+      "time": "2018/05/08 23:37",
+      "correctRate": "88"
+    },
+    {
+      "type": "是非題",
+      "description": "2778675242701187是一個質數。",
+      "options": [
+        {
+          "option": "A",
+          "description": "yes"
+        },
+        {
+          "option": "B",
+          "description": "no"
+        },
+      ],
+      "answer": "H",
+      "time": "2018/05/08 23:37",
+      "correctRate": "88"
+    },
+    {
+      "type": "是非題",
+      "description": "2778675242701187是一個質數。",
+      "options": [
+        {
+          "option": "A",
+          "description": "yes"
+        },
+        {
+          "option": "B",
+          "description": "no"
+        },
+      ],
+      "answer": "G",
+      "time": "2018/05/08 23:37",
+      "correctRate": "88"
+    },
+    {
+      "type": "是非題",
+      "description": "2778675242701187是一個質數。",
+      "options": [
+        {
+          "option": "A",
+          "description": "yes"
+        },
+        {
+          "option": "B",
+          "description": "no"
+        },
+      ],
+      "answer": "F",
+      "time": "2018/05/08 23:37",
+      "correctRate": "88"
+    },
+    {
+      "type": "是非題",
+      "description": "2778675242701187是一個質數。",
+      "options": [
+        {
+          "option": "A",
+          "description": "yes"
+        },
+        {
+          "option": "B",
+          "description": "no"
+        },
+      ],
+      "answer": "D",
+      "time": "2018/05/08 23:37",
+      "correctRate": "88"
+    },
+    {
+      "type": "是非題",
+      "description": "2778675242701187是一個質數。",
+      "options": [
+        {
+          "option": "A",
+          "description": "yes"
+        },
+        {
+          "option": "B",
+          "description": "no"
+        },
+      ],
+      "answer": "C",
+      "time": "2018/05/08 23:37",
+      "correctRate": "88"
+    },
+  ]
+}
