@@ -36,7 +36,7 @@ class HistoryRecord extends Component {
         <View style={styles.listContainer}>
           <FlatList
             style={styles.list}
-            data={mockQuizHistory.Questions}
+            data={[...mockQuizHistory.Questions].reverse()}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <HistoryItem
