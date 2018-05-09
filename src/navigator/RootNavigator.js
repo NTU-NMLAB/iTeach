@@ -12,6 +12,7 @@ import CourseInfo from '../pages/CourseInfo'
 import DrawLots from '../pages/DrawLots'
 import DrawFinish from '../pages/DrawLotsFinish'
 import Quiz from '../pages/Quiz/Quiz'
+import QuestionResult from '../pages/Quiz/QuestionResult'
 import Single from '../pages/Quiz/Single'
 import Multi from '../pages/Quiz/Multi'
 import TrueFalse from '../pages/Quiz/TrueFalse'
@@ -54,6 +55,9 @@ export default SwitchNavigator({
   },
   HistoryRecord: {
     screen: HistoryRecord,
+  },
+  QuestionResult: {
+    screen: QuestionResult,
   },
   Pages: DrawerNavigator({
     EditProfile: {

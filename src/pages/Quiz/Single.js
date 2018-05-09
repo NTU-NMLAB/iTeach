@@ -20,7 +20,7 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
-    historyRecord: () => { dispatch(navAction.historyRecord()) }
+    historyRecord: () => { dispatch(navAction.historyRecord()) },
   },
   classListAction: {
     modify: (classItem) => {

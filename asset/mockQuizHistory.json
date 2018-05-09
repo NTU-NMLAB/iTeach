@@ -72,89 +72,29 @@
       "correctRate": "88"
     },
     {
-      "type": "是非題",
-      "description": "2778675242701187是一個質數。",
+      "type": "單選題",
+      "description": "你走進你的房間，看到床上面有4隻猴子，3隻羊，5隻狗，2隻貓還有3隻雀在飛，請問總共有多少隻腳在地上？",
       "options": [
         {
           "option": "A",
-          "description": "yes"
+          "description": "48"
         },
         {
           "option": "B",
-          "description": "no"
-        },
-      ],
-      "answer": "H",
-      "time": "2018/05/08 23:37",
-      "correctRate": "88"
-    },
-    {
-      "type": "是非題",
-      "description": "2778675242701187是一個質數。",
-      "options": [
-        {
-          "option": "A",
-          "description": "yes"
+          "description": "50"
         },
         {
-          "option": "B",
-          "description": "no"
-        },
-      ],
-      "answer": "G",
-      "time": "2018/05/08 23:37",
-      "correctRate": "88"
-    },
-    {
-      "type": "是非題",
-      "description": "2778675242701187是一個質數。",
-      "options": [
-        {
-          "option": "A",
-          "description": "yes"
+          "option": "C",
+          "description": "52"
         },
         {
-          "option": "B",
-          "description": "no"
-        },
-      ],
-      "answer": "F",
-      "time": "2018/05/08 23:37",
-      "correctRate": "88"
-    },
-    {
-      "type": "是非題",
-      "description": "2778675242701187是一個質數。",
-      "options": [
-        {
-          "option": "A",
-          "description": "yes"
-        },
-        {
-          "option": "B",
-          "description": "no"
+          "option": "D",
+          "description": "54"
         },
       ],
       "answer": "D",
-      "time": "2018/05/08 23:37",
-      "correctRate": "88"
-    },
-    {
-      "type": "是非題",
-      "description": "2778675242701187是一個質數。",
-      "options": [
-        {
-          "option": "A",
-          "description": "yes"
-        },
-        {
-          "option": "B",
-          "description": "no"
-        },
-      ],
-      "answer": "C",
-      "time": "2018/05/08 23:37",
-      "correctRate": "88"
+      "time": "2018/05/10 02:49",
+      "correctRate": "10"
     },
   ]
 }

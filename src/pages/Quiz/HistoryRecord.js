@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, FlatList } from 'react-native'
+import { View, FlatList } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/HistoryRecord.styles'
@@ -18,10 +18,14 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
+    getResult: () => { dispatch(navAction.quizResultPage()) },
   },
 })
 
 class HistoryRecord extends Component {
+  HistoryOnPress() {
+    this.props.navAction.getResult()
+  }
   render() {
     const questionType = '歷史紀錄'
     return (
@@ -29,12 +33,6 @@ class HistoryRecord extends Component {
         <Appbar title={questionType}
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        {/* <View style={styles.textContainer}>
-          <Text style={styles.text}>
-            歡迎進入{questionType}{'\n'}
-            課程：{this.props.course.courseName}
-          </Text>
-        </View> */}
         <View style={styles.listContainer}>
           <FlatList
             style={styles.list}
@@ -46,7 +44,7 @@ class HistoryRecord extends Component {
                 description={item.description}
                 time={item.time}
                 correctRate={item.correctRate}
-                onPress={() => { }}
+                onPress={this.HistoryOnPress.bind(this) }
               />
             )}
           />
@@ -60,6 +58,7 @@ HistoryRecord.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
+    getResult: PropTypes.func.isRequired,
   }).isRequired,
   course: PropTypes.object.isRequired,
   quizItem: PropTypes.object,
