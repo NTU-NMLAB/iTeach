@@ -12,8 +12,8 @@ const { multiPeer } = createActions({
       stopSearch: () => (dispatch) => {
         dispatch(multiPeer.backend.hide())
       },
-      joinCourse: courseName => (dispatch) => {
-        return courseName
+      joinCourse: (peerId, name, callback = () => {}) => {
+        dispatch(multiPeer.backend.invite(peerId, name, callback))
       },
     },
     teacher: {
@@ -47,8 +47,8 @@ const { multiPeer } = createActions({
         MultipeerConnectivity.invite(peerId, myInfo, callback)
         return { peerId }
       },
-      responseInvite: (sender, accept, callback = () => {}) => {
-        MultipeerConnectivity.responseInvite(sender.invitationId, accept, callback)
+      responseInvite: (sender, accept, callback = () => {}) => (dispatch) => {
+        MultipeerConnectivity.responseInvite(sender, accept, callback)
         return { sender }
       },
       requestInfo: (peerId) => {
@@ -87,12 +87,13 @@ const { multiPeer } = createActions({
           },
         ))
         dispatch(multiPeer.backend.onPeerFoundSet({ peer }))
+        dispatch(multiPeer.backend.onPeerConnected(peerId, peerInfo))     
       },
       onPeerLost: (peerId) => {
         return { peerId }
       },
-      onPeerConnected: (peerId) => {
-        const peer = new Peer(peerId, '', true, false, '')
+      onPeerConnected: (peerId, peerInfo) => {
+        const peer = new Peer(peerId, peerInfo, true, false, '')
         return { peer }
       },
       onPeerConnecting: (peerId) => {

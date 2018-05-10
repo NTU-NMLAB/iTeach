@@ -18,6 +18,7 @@ import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   status: state.account.status,
+  info: state.account,
   ...state.classMenu,
 })
 
@@ -85,6 +86,7 @@ class ClassMenu extends Component {
   }
 
   render() {
+    
     return (
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
@@ -135,6 +137,7 @@ ClassMenu.propTypes = {
     setName: PropTypes.func.isRequired,
   }).isRequired,
   status: PropTypes.string.isRequired,
+  info: PropTypes.object.isRequired,
   // name: PropTypes.string.isRequired,
   classList: PropTypes.array.isRequired,
 }
