@@ -30,6 +30,7 @@ const reducerMap = {
   onlinePeerList: onlinePeerList.reducerMap,
   drawLots: drawLots.reducerMap,
   addCourse: state => state,
+  changeCourseInfo: state => state,
   initComplete: state => ({ ...state, initComplete: true }),
 }
 

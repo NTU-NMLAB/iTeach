@@ -17,6 +17,7 @@ import Multi from '../pages/Quiz/Multi'
 import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
+import ChangeCourseInfo from '../pages/ChangeCourseInfo'
 
 export default SwitchNavigator({
   Login: {
@@ -33,6 +34,9 @@ export default SwitchNavigator({
   },
   AddNewCourse: {
     screen: AddNewCourse, // Page for 新增課程
+  },
+  ChangeCoureseInfo: {
+    screen: ChangeCourseInfo,
   },
   CourseInfo: {
     screen: CourseInfo,
