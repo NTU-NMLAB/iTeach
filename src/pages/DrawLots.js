@@ -24,23 +24,53 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.course()) },
-    drawFinish: () => { dispatch(navAction.drawFinish()) },
-    // 課程主畫面 而非 classMenu
+    draw: (actionIn) => { dispatch(navAction.draw(actionIn)) },
   },
   drawLots: {
     initialize: () => { dispatch(drawLots.initialize()) },
     setDrawCount: (countIn) => { dispatch(drawLots.setDrawCount(countIn)) },
     setDrawAction: (actionIn) => { dispatch(drawLots.setDrawAction(actionIn)) },
-    draw: (actionIn) => { dispatch(drawLots.draw(actionIn)) },
     handleActionAllSpace: () => { dispatch(drawLots.handleActionAllSpace()) },
+    handleCountTooLarge: () => { dispatch(drawLots.handleCountTooLarge()) },
   },
 })
 
-// <Button label='抽籤' onPress : TODO/>
 class DrawLots extends Component {
   constructor(props) {
     super(props)
+    const fromDrawLotsFinish = this.props.drawLotsState.afterDraw
+    const originalCount = this.props.drawLotsState.drawCount
+    const originalAction = this.props.drawLotsState.drawAction
+
     this.props.drawLots.initialize()
+    if (fromDrawLotsFinish) {
+      this.props.drawLots.setDrawCount(originalCount)
+      this.props.drawLots.setDrawAction(originalAction)
+    }
+  }
+  alertForCount(signalIn) {
+    if (!signalIn) return null
+    return (
+      <View style={styles.insideAlert}>
+        <Text style={styles.alertTitle}>警告</Text>
+        <Text style={styles.alertText}>在線同學少於設定數量</Text>
+        <View style={styles.alertButton}>
+          <Button label="OK" onPress={this.props.drawLots.handleCountTooLarge}/>
+        </View>
+      </View>
+    )
+  }
+  alertForAction(signalIn) {
+    if (!signalIn) return null
+    return (
+      <View style={styles.insideAlert}>
+        <Text style={styles.alertTitle}>警告</Text>
+        <Text style={styles.alertText}>輸入動作不得全為空格</Text>
+        <View style={styles.alertButton}>
+          <Button label="OK" onPress={this.props.drawLots.handleActionAllSpace}/>
+        </View>
+      </View>
+    )
   }
   render() {
     const { drawLotsState } = this.props
@@ -72,23 +102,16 @@ class DrawLots extends Component {
           <Modal
             animationType="slide"
             transparent={true}
-            visible={drawLotsState.actionAllSpace}>
+            visible={drawLotsState.actionAllSpace || drawLotsState.countTooLarge}>
             <View style={styles.outsideAlert}>
-              <View style={styles.insideAlert}>
-                <Text style={styles.alertTitle}>警告</Text>
-                <Text style={styles.alertText}>輸入動作不得全為空格</Text>
-                <View style={styles.alertButton}>
-                  <Button label="OK" onPress={this.props.drawLots.handleActionAllSpace}/>
-                </View>
-              </View>
+              {this.alertForCount(drawLotsState.countTooLarge)}
+              {this.alertForAction(drawLotsState.actionAllSpace)}
             </View>
           </Modal>
           <View style={styles.buttonContainer}>
             <Button label='抽籤' onPress={() => {
-              this.props.drawLots.draw(drawLotsState.drawAction)
-              this.props.navAction.drawFinish()
-            }
-            }/>
+              this.props.navAction.draw(drawLotsState.drawAction)
+            }}/>
           </View>
         </View>
       </View>
@@ -109,14 +132,14 @@ DrawLots.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
-    drawFinish: PropTypes.func.isRequired,
+    draw: PropTypes.func.isRequired,
   }).isRequired,
   drawLots: PropTypes.shape({
     initialize: PropTypes.func.isRequired,
     setDrawCount: PropTypes.func.isRequired,
     setDrawAction: PropTypes.func.isRequired,
-    draw: PropTypes.func.isRequired,
     handleActionAllSpace: PropTypes.func.isRequired,
+    handleCountTooLarge: PropTypes.func.isRequired,
   }).isRequired,
 }
 //  connect react component & redux store

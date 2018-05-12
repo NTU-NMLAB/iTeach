@@ -5,9 +5,8 @@ import {
   View,
 } from 'react-native'
 import PropTypes from 'prop-types'
-import styles from './styles/DrawLots_finish.styles'
+import styles from './styles/DrawLotsFinish.styles'
 import navAction from '../actions/nav.action'
-import drawLots from '../actions/drawLots.action'
 import CloseImage from '../../asset/close.png'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
@@ -21,17 +20,10 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.course()) },
-    // 課程主畫面 而非 classMenu
-  },
-  drawLots: {
-    setDrawCount: (countIn) => { dispatch(drawLots.setDrawCount(countIn)) },
-    setDrawAction: (actionIn) => { dispatch(drawLots.setDrawAction(actionIn)) },
-    draw: (actionIn) => { dispatch(drawLots.draw(actionIn)) },
-    handleActionAllSpace: () => { dispatch(drawLots.handleActionAllSpace()) },
+    backToDraw: () => { dispatch(navAction.backToDraw()) },
   },
 })
 
-// <Button label='抽籤' onPress : TODO/>
 class DrawLots extends Component {
   render() {
     const { drawLotsState } = this.props
@@ -50,12 +42,8 @@ class DrawLots extends Component {
             <Text style={styles.textBold}>抽籤結果</Text>
           </View>
           <View style={styles.buttonContainer}>
-            <Button label='發佈' onPress={() => {
-              this.props.drawLots.draw(drawLotsState.drawAction)
-            }}/>
-            <Button label='重抽' onPress={() => {
-              this.props.drawLots.draw(drawLotsState.drawAction)
-            }}/>
+            <Button label='發佈' onPress={() => null}/>
+            <Button label='重抽' onPress={this.props.navAction.backToDraw}/>
           </View>
         </View>
       </View>
@@ -69,19 +57,11 @@ DrawLots.propTypes = {
   drawLotsState: PropTypes.shape({
     drawCount: PropTypes.string.isRequired,
     drawAction: PropTypes.string.isRequired,
-    afterDraw: PropTypes.bool.isRequired,
-    actionAllSpace: PropTypes.bool.isRequired,
-    countTooLarge: PropTypes.bool.isRequired,
   }).isRequired,
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
-  }).isRequired,
-  drawLots: PropTypes.shape({
-    setDrawCount: PropTypes.func.isRequired,
-    setDrawAction: PropTypes.func.isRequired,
-    draw: PropTypes.func.isRequired,
-    handleActionAllSpace: PropTypes.func.isRequired,
+    backToDraw: PropTypes.func.isRequired,
   }).isRequired,
 }
 //  connect react component & redux store

@@ -26,6 +26,12 @@ const { nav } = createActions({
     drawFinish: () => null,
     enterFeature: id => CourseItemData[id].routeName,
     enterQuestion: id => QuizItemData[id].routeName,
+    enterFeature: id => CourseItemData[id].routeName,
+    draw: (actionIn) => {
+      if (actionIn === '') return '回答問題'
+      return actionIn.trim()
+    },
+    backToDraw: () => null,
   },
 })
 
