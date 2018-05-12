@@ -16,6 +16,8 @@ import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
 import DrawLots from '../pages/DrawLots'
+import DrawFinish from '../pages/drawLots_finish'
+
 
 export default SwitchNavigator({
   Login: {
@@ -56,6 +58,9 @@ export default SwitchNavigator({
   },
   DrawLots: {
     screen: DrawLots, // Page for 隨機抽籤
+  },
+  DrawFinish: {
+    screen: DrawFinish,
   },
   Pages: DrawerNavigator({
     EditProfile: {
