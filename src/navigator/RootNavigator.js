@@ -72,6 +72,12 @@ export default SwitchNavigator({
     ClassMenu: {
       screen: ClassMenu,
     },
+    DrawLots: {
+      screen: DrawLots, // Page for 隨機抽籤
+    },
+    DrawFinish: {
+      screen: DrawFinish,
+    },
   }, {
     contentComponent: DrawerContainer,
     drawerWidth: 300,
