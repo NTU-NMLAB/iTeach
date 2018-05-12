@@ -5,10 +5,7 @@ const { drawLots } = createActions({
     initialize: () => null,
     setDrawCount: countIn => countIn,
     setDrawAction: actionIn => actionIn,
-    draw: (actionIn) => {
-      if (actionIn === '') return '回答問題'
-      return actionIn.trim()
-    },
+    handleCountTooLarge: () => null,
     handleActionAllSpace: () => null,
   },
 })

@@ -16,7 +16,7 @@ import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
 import DrawLots from '../pages/DrawLots'
-import DrawFinish from '../pages/drawLots_finish'
+import DrawFinish from '../pages/DrawLotsFinish'
 
 
 export default SwitchNavigator({

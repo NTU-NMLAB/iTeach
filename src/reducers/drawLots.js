@@ -17,13 +17,19 @@ const reducerMap = {
       countTooLarge: false,
     },
   }),
-  setDrawCount: (state, action) => ({
-    ...state,
-    drawLots: {
-      ...state.drawLots,
-      drawCount: action.payload,
-    },
-  }),
+  setDrawCount: (state, action) => {
+    const countTooLarge = (action.payload > 5)
+    const drawCount = ((countTooLarge) ? state.drawLots.drawCount : action.payload)
+
+    return ({
+      ...state,
+      drawLots: {
+        ...state.drawLots,
+        drawCount,
+        countTooLarge,
+      },
+    })
+  },
   setDrawAction: (state, action) => ({
     ...state,
     drawLots: {
@@ -31,25 +37,13 @@ const reducerMap = {
       drawAction: action.payload,
     },
   }),
-  draw: (state, action) => {
-    if (action.payload === '') {
-      return {
-        ...state,
-        drawLots: {
-          ...state.drawLots,
-          actionAllSpace: true,
-        },
-      }
-    }
-    return {
-      ...state,
-      drawLots: {
-        ...state.drawLots,
-        drawAction: action.payload,
-        afterDraw: true,
-      },
-    }
-  },
+  handleCountTooLarge: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      countTooLarge: false,
+    },
+  }),
   handleActionAllSpace: state => ({
     ...state,
     drawLots: {
