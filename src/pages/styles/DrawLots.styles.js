@@ -25,7 +25,7 @@ export default StyleSheet.create({
     paddingTop: 5,
   },
   text: {
-    paddingTop: 18,
+    paddingTop: 16,
     marginHorizontal: 5,
     color: '#3A8FB7',
     fontFamily: 'Avenir',
@@ -48,7 +48,8 @@ export default StyleSheet.create({
   input: {
     height: 40,
     width: 100,
-    padding: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     margin: 10,
     borderColor: '#3A8FB7',
     borderWidth: 1.7,
