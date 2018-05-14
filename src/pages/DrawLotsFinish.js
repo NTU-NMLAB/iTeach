@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 import styles from './styles/DrawLotsFinish.styles'
 import navAction from '../actions/nav.action'
 import CloseImage from '../../asset/close.png'
-import LogoImage from '../../asset/logo.png'
+import OnlinePeerData from '../components/OnlinePeerData'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
 
@@ -27,6 +27,18 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class DrawLots extends Component {
+  constructor(props) {
+    super(props)
+    this.drawCore(this.props.drawLotsState.drawCount)
+  }
+  drawCore(countToDraw) {
+    for (let it = 0; it < countToDraw; it += 1) {
+      const chosenID = Math.floor(Math.random() * OnlinePeerData.length)
+      const tmp = JSON.parse(JSON.stringify(OnlinePeerData[it]))
+      OnlinePeerData[it] = JSON.parse(JSON.stringify(OnlinePeerData[chosenID]))
+      OnlinePeerData[chosenID] = JSON.parse(JSON.stringify(tmp))
+    }
+  }
   render() {
     const { drawLotsState } = this.props
 
@@ -37,40 +49,20 @@ class DrawLots extends Component {
           onRightPress={this.props.navAction.onExit}/>
         <View style={styles.listContainer}>
           <View style={styles.rowContainer}>
-            <Text style={styles.text}>請          {drawLotsState.drawCount} </Text>
-            <Text style={styles.text}>       位同學</Text>
-            <Text style={styles.text}>         {drawLotsState.drawAction}</Text>
+            <Text style={styles.text} numberOfLines={1}>
+              請          {drawLotsState.drawCount}        位同學         {drawLotsState.drawAction}
+            </Text>
           </View>
           <View style={styles.columnContainerBorder}>
             <Text style={styles.textBold}>抽籤結果</Text>
             <View style={styles.rowDrawLotsList}>
               <View style={styles.columnContainer}>
-                <View style={styles.rowAvatar}>
-                  <Image style={styles.AvatarContainer} source={LogoImage} />
-                  <Text style={styles.name}> Kevin</Text>
-                </View>
-                <View style={styles.rowAvatar}>
-                  <Image style={styles.AvatarContainer} source={LogoImage} />
-                  <Text style={styles.name}> Curry</Text>
-                </View>
-                <View style={styles.rowAvatar}>
-                  <Image style={styles.AvatarContainer} source={LogoImage} />
-                  <Text style={styles.name}> Kobe</Text>
-                </View>
-              </View>
-              <View style={styles.columnContainer}>
-                <View style={styles.rowAvatar}>
-                  <Image style={styles.AvatarContainer} source={LogoImage} />
-                  <Text style={styles.name}> Durant</Text>
-                </View>
-                <View style={styles.rowAvatar}>
-                  <Image style={styles.AvatarContainer} source={LogoImage} />
-                  <Text style={styles.name}> LeBron</Text>
-                </View>
-                <View style={styles.rowAvatar}>
-                  <Image style={styles.AvatarContainer} source={LogoImage} />
-                  <Text style={styles.name}> Harden</Text>
-                </View>
+                {OnlinePeerData.slice(0, drawLotsState.drawCount).map(it => (
+                  <View key={it.user} style={styles.rowAvatar}>
+                    <Image style={styles.AvatarContainer} source={it.imgSrc} />
+                    <Text style={styles.name} numberOfLines={1}> {it.user}</Text>
+                  </View>
+                ))}
               </View>
             </View>
           </View>
@@ -84,11 +76,6 @@ class DrawLots extends Component {
   }
 }
 
-// <Text style={styles.textBold2}>抽籤結果1</Text>
-// <Text style={styles.textBold2}>抽籤結果4</Text>
-
-// .propTypes  ~= constructor
-// course : proptypes.string,isRequired --> course 「必須」是string
 DrawLots.propTypes = {
   drawLotsState: PropTypes.shape({
     drawCount: PropTypes.string.isRequired,
@@ -100,6 +87,5 @@ DrawLots.propTypes = {
     backToDraw: PropTypes.func.isRequired,
   }).isRequired,
 }
-//  connect react component & redux store
-export default connect(mapStateToProps, mapDispatchToProps)(DrawLots)
 
+export default connect(mapStateToProps, mapDispatchToProps)(DrawLots)
