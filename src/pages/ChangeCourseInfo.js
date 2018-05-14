@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
     classMenu: () => { dispatch(navAction.classMenu()) },
   },
   addCourseAction: {
-    save: (info) => { dispatch(addCourseAction.save(info)) },
+    update: (info, courseName) => { dispatch(addCourseAction.update(info, courseName)) },
   },
 })
 
@@ -111,7 +111,8 @@ class ChangeCourseInfo extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.save(this.state)
+      this.props.addCourseAction.update(this.state, this.props.courseName)
+      this.props.nav.classMenu()
     }
   }
 
@@ -256,7 +257,7 @@ class ChangeCourseInfo extends Component {
 
 ChangeCourseInfo.propTypes = {
   addCourseAction: PropTypes.shape({
-    save: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
   }).isRequired,
   nav: PropTypes.shape({
     classMenu: PropTypes.func.isRequired,

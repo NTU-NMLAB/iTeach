@@ -25,7 +25,23 @@ const { addCourse } = createActions({
         dispatch(classMenuAction.classList.add(courseData))
       }
     }),
-
+    update: (courseData, title) => (async (dispatch) => {
+      let success = false
+      await AsyncStorage.setItem('iTeachStore:Course', JSON.stringify(courseData), (error) => {
+        if (error) {
+          Alert.alert(
+            '加入課程錯誤',
+            [{ text: 'OK' }],
+          )
+        } else {
+          success = true
+        }
+      })
+      if (success) {
+        // dispatch(courseInfo.set(courseData))
+        dispatch(classMenuAction.classList.modify(courseData, title))
+      }
+    }),
   },
 })
 

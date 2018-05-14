@@ -27,8 +27,8 @@ const mapDispatchToProps = dispatch => ({
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
   },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem))
+    modify: (classItem, title) => {
+      dispatch(classMenuAction.classList.modify(classItem, title))
     },
     delete: (title) => {
       dispatch(classMenuAction.classList.delete(title))
@@ -69,7 +69,7 @@ class ClassMenu extends Component {
 
   onPress(classItem) {
     this.props.courseAction.setName(classItem.title)
-    this.props.classListAction.modify(classItem)
+    this.props.classListAction.modify(classItem, classItem.title)
   }
 
   onPressSearchPage = () => {
