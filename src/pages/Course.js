@@ -38,9 +38,16 @@ const mapDispatchToProps = dispatch => ({
       }
     },
   },
+  courseInfoAction: {
+    save: (info) => { dispatch(courseInfoAction.save(info)) },
+  },
 })
 
 class Course extends Component {
+  getPeerInfo() {
+    return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
+  }
+
   iconOnPress(id) {
     this.props.courseItemAction.setName(id)
     this.props.courseItemAction.multiPeer(

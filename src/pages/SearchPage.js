@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => ({
     ,
   },
   courseAction: {
-    joinCourse: (sender, title) => {     
+    joinCourse: (sender, title) => {  
       dispatch(multiPeerAction.backend.responseInvite(sender[0].invitationId, true))
       dispatch(multiPeerAction.student.stopSearch())
       dispatch(multiPeerAction.backend.onPeerConnected(sender[0].id, sender[0].info))
