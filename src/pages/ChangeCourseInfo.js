@@ -13,14 +13,16 @@ import PropTypes from 'prop-types'
 import Button from '../components/Button'
 import styles from './styles/AddNewCourse.styles'
 import getSemester from '../util/getSemester'
-import getRandomColor from '../util/getRandomColor'
 import newCoursesValidation from '../util/newCoursesValidation'
 import addCourseAction from '../actions/addCourse.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar'
 
 const mapStateToProps = state => ({
-  ...state.course,
+  // ...state.course,
+  status: state.account.status,
+  classList: state.classMenu.classList,
+  courseName: state.course.courseName,
   account: state.account,
 })
 
@@ -36,16 +38,28 @@ const mapDispatchToProps = dispatch => ({
 class ChangeCourseInfo extends Component {
   constructor(props) {
     super(props)
+    const { classList, courseName, status } = props
+    const courseInfo = classList.find(item => item.title === courseName)
+    const {
+      color,
+      teacher,
+      year,
+      semester,
+      classroom,
+      weekday,
+      time,
+      website,
+    } = courseInfo
     this.state = {
-      color: getRandomColor(),
-      teacher: '',
-      title: '',
+      color: color,
+      teacher: teacher,
+      title: courseName,
       year: new Date().getFullYear() - 1911,
-      semester: getSemester(),
-      classroom: '',
-      weekday: '星期一',
-      time: '12:00',
-      website: '',
+      semester: semester,
+      classroom: classroom,
+      weekday: weekday,
+      time: weekday + time,
+      website: website,
     }
     this.connectionInfo = ''
     this.onPressConfirm = this.onPressConfirm.bind(this)
@@ -131,13 +145,14 @@ class ChangeCourseInfo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Appbar title='新增課程'/>
+        <Appbar title='修改課程'/>
         <View style={styles.whiteContainer}>
           <View>
             <View style={styles.courseInputContainer}>
               <View style={[styles.colorBox, { backgroundColor: this.state.color }]} />
               <TextInput
                 style={styles.input}
+                defaultValue={this.state.course}
                 onChangeText={(course) => { this.setState({ course }) }}
                 value={this.state.course}
               />

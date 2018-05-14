@@ -71,9 +71,11 @@ class AddNewCourse extends Component {
       teacher: this.props.account.username,
       title: course,
       color,
-      semester: `${year}學年${semester}學期`,
+      year,
+      semester,
       classroom,
-      time: weekday + time,
+      weekday,
+      time,
       website,
     }
     return info
