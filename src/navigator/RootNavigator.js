@@ -35,7 +35,7 @@ export default SwitchNavigator({
   AddNewCourse: {
     screen: AddNewCourse, // Page for 新增課程
   },
-  ChangeCoureseInfo: {
+  ChangeCourseInfo: {
     screen: ChangeCourseInfo,
   },
   CourseInfo: {
