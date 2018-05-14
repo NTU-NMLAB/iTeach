@@ -27,17 +27,11 @@ export default SwitchNavigator({
   SearchPage: {
     screen: SearchPage,
   },
-  OnlinePeerList: {
-    screen: OnlinePeerList,
-  },
   AddNewCourse: {
     screen: AddNewCourse, // Page for 新增課程
   },
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
-  },
-  CourseInfo: {
-    screen: CourseInfo,
   },
   Quiz: {
     screen: Quiz,
@@ -66,6 +60,12 @@ export default SwitchNavigator({
     },
     ClassMenu: {
       screen: ClassMenu,
+    },
+    CourseInfo: {
+      screen: CourseInfo,
+    },
+    OnlinePeerList: {
+      screen: OnlinePeerList,
     },
   }, {
     contentComponent: DrawerContainer,

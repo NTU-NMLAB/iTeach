@@ -40,7 +40,7 @@ class CourseInfo extends Component {
     const courseInfo = classList.find(item => item.title === courseName)
     const {
       color,
-      course,
+      teacher,
       year,
       semester,
       classroom,
@@ -82,7 +82,7 @@ class CourseInfo extends Component {
             </View>
             <View style={styles.infoRowContainer}>
               <Text style={styles.text}>
-                上課時間 ：{weekday+time}
+                上課時間 ：{ weekday + time }
               </Text>
             </View>
             <View style={styles.infoRowContainer}>

@@ -38,59 +38,36 @@ const mapDispatchToProps = dispatch => ({
 class ChangeCourseInfo extends Component {
   constructor(props) {
     super(props)
-    const { classList, courseName, status } = props
+    const { classList, courseName } = props
     const courseInfo = classList.find(item => item.title === courseName)
-    const {
-      color,
-      teacher,
-      year,
-      semester,
-      classroom,
-      weekday,
-      time,
-      website,
-    } = courseInfo
-    this.state = {
-      color: color,
-      teacher: teacher,
-      title: courseName,
-      year: new Date().getFullYear() - 1911,
-      semester: semester,
-      classroom: classroom,
-      weekday: weekday,
-      time: weekday + time,
-      website: website,
-    }
+    // const {
+    //   color,
+    //   teacher,
+    //   year,
+    //   semester,
+    //   classroom,
+    //   weekday,
+    //   time,
+    //   website,
+    // } = courseInfo
+    this.state = courseInfo
+    // this.state = {
+    //   color,
+    //   teacher,
+    //   title: courseName,
+    //   year: new Date().getFullYear() - 1911,
+    //   semester,
+    //   classroom,
+    //   weekday,
+    //   time,
+    //   website,
+    // }
     this.connectionInfo = ''
     this.onPressConfirm = this.onPressConfirm.bind(this)
     this.onPressCancel = this.onPressCancel.bind(this)
     this.handleFirstConnectivityChange = this.handleFirstConnectivityChange.bind(this)
     this.tenYearsAgo = this.state.year - 7
     this.years = Array.from(Array(14), (_, x) => x + this.tenYearsAgo)
-    this.stateToInfo = this.stateToInfo.bind(this)
-  }
-  stateToInfo = () => {
-    const {
-      color,
-      course,
-      year,
-      semester,
-      classroom,
-      weekday,
-      time,
-      website,
-    } = this.state
-
-    const info = {
-      teacher: this.props.account.username,
-      title: course,
-      color,
-      semester: `${year}學年${semester}學期`,
-      classroom,
-      time: weekday + time,
-      website,
-    }
-    return info
   }
   handleFirstConnectivityChange(connectionInfo) {
     this.connectionInfo = connectionInfo.type
@@ -134,7 +111,7 @@ class ChangeCourseInfo extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.save(this.stateToInfo())
+      this.props.addCourseAction.save(this.state)
     }
   }
 
@@ -152,8 +129,8 @@ class ChangeCourseInfo extends Component {
               <View style={[styles.colorBox, { backgroundColor: this.state.color }]} />
               <TextInput
                 style={styles.input}
-                defaultValue={this.state.course}
-                onChangeText={(course) => { this.setState({ course }) }}
+                defaultValue={this.state.title}
+                onChangeText={(title) => { this.setState({ title }) }}
                 value={this.state.course}
               />
             </View>
@@ -285,6 +262,8 @@ ChangeCourseInfo.propTypes = {
     classMenu: PropTypes.func.isRequired,
   }).isRequired,
   account: PropTypes.object.isRequired,
+  classList: PropTypes.array.isRequired,
+  courseName: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChangeCourseInfo)
