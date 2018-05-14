@@ -15,7 +15,7 @@ import SearchClassItem from '../components/SearchClassItem'
 import classMenuAction from '../actions/classMenu.action'
 import multiPeerAction from '../actions/multiPeer.action'
 import courseAction from '../actions/course.action'
-// import courseInfoAction from '../actions/courseInfo.action'
+import courseInfoAction from '../actions/courseInfo.action'
 // import mockNewClass from '../../asset/mockNewClass.json'
 
 const mapStateToProps = state => ({
@@ -72,7 +72,7 @@ class SearchPage extends Component {
   }
 
   onConfirm(classItem){
-    // this.saveCourseInfo(classItem)
+    this.saveCourseInfo(classItem)
     this.registerClass(classItem.title)
   }
   getCousreInfo() {
@@ -81,7 +81,7 @@ class SearchPage extends Component {
 
 
   saveCourseInfo(classItem){
-    // this.props.courseInfoAction.save(this.getCousreInfo()[0])
+    this.props.courseInfoAction.save(this.getCousreInfo()[0])
     this.props.classListAction.add(classItem)
   }
 
