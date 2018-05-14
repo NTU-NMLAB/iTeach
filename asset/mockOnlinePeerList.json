@@ -1,0 +1,16 @@
+{
+  "OnlinePeerList": [
+    {
+	"id": 1,
+	"name": "LBJ"
+    },
+    {
+        "id": 2,
+        "name": "Curry"
+    },  
+    {
+        "id": 2,
+        "name": "Kobe"
+    }  
+  ]
+}
