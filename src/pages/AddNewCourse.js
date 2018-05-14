@@ -38,7 +38,7 @@ class AddNewCourse extends Component {
     super(props)
     this.state = {
       color: getRandomColor(),
-      teacher: '',
+      teacher: props.account.username,
       title: '',
       year: new Date().getFullYear() - 1911,
       semester: getSemester(),
@@ -53,32 +53,6 @@ class AddNewCourse extends Component {
     this.handleFirstConnectivityChange = this.handleFirstConnectivityChange.bind(this)
     this.tenYearsAgo = this.state.year - 7
     this.years = Array.from(Array(14), (_, x) => x + this.tenYearsAgo)
-    this.stateToInfo = this.stateToInfo.bind(this)
-  }
-  stateToInfo = () => {
-    const {
-      color,
-      course,
-      year,
-      semester,
-      classroom,
-      weekday,
-      time,
-      website,
-    } = this.state
-
-    const info = {
-      teacher: this.props.account.username,
-      title: course,
-      color,
-      year,
-      semester,
-      classroom,
-      weekday,
-      time,
-      website,
-    }
-    return info
   }
   handleFirstConnectivityChange(connectionInfo) {
     this.connectionInfo = connectionInfo.type
@@ -122,7 +96,7 @@ class AddNewCourse extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.save(this.stateToInfo())
+      this.props.addCourseAction.save(this.state)
     }
   }
 
@@ -140,7 +114,7 @@ class AddNewCourse extends Component {
               <View style={[styles.colorBox, { backgroundColor: this.state.color }]} />
               <TextInput
                 style={styles.input}
-                onChangeText={(course) => { this.setState({ course }) }}
+                onChangeText={(title) => { this.setState({ title }) }}
                 value={this.state.course}
               />
             </View>
