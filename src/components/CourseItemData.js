@@ -16,7 +16,7 @@ const CourseItemData = [
     title: ['在線名單'],
     imgSrc: [onlineList],
     user: 'teacher student',
-    routeName: '',
+    routeName: 'OnlinePeerList',
   },
   {
     id: 1,
@@ -38,7 +38,7 @@ const CourseItemData = [
     title: ['隨堂測驗'],
     imgSrc: [test],
     user: 'teacher student',
-    routeName: '',
+    routeName: 'Quiz',
   },
   {
     id: 4,

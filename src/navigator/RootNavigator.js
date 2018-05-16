@@ -11,7 +11,12 @@ import OnlinePeerList from '../pages/OnlinePeerList'
 import CourseInfo from '../pages/CourseInfo'
 import DrawLots from '../pages/DrawLots'
 import DrawFinish from '../pages/DrawLotsFinish'
-
+import Quiz from '../pages/Quiz/Quiz'
+import Single from '../pages/Quiz/Single'
+import Multi from '../pages/Quiz/Multi'
+import TrueFalse from '../pages/Quiz/TrueFalse'
+import ShortDescription from '../pages/Quiz/ShortDescription'
+import HistoryRecord from '../pages/Quiz/HistoryRecord'
 
 export default SwitchNavigator({
   Login: {
@@ -31,6 +36,24 @@ export default SwitchNavigator({
   },
   CourseInfo: {
     screen: CourseInfo,
+  },
+  Quiz: {
+    screen: Quiz,
+  },
+  Single: {
+    screen: Single,
+  },
+  Multi: {
+    screen: Multi,
+  },
+  TrueFalse: {
+    screen: TrueFalse,
+  },
+  ShortDescription: {
+    screen: ShortDescription,
+  },
+  HistoryRecord: {
+    screen: HistoryRecord,
   },
   Pages: DrawerNavigator({
     EditProfile: {

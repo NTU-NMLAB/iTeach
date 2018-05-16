@@ -24,9 +24,6 @@ const mapDispatchToProps = dispatch => ({
   courseItemAction: {
     setName: (id) => {
       dispatch(courseItemAction.setName(id))
-      if (id === 0) {
-        dispatch(navAction.onlinePeerList())
-      }
     },
   },
 })
