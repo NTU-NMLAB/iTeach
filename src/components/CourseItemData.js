@@ -52,7 +52,7 @@ const CourseItemData = [
     title: ['隨機抽籤'],
     imgSrc: [random],
     user: 'teacher',
-    routeName: '',
+    routeName: 'DrawLots',
   },
   {
     id: 6,
