@@ -51,6 +51,32 @@ const reducerMap = {
     )
     return { ...state, nav }
   },
+  draw: (state, action) => {
+    const actionAllSpace = (action.payload === '')
+    const drawAction = ((actionAllSpace) ? state.drawLots.drawAction : action.payload)
+    const nav = ((actionAllSpace)
+      ? state.nav
+      : RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DrawFinish' }), state.nav)
+    )
+
+    return {
+      ...state,
+      nav,
+      drawLots: {
+        ...state.drawLots,
+        drawAction,
+        actionAllSpace,
+      },
+    }
+  },
+  backToDraw: state => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DrawLots' }), state.nav),
+    drawLots: {
+      ...state.drawLots,
+      afterDraw: true,
+    },
+  }),
   enterQuestion: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: action.payload }),
