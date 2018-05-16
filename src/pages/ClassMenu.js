@@ -18,15 +18,16 @@ import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   status: state.account.status,
+  info: state.account,
   ...state.classMenu,
 })
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    searchPage: () => {
+    searchPage: (info = {}) => {
       dispatch(navAction.searchPage())
-      dispatch(multiPeerAction.student.startSearch())
+      dispatch(multiPeerAction.student.startSearch(info))
     },
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
   },
@@ -76,15 +77,16 @@ class ClassMenu extends Component {
     this.props.classListAction.modify(classItem)
   }
 
-  onPressSearchPage = () => {
-    this.props.navAction.searchPage()
-  }
-
   onPressAddPage = () => {
     this.props.navAction.addNewCourse()
   }
 
-  render() {
+  onPressSearchPage = () => {
+    this.props.navAction.searchPage(this.props.info)
+  }
+
+
+  render() {   
     return (
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
@@ -135,6 +137,7 @@ ClassMenu.propTypes = {
     setName: PropTypes.func.isRequired,
   }).isRequired,
   status: PropTypes.string.isRequired,
+  info: PropTypes.object.isRequired,
   // name: PropTypes.string.isRequired,
   classList: PropTypes.array.isRequired,
 }
