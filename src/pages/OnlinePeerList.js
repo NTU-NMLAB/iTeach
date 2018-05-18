@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   View,
   FlatList,
-  Alert,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
@@ -32,10 +31,17 @@ const mapDispatchToProps = dispatch => ({
 
 class OnlinePeerList extends Component {
   getOnlinePeerList() {
-    return Object.keys(this.props.multiPeer.peers).map(i => this.props.multiPeer.peers[i]).filter(peer => peer.online === true && peer.info.course === this.props.courseName)
+    return Object.keys(this.props.multiPeer.peers)
+      .map(i => this.props.multiPeer.peers[i])
+      .filter(peer => peer.online === true && peer.info.course === this.props.courseName)
   }
   getOfflinePeerList() {
-    return Object.keys(this.props.multiPeer.peers).map(i => this.props.multiPeer.peers[i]).filter((peer => (peer.online === false || !(peer.info.course === this.props.courseName)) && (this.props.multiPeer.courses[this.props.courseName] && peer.id in this.props.multiPeer.courses[this.props.courseName])))
+    return Object.keys(this.props.multiPeer.peers)
+      .map(i => this.props.multiPeer.peers[i])
+      .filter(peer =>
+        (peer.online === false || !(peer.info.course === this.props.courseName))
+        && (this.props.multiPeer.courses[this.props.courseName]
+        && peer.id in this.props.multiPeer.courses[this.props.courseName]))
   }
   render() {
     return (
