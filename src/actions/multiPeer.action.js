@@ -1,4 +1,3 @@
-import { Alert } from 'react-native'
 import { createActions } from 'redux-actions'
 import Peer, { PeerStatus } from '../components/Peer'
 import MultipeerConnectivity from '../util/multiPeerInit'
@@ -88,9 +87,9 @@ const { multiPeer } = createActions({
       },
     },
     backend: {
-      init: (selfName) => {
-        return { selfName }
-      },
+      init: selfName => ({
+        selfName,
+      }),
       browse: () => {
         MultipeerConnectivity.browse()
       },
@@ -157,12 +156,12 @@ const { multiPeer } = createActions({
         const peer = new Peer(peerId, {})
         return { peer }
       },
-      onPeerConnecting: (peerId) => {
-        return { peerId }
-      },
-      onPeerDisconnected: (peerId) => {
-        return { peerId }
-      },
+      onPeerConnecting: peerId => ({
+        peerId,
+      }),
+      onPeerDisconnected: peerId => ({
+        peerId,
+      }),
       onStreamOpened: () => null,
       onInviteReceivedSet: peer => ({ peer }),
       onInviteReceived: invitation => (dispatch) => {
@@ -177,17 +176,13 @@ const { multiPeer } = createActions({
         dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
         dispatch(multiPeer.backend.onInviteReceivedSet(peer))
       },
-      onDataReceived: (senderId, data) => {
-        return {
-          senderId,
-          data,
-        }
-      },
-      onInfoUpdate: (peerId, info) => {
-        return {
-          info,
-        }
-      },
+      onDataReceived: (senderId, data) => ({
+        senderId,
+        data,
+      }),
+      onInfoUpdate: (peerId, info) => ({
+        info,
+      }),
     },
   },
 })
