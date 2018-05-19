@@ -37,9 +37,9 @@ class AddNewCourse extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      color: getRandomColor(),
       teacher: props.account.username,
       title: '',
+      color: getRandomColor(),
       year: new Date().getFullYear() - 1911,
       semester: getSemester(),
       classroom: '',
