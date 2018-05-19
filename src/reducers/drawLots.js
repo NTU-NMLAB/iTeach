@@ -4,6 +4,8 @@ const initialState = {
   afterDraw: false,
   actionAllSpace: false,
   countTooLarge: false,
+  // update
+  // countPeers: '0',
 }
 
 const reducerMap = {
@@ -15,10 +17,13 @@ const reducerMap = {
       afterDraw: false,
       actionAllSpace: false,
       countTooLarge: false,
+      // update
+      // countPeers: '0',
     },
   }),
   setDrawCount: (state, action) => {
-    const countTooLarge = (action.payload > 5)
+    const countTooLarge = (action.payload > Object.keys(state.multiPeer.peers).length)
+    // const countTooLarge = (action.payload > state.multiPeer.peers.length)
     const drawCount = ((countTooLarge) ? state.drawLots.drawCount : action.payload)
 
     return ({

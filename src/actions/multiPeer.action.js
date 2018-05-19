@@ -126,12 +126,30 @@ const { multiPeer } = createActions({
         MultipeerConnectivity.createStreamForPeer(peerId, name, callback)
       },
       sendData: (recipients, data, callback = () => {}) => {
+        /*
+        if (Array.isArray(recipients)) {
+          Alert.alert(
+            'recipients is array of',
+            typeof (recipients[0]),
+            [{ text: 'OK' }],
+          )
+        }
+        */
         const recipientIds = recipients.map((recipient) => {
           if (recipient instanceof Peer) {
-            return { recipient: recipient.id }
+            return recipient.id
           }
-          return { recipient }
+          return recipient
         })
+        /*
+        if (Array.isArray(recipientIds)) {
+          Alert.alert(
+            'recipientIds is array of',
+            typeof (recipientIds[0]),
+            [{ text: 'OK' }],
+          )
+        }
+        */
         MultipeerConnectivity.sendData(recipientIds, data, callback)
       },
       broadcastData: (data, callback = () => {}) => {

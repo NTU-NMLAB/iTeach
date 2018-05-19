@@ -18,8 +18,9 @@ import Appbar from '../components/Appbar'
 
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
+  multiPeerState: state.multiPeer,
 })
-
+// Object.keys(this.props.multiPeerState.peers).length
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
@@ -141,6 +142,7 @@ DrawLots.propTypes = {
     handleActionAllSpace: PropTypes.func.isRequired,
     handleCountTooLarge: PropTypes.func.isRequired,
   }).isRequired,
+  multiPeerState: PropTypes.object.isRequired,
 }
 //  connect react component & redux store
 export default connect(mapStateToProps, mapDispatchToProps)(DrawLots)
