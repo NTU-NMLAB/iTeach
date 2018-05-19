@@ -3,7 +3,6 @@ import { createActions } from 'redux-actions'
 import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer'
 import MultipeerConnectivity from '../submodule/react-native-multipeer'
 import getRandomColor from '../util/getRandomColor'
-import courseInfoAction from '../actions/courseInfo.action'
 
 const getStudentPeerInfo = state => ({
   identity: 'student',
@@ -87,11 +86,6 @@ const { multiPeer } = createActions({
           }
         }
       },
-      saveInfo: (peerId, peerInfo) => (dispatch) => { 
-        dispatch(courseInfoAction.save(peerInfo))
-        dispatch(multiPeer.backend.stopBrowse()) 
-        dispatch(multiPeer.backend.onPeerConnected(peerId, peerInfo))   
-      },
     },
     backend: {
       init: (selfName) => {
@@ -116,8 +110,8 @@ const { multiPeer } = createActions({
         MultipeerConnectivity.invite(peerId, myInfo, callback)
         return { peerId }
       },
-      responseInvite: (sender, accept, callback = () => {}) => (dispatch) => {
-        MultipeerConnectivity.responseInvite(sender, accept, callback)
+      responseInvite: (sender, accept, callback = () => {}) => {
+        MultipeerConnectivity.responseInvite(sender.invitationId, accept, callback)
         return { sender }
       },
       requestInfo: (peerId) => {
