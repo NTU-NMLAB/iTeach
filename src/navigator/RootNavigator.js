@@ -9,6 +9,8 @@ import SearchPage from '../pages/SearchPage'
 import AddNewCourse from '../pages/AddNewCourse'
 import OnlinePeerList from '../pages/OnlinePeerList'
 import CourseInfo from '../pages/CourseInfo'
+import DrawLots from '../pages/DrawLots'
+import DrawFinish from '../pages/DrawLotsFinish'
 import Quiz from '../pages/Quiz/Quiz'
 import Single from '../pages/Quiz/Single'
 import Multi from '../pages/Quiz/Multi'
@@ -62,6 +64,12 @@ export default SwitchNavigator({
     },
     ClassMenu: {
       screen: ClassMenu,
+    },
+    DrawLots: {
+      screen: DrawLots, // Page for 隨機抽籤
+    },
+    DrawFinish: {
+      screen: DrawFinish,
     },
   }, {
     contentComponent: DrawerContainer,
