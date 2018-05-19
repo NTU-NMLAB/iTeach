@@ -1,7 +1,7 @@
 import { Alert } from 'react-native'
 import { createActions } from 'redux-actions'
-import Peer, { PeerStatus } from '../components/Peer'
-import MultipeerConnectivity from '../util/multiPeerInit'
+import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer'
+import MultipeerConnectivity from '../submodule/react-native-multipeer'
 import getRandomColor from '../util/getRandomColor'
 
 const getStudentPeerInfo = state => ({
