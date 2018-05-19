@@ -4,18 +4,16 @@ import {
   Text,
   View,
   Image,
-  Alert,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/DrawLotsFinish.styles'
 import navAction from '../actions/nav.action'
-import MultiPeerAction from '../actions/multiPeer.action'
+import multiPeerAction from '../actions/multiPeer.action'
 import CloseImage from '../../asset/close.png'
 import OnlinePeerData from '../components/OnlinePeerData'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
 
-// '../submodule/react-native-multipeer/classes/MultipeerConnection'
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
   multiPeerState: state.multiPeer,
@@ -29,7 +27,7 @@ const mapDispatchToProps = dispatch => ({
   },
   multiPeerAction: {
     sendData: (recipients, data, callback) => {
-      dispatch(MultiPeerAction.backend.sendData(recipients, data, callback))
+      dispatch(multiPeerAction.backend.sendData(recipients, data, callback))
     },
   },
 })
@@ -49,37 +47,13 @@ class DrawLots extends Component {
   }
   send() {
     const keys = Object.keys(this.props.multiPeerState.peers)
-    /*
-    if (Array.isArray(keys)) {
-      Alert.alert(
-        typeof (keys[0]),
-        keys[0],
-        [{ text: 'OK' }],
-      )
-    } else {
-      Alert.alert(
-        'Surprise!',
-        typeof (keys),
-        [{ text: 'OK' }],
-      )
+    const data = {
+      messageType: 'CHOSEN_ONE',
+      textPop: 'hail JS! long live REACT!',
+      arrHidden: ['test', 'if', true, 101, ['okay?']],
     }
-    */
-    const data = { messageType: 'REQUEST_INFO' }
-    // for (let i = 0; i < keys.length; i += 1) {
-    // data.peer = this.props.multiPeerState.peers[keys[i]]
-    //  data.data = 'answer the question'
-    // }
-    // for (let i = 0; i < keys.length; i += 1) {
-    //  dataArr.push('bite me if you can!')
-    // }
+
     this.props.multiPeerAction.sendData(keys, data, () => {})
-  }
-  msg() {
-    Alert.alert(
-      'Surprise!',
-      'msg',
-      [{ text: 'OK' }],
-    )
   }
   render() {
     const { drawLotsState } = this.props
@@ -123,12 +97,12 @@ DrawLots.propTypes = {
     drawCount: PropTypes.string.isRequired,
     drawAction: PropTypes.string.isRequired,
   }).isRequired,
+  multiPeerState: PropTypes.object.isRequired,
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
     backToDraw: PropTypes.func.isRequired,
   }).isRequired,
-  multiPeerState: PropTypes.object.isRequired,
   multiPeerAction: PropTypes.shape({
     sendData: PropTypes.func.isRequired,
   }).isRequired,

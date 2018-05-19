@@ -1,4 +1,3 @@
-import { Alert } from 'react-native'
 import { createActions } from 'redux-actions'
 import Peer, { PeerStatus } from '../components/Peer'
 import MultipeerConnectivity from '../util/multiPeerInit'
@@ -126,30 +125,10 @@ const { multiPeer } = createActions({
         MultipeerConnectivity.createStreamForPeer(peerId, name, callback)
       },
       sendData: (recipients, data, callback = () => {}) => {
-        /*
-        if (Array.isArray(recipients)) {
-          Alert.alert(
-            'recipients is array of',
-            typeof (recipients[0]),
-            [{ text: 'OK' }],
-          )
-        }
-        */
         const recipientIds = recipients.map((recipient) => {
-          if (recipient instanceof Peer) {
-            return recipient.id
-          }
+          if (recipient instanceof Peer) return recipient.id
           return recipient
         })
-        /*
-        if (Array.isArray(recipientIds)) {
-          Alert.alert(
-            'recipientIds is array of',
-            typeof (recipientIds[0]),
-            [{ text: 'OK' }],
-          )
-        }
-        */
         MultipeerConnectivity.sendData(recipientIds, data, callback)
       },
       broadcastData: (data, callback = () => {}) => {
