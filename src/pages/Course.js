@@ -21,7 +21,10 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: () => { dispatch(navAction.classMenu()) },
+    onExit: (identity) => {
+      dispatch(navAction.classMenu())
+      dispatch(multiPeerAction[identity].exitCourse())
+    },
     enterFeature: (id) => { dispatch(navAction.enterFeature(id)) },
   },
   courseItemAction: {
@@ -63,7 +66,7 @@ class Course extends Component {
       <View style={styles.container}>
         <Appbar title={this.props.course.courseName}
           rightIcon={CloseImage}
-          onRightPress={this.props.navAction.onExit}/>
+          onRightPress={ () => this.props.navAction.onExit(this.props.status) }/>
         <View style={styles.itemContainer}>
           {CourseItemData.filter(item => item.user.includes(this.props.status))
             .map(item => (

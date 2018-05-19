@@ -21,6 +21,7 @@ import courseInfoAction from '../actions/courseInfo.action'
 const mapStateToProps = state => ({
   status: state.account.status,
   peers: state.multiPeer.peers,
+  courseName: state.course.courseName,
   ...state,
 })
 
@@ -53,7 +54,7 @@ class SearchPage extends Component {
   constructor(props) {
     super(props)
     this.selectClass = this.selectClass.bind(this)
-    this.getCousreInfo = this.getCousreInfo.bind(this)
+    this.getCourseInfo = this.getCourseInfo.bind(this)
     this.saveCourseInfo = this.saveCourseInfo.bind(this)
     this.onConfirm = this.onConfirm.bind(this)
   }
@@ -75,8 +76,21 @@ class SearchPage extends Component {
     this.saveCourseInfo(classItem)
     this.registerClass(classItem.title)
   }
-  getCousreInfo() {
-    return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
+
+  getCourseInfo() {
+    // return Object.keys(this.props.peers).map(i => this.props.peers[i].info)
+    return Object.keys(this.props.peers).map((i) => {
+      const { info } = this.props.peers[i]
+      return {
+        title: info.course,
+        teacher: info.username,
+        color: info.color,
+        identity: info.identity,
+        connected: this.props.peers[i].connected,
+      }
+    }).filter((item) => {
+      return item.identity === 'teacher' && item.connected === true
+    })
   }
 
 
@@ -98,7 +112,7 @@ class SearchPage extends Component {
         <View style={styles.listContainer}>
           <FlatList
             style={styles.list}
-            data={ this.getCousreInfo() }
+            data={ this.getCourseInfo() }
             keyExtractor={item => item.title}
             renderItem={({ item }) => (
               <SearchClassItem
@@ -133,6 +147,7 @@ SearchPage.propTypes = {
   }).isRequired,
   status: PropTypes.string.isRequired,
   peers: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

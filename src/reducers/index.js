@@ -6,7 +6,7 @@ import classMenu from './classMenu'
 import account from './account'
 import RootNavigator from '../navigator/RootNavigator'
 import onlinePeerList from './onlinePeerList'
-import multiPeer from './multiPeer'
+import multiPeer from '../submodule/react-native-multipeer/reducers/MultiPeer.reducer'
 import drawLots from './drawLots'
 
 // define states
