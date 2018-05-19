@@ -4,6 +4,7 @@ import {
 } from 'react-native'
 import { createActions } from 'redux-actions'
 import classMenuAction from './classMenu.action'
+import courseAction from './course.action'
 
 const { addCourse } = createActions({
   addCourse: {
@@ -26,6 +27,8 @@ const { addCourse } = createActions({
       }
     }),
     update: (courseData, title) => (async (dispatch) => {
+      // title is the title before change
+      // new title is courseData.title
       let success = false
       await AsyncStorage.setItem('iTeachStore:Course', JSON.stringify(courseData), (error) => {
         if (error) {
@@ -39,6 +42,7 @@ const { addCourse } = createActions({
       })
       if (success) {
         // dispatch(courseInfo.set(courseData))
+        dispatch(courseAction.setName(courseData.title))
         dispatch(classMenuAction.classList.modify(courseData, title))
       }
     }),

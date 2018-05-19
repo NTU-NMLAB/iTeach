@@ -28,7 +28,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   nav: {
-    classMenu: () => { dispatch(navAction.classMenu()) },
+    course: () => { dispatch(navAction.course()) },
   },
   addCourseAction: {
     update: (info, courseName) => { dispatch(addCourseAction.update(info, courseName)) },
@@ -112,12 +112,12 @@ class ChangeCourseInfo extends Component {
     } else {
       // 符合規則，跳轉到ClassMenu
       this.props.addCourseAction.update(this.state, this.props.courseName)
-      this.props.nav.classMenu()
+      // this.props.nav.course()
     }
   }
 
   onPressCancel = () => {
-    this.props.nav.classMenu()
+    this.props.nav.course()
   }
 
   render() {
@@ -260,7 +260,7 @@ ChangeCourseInfo.propTypes = {
     update: PropTypes.func.isRequired,
   }).isRequired,
   nav: PropTypes.shape({
-    classMenu: PropTypes.func.isRequired,
+    course: PropTypes.func.isRequired,
   }).isRequired,
   account: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
