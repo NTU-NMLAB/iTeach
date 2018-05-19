@@ -68,6 +68,7 @@ export default SwitchNavigator({
     },
     DrawFinish: {
       screen: DrawFinish,
+		},
     CourseInfo: {
       screen: CourseInfo,
     },
