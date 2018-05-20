@@ -51,12 +51,49 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         }
+      } else if (action.type === 'multiPeer/backend/onDataReceived') {
+        if (action.payload.data.messageType === 'CHOSEN_ONE') {
+          Alert.alert(
+            '您被老師抽到要',
+            action.payload.data.textPop,
+            [{ text: 'OK' }],
+          )
+        }
       }
+      /*
+      else if (typeof action === 'object' && action.type === 'multiPeer/backend/sendData') {
+        const keys = Object.keys(action)
+        Alert.alert(
+          'action property',
+          JSON.stringify(keys),
+          [{ text: 'OK' }],
+        )
+        // action has only 1 property 'type'
+        switch (action.data.messageType) {
+        case 'CHOSEN_ONE':
+          Alert.alert(
+            'messageType',
+            'CHOSEN ONE!',
+            [{ text: 'OK' }],
+          )
+          break
+        default:
+          Alert.alert(
+            'messageType',
+            'DEFAULT!',
+            [{ text: 'OK' }],
+          )
+          break
+        }
+      }
+      */
+      /*
       Alert.alert(
         'messageMiddleware',
         JSON.stringify(action),
         [{ text: 'OK' }],
       )
+      */
       return next(action)
     }
   )

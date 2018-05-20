@@ -10,11 +10,13 @@ const multiPeerInit = () => {
     {
       eventName: 'RCTMultipeerConnectivityPeerFound',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Peer Found',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onPeerFound(
           event.peer.id,
           event.peer.info,
@@ -24,22 +26,26 @@ const multiPeerInit = () => {
     {
       eventName: 'RCTMultipeerConnectivityPeerLost',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Peer Lost',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onPeerLost(event.peer.id))
       },
     },
     {
       eventName: 'RCTMultipeerConnectivityPeerConnected',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Peer Connected',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onPeerConnected(event.peer.id))
         store.dispatch(multiPeerActions.backend.requestInfo(event.peer.id))
       },
@@ -47,44 +53,52 @@ const multiPeerInit = () => {
     {
       eventName: 'RCTMultipeerConnectivityPeerConnecting',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Peer Connecting',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onPeerConnecting(event.peer.id))
       },
     },
     {
       eventName: 'RCTMultipeerConnectivityPeerDisconnected',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Disconnect',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onPeerDisconnected(event.peer.id))
       },
     },
     {
       eventName: 'RCTMultipeerConnectivityStreamOpened',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'StreamOpened',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onStreamOpened(event))
       },
     },
     {
       eventName: 'RCTMultipeerConnectivityInviteReceived',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Invite Receive',
           [{ text: 'OK' }],
         )
+        */
         const invitation = {
           id: event.invite.id,
           sender: {
@@ -98,11 +112,13 @@ const multiPeerInit = () => {
     {
       eventName: 'RCTMultipeerConnectivityDataReceived',
       handler: (event) => {
+        /*
         Alert.alert(
           'Surprise!',
           'Data Received',
           [{ text: 'OK' }],
         )
+        */
         store.dispatch(multiPeerActions.backend.onDataReceived(
           event.sender.id,
           event.data,

@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Image,
+  Alert,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/DrawLotsFinish.styles'
@@ -49,10 +50,11 @@ class DrawLots extends Component {
     const keys = Object.keys(this.props.multiPeerState.peers)
     const data = {
       messageType: 'CHOSEN_ONE',
-      textPop: 'hail JS! long live REACT!',
-      arrHidden: ['test', 'if', true, 101, ['okay?']],
+      textPop: this.props.drawLotsState.drawAction,
+      // textPop: 'hail JS! long live REACT!',
+      // arrHidden: ['test', 'if', true, 101, ['okay?']],
     }
-
+  
     this.props.multiPeerAction.sendData(keys, data, () => {})
   }
   render() {
