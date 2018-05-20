@@ -8,12 +8,14 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/DrawLotsFinish.styles'
+import styles2 from './styles/DrawLots.styles'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
 import CloseImage from '../../asset/close.png'
 import OnlinePeerData from '../components/OnlinePeerData'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
+import share from '../../asset/icon/share.png'
 
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
@@ -54,11 +56,23 @@ class DrawLots extends Component {
       // textPop: 'hail JS! long live REACT!',
       // arrHidden: ['test', 'if', true, 101, ['okay?']],
     }
-  
-    this.props.multiPeerAction.sendData(keys, data, () => {})
+    
+    this.props.multiPeerAction.sendData(keys, data, ()=>{})
+  }
+
+  getShuffle(countToDraw) {
+    const keys = Object.keys(this.props.multiPeerState.peers)
+    for (let it = 0; it < countToDraw; it += 1 ) {
+      const chosenID = Math.floor(Math.random() * keys.length)
+      const tmp = keys[it]
+      keys[it] = keys[chosenID]
+      keys[chosenID] = tmp
+    }
+    return keys
   }
   render() {
     const { drawLotsState } = this.props
+    const keysAfterShuffle = this.getShuffle(drawLotsState.drawCount) 
 
     return (
       <View style={styles.container}>
@@ -75,10 +89,10 @@ class DrawLots extends Component {
             <Text style={styles.textBold}>抽籤結果</Text>
             <View style={styles.rowDrawLotsList}>
               <View style={styles.columnContainer}>
-                {OnlinePeerData.slice(0, drawLotsState.drawCount).map(it => (
-                  <View key={it.user} style={styles.rowAvatar}>
-                    <Image style={styles.AvatarContainer} source={it.imgSrc} />
-                    <Text style={styles.name} numberOfLines={1}> {it.user}</Text>
+                {keysAfterShuffle.slice(0, drawLotsState.drawCount).map(it => (
+                  <View key={this.props.multiPeerState.peers[it].info.username} style={styles.rowAvatar}>
+                    <Image style={styles.AvatarContainer} source={share} />
+                    <Text style={styles.name} numberOfLines={1}> {this.props.multiPeerState.peers[it].info.username}</Text>
                   </View>
                 ))}
               </View>

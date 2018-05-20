@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
   Modal,
+  Alert,
 } from 'react-native'
 import { Picker } from 'react-native-picker-dropdown'
 import PropTypes from 'prop-types'
@@ -17,6 +18,7 @@ import Appbar from '../components/Appbar'
 
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
+  multiPeerState: state.multiPeer,
 })
 
 const mapDispatchToProps = dispatch => ({
