@@ -1,0 +1,31 @@
+{
+  "newClasses": [
+    {
+      "title": "小海豚MV舞蹈課程",
+      "teacher": "蔡丞昊",
+      "color": "red",
+      "semester": "107學年上學期",
+      "classroom": "電二１４４",
+      "time": "星期一１８:３０ＰＭ",
+      "website": "https://my.ntu.edu.tw/"
+    },
+    {
+      "title": "印尼文化史",
+      "teacher": "宋玉美",
+      "color": "blue",
+      "semester": "107學年上學期",
+      "classroom": "電二１４４",
+      "time": "星期一１８:３０ＰＭ",
+      "website": "https://my.ntu.edu.tw/"
+    },
+    {
+      "title": "佛教經義賞析",
+      "teacher": "陳秉珏",
+      "color": "green",
+      "semester": "107學年上學期",
+      "classroom": "電二１４４",
+      "time": "星期一１８:３０ＰＭ",
+      "website": "https://my.ntu.edu.tw/"
+    }
+  ]
+}
