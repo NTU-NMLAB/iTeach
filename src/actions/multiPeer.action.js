@@ -32,11 +32,13 @@ const { multiPeer } = createActions({
       openCourse: () => (dispatch, getState) => {
         dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
+        dispatch(multiPeer.backend.onInfoUpdate(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
-      exitCourse: () => (dispatch) => {
+      exitCourse: () => (dispatch, getState) => {
         dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.backend.hide())
+        dispatch(multiPeer.backend.onInfoUpdate(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
     },
@@ -54,12 +56,13 @@ const { multiPeer } = createActions({
       openCourse: () => (dispatch, getState) => {
         dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getTeacherPeerInfo(getState())))
+        dispatch(multiPeer.backend.onInfoUpdate(getTeacherPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
-      exitCourse: () => (dispatch) => {
+      exitCourse: () => (dispatch, getState) => {
         dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.backend.hide())
-        dispatch(multiPeer.teacher.stopRelease())
+        dispatch(multiPeer.backend.onInfoUpdate(getTeacherPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
       sendStopRelease: () => (dispatch) => {
@@ -83,6 +86,8 @@ const { multiPeer } = createActions({
             // TODO
           } else if (change === 'lost') {
             // TODO
+            const info = getStudentPeerInfo(state)
+            info.online = false
           }
         }
       },
