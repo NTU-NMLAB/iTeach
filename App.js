@@ -13,7 +13,7 @@ import middlewares from './src/util/middlewares'
 import mockData from './asset/mockData.json'
 
 const addListener = createReduxBoundAddListener('root')
-const store = createStore(reducer, applyMiddleware(...middlewares))
+export const store = createStore(reducer, applyMiddleware(...middlewares))
 
 const initStore = async () => {
   // Load data from local storage

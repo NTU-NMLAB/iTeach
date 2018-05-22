@@ -13,16 +13,22 @@ import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar'
 import SearchClassItem from '../components/SearchClassItem'
 import classMenuAction from '../actions/classMenu.action'
-import mockNewClass from '../../asset/mockNewClass.json'
+import multiPeerAction from '../actions/multiPeer.action'
+// import mockNewClass from '../../asset/mockNewClass.json'
 
 const mapStateToProps = state => ({
   status: state.account.status,
-  ...state.classMenu,
+  peers: state.multiPeer.peers,
+  courseName: state.course.courseName,
+  ...state,
 })
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
-    onExit: () => { dispatch(navAction.classMenu()) },
+    onExit: () => {
+      dispatch(navAction.classMenu())
+      dispatch(multiPeerAction.student.stopSearch())
+    },
   },
   classListAction: {
     add: item =>
@@ -54,6 +60,21 @@ class SearchPage extends Component {
     this.props.classListAction.add(classItem)
   }
 
+  getCourseInfo() {
+    // return Object.keys(this.props.peers).map(i => this.props.peers[i].info)
+    return Object.keys(this.props.peers).map((i) => {
+      const { info } = this.props.peers[i]
+      return {
+        title: info.course,
+        teacher: info.username,
+        color: info.color,
+        identity: info.identity,
+        connected: this.props.peers[i].connected,
+      }
+    }).filter((item) => {
+      return item.identity === 'teacher' && item.connected === true
+    })
+  }
 
   render() {
     return (
@@ -62,7 +83,7 @@ class SearchPage extends Component {
         <View style={styles.listContainer}>
           <FlatList
             style={styles.list}
-            data={mockNewClass.newClasses}
+            data={ this.getCourseInfo() }
             keyExtractor={item => item.title}
             renderItem={({ item }) => (
               <SearchClassItem
@@ -90,6 +111,8 @@ SearchPage.propTypes = {
     add: PropTypes.func.isRequired,
   }).isRequired,
   status: PropTypes.string.isRequired,
+  peers: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

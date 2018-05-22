@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
+import { View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
 import styles from './styles/Course.styles'
@@ -9,28 +9,55 @@ import courseItemAction from '../actions/courseItem.action'
 import CourseItem from '../components/CourseItem'
 import CourseItemData from '../components/CourseItemData'
 import Appbar from '../components/Appbar'
+import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
+  peers: state.multiPeer.peers,
   status: state.account.status,
+  mul: state.multiPeer,
   ...state,
 })
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: () => { dispatch(navAction.classMenu()) },
+    onExit: (identity) => {
+      dispatch(navAction.classMenu())
+      dispatch(multiPeerAction[identity].exitCourse())
+    },
     enterFeature: (id) => { dispatch(navAction.enterFeature(id)) },
   },
   courseItemAction: {
     setName: (id) => {
       dispatch(courseItemAction.setName(id))
     },
+    multiPeer: (id, status = '', onclick = false) => {
+      if (id === 1 && status === 'teacher') {
+        if (onclick === false) {
+          dispatch(multiPeerAction.teacher.startRelease())
+        } else {
+          dispatch(multiPeerAction.teacher.stopRelease())
+        }
+      }
+    },
+  },
+  courseInfoAction: {
+    save: (info) => { dispatch(courseInfoAction.save(info)) },
   },
 })
 
 class Course extends Component {
+  getPeerInfo() {
+    return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
+  }
+
   iconOnPress(id) {
     this.props.courseItemAction.setName(id)
+    this.props.courseItemAction.multiPeer(
+      id,
+      this.props.status,
+      this.props.courseItem.courseItem[1].onclick,
+    )
     this.props.navAction.enterFeature(id)
   }
   render() {
@@ -39,7 +66,7 @@ class Course extends Component {
       <View style={styles.container}>
         <Appbar title={this.props.course.courseName}
           rightIcon={CloseImage}
-          onRightPress={this.props.navAction.onExit}/>
+          onRightPress={ () => this.props.navAction.onExit(this.props.status) }/>
         <View style={styles.itemContainer}>
           {CourseItemData.filter(item => item.user.includes(this.props.status))
             .map(item => (
@@ -68,10 +95,13 @@ Course.propTypes = {
   }).isRequired,
   courseItemAction: PropTypes.shape({
     setName: PropTypes.func.isRequired,
+    multiPeer: PropTypes.func.isRequired,
   }).isRequired,
   course: PropTypes.object.isRequired,
   courseItem: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
+  peers: PropTypes.object.isRequired,
+  mul: PropTypes.object.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Course)

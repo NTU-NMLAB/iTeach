@@ -25,7 +25,7 @@ const { classMenu } = createActions({
         })
         if (success) {
           dispatch(classMenu.classList.set(classList))
-          dispatch(navAction.classMenu())
+          // dispatch(navAction.classMenu())
         }
       }),
       get: () => (async (dispatch) => {
