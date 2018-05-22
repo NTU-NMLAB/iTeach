@@ -17,18 +17,14 @@ const { nav } = createActions({
     closeDrawer: () => null,
     editProfile: () => null,
     classMenu: () => null,
+    classQuiz: () => null,
     course: () => null,
     channels: () => null,
     searchPage: () => null,
     addNewCourse: () => null,
     onlinePeerList: () => null,
-    enterFeature: id => CourseItemData[id].routeName,
-    draw: (actionIn) => {
-      if (actionIn === '') return '回答問題'
-      return actionIn.trim()
-    },
-    backToDraw: () => null,
     quizMainPage: () => null,
+    historyRecord: () => null,
     enterFeature: id => CourseItemData[id].routeName,
     enterQuestion: id => QuizItemData[id].routeName,
   },
