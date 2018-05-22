@@ -26,7 +26,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   nav: {
-    classMenu: () => { dispatch(navAction.classMenu()) },
+    classMenu: () => {
+      dispatch(navAction.classMenu())
+    },
   },
   addCourseAction: {
     save: (info) => { dispatch(addCourseAction.save(info)) },

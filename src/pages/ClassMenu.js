@@ -14,16 +14,20 @@ import courseAction from '../actions/course.action'
 import classMenuAction from '../actions/classMenu.action'
 import ClassItem from '../components/ClassItem'
 import Appbar from '../components/Appbar'
+import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  account: state.account,
   ...state.classMenu,
 })
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    searchPage: () => { dispatch(navAction.searchPage()) },
+    searchPage: (info = {}) => {
+      dispatch(navAction.searchPage())
+      dispatch(multiPeerAction.student.startSearch(info))
+    },
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
   },
   classListAction: {
@@ -36,6 +40,7 @@ const mapDispatchToProps = dispatch => ({
   },
   courseAction: {
     setName: (title) => { dispatch(courseAction.setName(title)) },
+    openCourse: (identity) => { dispatch(multiPeerAction[identity].openCourse()) },
   },
 })
 
@@ -69,29 +74,31 @@ class ClassMenu extends Component {
 
   onPress(classItem) {
     this.props.courseAction.setName(classItem.title)
-    this.props.classListAction.modify(classItem, classItem.title)
-  }
-
-  onPressSearchPage = () => {
-    this.props.navAction.searchPage()
+    this.props.courseAction.openCourse(this.props.account.status)
+    this.props.classListAction.modify(classItem)
   }
 
   onPressAddPage = () => {
     this.props.navAction.addNewCourse()
   }
 
-  render() {
+  onPressSearchPage = () => {
+    this.props.navAction.searchPage(this.props.info)
+  }
+
+
+  render() {   
     return (
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
-          rightIcon={this.props.status === 'teacher' ? AddImage : SearchImage}
-          onRightPress={this.props.status === 'teacher' ? this.onPressAddPage : this.onPressSearchPage}/>
+          rightIcon={this.props.account.status === 'teacher' ? AddImage : SearchImage}
+          onRightPress={this.props.account.status === 'teacher' ? this.onPressAddPage : this.onPressSearchPage}/>
         <View style={styles.listContainer}>
           <View style={[styles.welcomeMsgContainer, { display: this.props.classList.length === 0 ? 'flex' : 'none' }]}>
             <Text style={styles.welcomeMsg}>{`
               (歡迎訊息)
               歡迎使用 iTeach
-              請利用右上方按鈕`}{this.props.status === 'teacher' ? '新增' : '搜尋'}課程
+              請利用右上方按鈕`}{this.props.account.status === 'teacher' ? '新增' : '搜尋'}課程
             </Text>
           </View>
           <FlatList
@@ -129,8 +136,9 @@ ClassMenu.propTypes = {
   }).isRequired,
   courseAction: PropTypes.shape({
     setName: PropTypes.func.isRequired,
+    openCourse: PropTypes.func.isRequired,
   }).isRequired,
-  status: PropTypes.string.isRequired,
+  account: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
 }
 
