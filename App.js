@@ -11,7 +11,7 @@ import accountAction from './src/actions/account.action'
 import middlewares from './src/util/middlewares'
 
 const addListener = createReduxBoundAddListener('root')
-const store = createStore(reducer, applyMiddleware(...middlewares))
+export const store = createStore(reducer, applyMiddleware(...middlewares))
 
 const initStore = async () => {
   // Load data from local storage

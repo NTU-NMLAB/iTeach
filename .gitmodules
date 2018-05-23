@@ -1,0 +1,3 @@
+[submodule "src/submodule/react-native-multipeer"]
+	path = src/submodule/react-native-multipeer
+	url = git@github.com:NTU-NMLAB/react-native-multipeer.git

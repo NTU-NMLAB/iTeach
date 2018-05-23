@@ -13,6 +13,7 @@
     "react-native": "0.54.2",
     "react-native-connection-info": "^1.1.0",
     "react-native-datepicker": "^1.7.1",
+    "react-native-multipeer": "file:src/submodule/react-native-multipeer",
     "react-native-picker-dropdown": "^0.1.1",
     "react-native-simple-time-picker": "^0.2.0",
     "react-native-ui-xg": "0.0.6",
