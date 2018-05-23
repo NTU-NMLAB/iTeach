@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Alert } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
 import styles from './styles/Course.styles'
@@ -8,6 +8,7 @@ import navAction from '../actions/nav.action'
 import courseItemAction from '../actions/courseItem.action'
 import CourseItem from '../components/CourseItem'
 import CourseItemData from '../components/CourseItemData'
+import courseInfoAction from '../actions/courseInfo.action'
 import Appbar from '../components/Appbar'
 import multiPeerAction from '../actions/multiPeer.action'
 
@@ -64,7 +65,7 @@ class Course extends Component {
     const { courseItem } = this.props
     return (
       <View style={styles.container}>
-        <Appbar title={this.props.course.courseName}
+        <Appbar title={this.props.course.courseName} withDrawer
           rightIcon={CloseImage}
           onRightPress={ () => this.props.navAction.onExit(this.props.status) }/>
         <View style={styles.itemContainer}>
@@ -78,7 +79,7 @@ class Course extends Component {
                 imgSrc={courseItem.courseItem[item.id].onclick
                   ? courseItem.courseItem[item.id].imgSrc[1]
                   : courseItem.courseItem[item.id].imgSrc[0]}
-                onPress={this.iconOnPress.bind(this)} />
+                onPress={this.iconOnPress.bind(this)}/>
             ))
           }
         </View>

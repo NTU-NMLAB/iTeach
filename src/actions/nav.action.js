@@ -30,7 +30,7 @@ const { nav } = createActions({
     backToDraw: () => null,
     quizMainPage: () => null,
     changeCourseInfo: () => null,
-    enterFeature: id => CourseItemData[id].routeName,
+    historyRecord: () => null,
     enterQuestion: id => QuizItemData[id].routeName,
   },
 })
