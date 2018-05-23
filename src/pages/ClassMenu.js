@@ -93,7 +93,7 @@ class ClassMenu extends Component {
   }
 
 
-  render() {   
+  render() {
     return (
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
