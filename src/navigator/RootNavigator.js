@@ -56,12 +56,14 @@ export default SwitchNavigator({
   HistoryRecord: {
     screen: HistoryRecord,
   },
+  /*
   DrawLots: {
     screen: DrawLots, // Page for 隨機抽籤
   },
   DrawFinish: {
     screen: DrawFinish,
   },
+  */
   Pages: DrawerNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料

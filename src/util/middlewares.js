@@ -1,4 +1,4 @@
-import { Alert } from 'react-native'
+import {Alert} from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
