@@ -106,7 +106,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     left: '36%',
     justifyContent: 'space-around',
-
   },
   submit: {
     fontFamily: 'Avenir',
@@ -117,7 +116,6 @@ export default StyleSheet.create({
     paddingTop: 3,
     left: 30,
   },
-
   singleInput: {
     height: 44,
     width: 240,
@@ -132,5 +130,5 @@ export default StyleSheet.create({
     fontFamily: 'Avenir',
     fontSize: 22,
     right: 50,
-  }
+  },
 })

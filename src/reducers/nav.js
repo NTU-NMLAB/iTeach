@@ -48,6 +48,10 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult' }), state.nav),
   }),
+  historyRecord: state => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HistoryRecord' }), state.nav),
+  }),
   enterFeature: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: action.payload }),

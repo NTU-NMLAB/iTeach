@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, FlatList } from 'react-native'
+import { View, FlatList, Text } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/HistoryRecord.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 import HistoryItem from '../../components/HistoryItem'
-import mockQuizHistory from '../../../asset/mockQuizHistory.json'
+// import mockQuizHistory from '../../../asset/mockQuizHistory.json'
 
 const mapStateToProps = state => ({
   status: state.account.status,
-  ...state,
+  courseName: state.course.courseName,
+  course: state.course,
+  classMenu: state.classMenu,
+  classList: state.classMenu.classList,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -28,27 +31,37 @@ class HistoryRecord extends Component {
   }
   render() {
     const questionType = '歷史紀錄'
+    const courseData =
+      this.props.classList.filter(item => item.title === this.props.courseName)[0]
     return (
       <View style={styles.container}>
         <Appbar title={questionType}
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        <View style={styles.listContainer}>
-          <FlatList
-            style={styles.list}
-            data={[...mockQuizHistory.Questions].reverse()}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <HistoryItem
-                type={item.type}
-                description={item.description}
-                time={item.time}
-                correctRate={item.correctRate}
-                onPress={this.HistoryOnPress.bind(this) }
-              />
-            )}
-          />
-        </View>
+        { (courseData.quizHistory === undefined) ? (
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>
+              目前歷史紀錄是空的QQ
+            </Text>
+          </View>
+        ) : (
+          <View style={styles.listContainer}>
+            <FlatList
+              style={styles.list}
+              data={[...courseData.quizHistory].reverse()}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <HistoryItem
+                  type={item.questionType}
+                  description={item.questionState}
+                  time={item.releaseTime}
+                  correctRate={item.correctRate}
+                  onPress={this.HistoryOnPress.bind(this) }
+                />
+              )}
+            />
+          </View>
+        )}
       </View>
     )
   }
@@ -60,8 +73,10 @@ HistoryRecord.propTypes = {
     onExit: PropTypes.func.isRequired,
     getResult: PropTypes.func.isRequired,
   }).isRequired,
+  classMenu: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
+  classList: PropTypes.array.isRequired,
   course: PropTypes.object.isRequired,
-  quizItem: PropTypes.object,
   status: PropTypes.string.isRequired,
 }
 
