@@ -27,6 +27,9 @@ const mapDispatchToProps = dispatch => ({
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
   },
   classListAction: {
+    get: () => {
+      dispatch(classMenuAction.classList.get())
+    },
     modify: (classItem, title) => {
       dispatch(classMenuAction.classList.modify(classItem, title))
     },
@@ -60,6 +63,9 @@ class ClassMenu extends Component {
         ref.ref.scrollTo({ x: 0 })
       }
     })
+  }
+  componentWillMount() {
+    this.props.classListAction.get()
   }
 
   deleteClass(title) {
@@ -124,6 +130,7 @@ ClassMenu.propTypes = {
     addNewCourse: PropTypes.func.isRequired,
   }).isRequired,
   classListAction: PropTypes.shape({
+    get: PropTypes.func.isRequired,
     modify: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }).isRequired,

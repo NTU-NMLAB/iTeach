@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import reducer from './src/reducers'
 import RootNavigator from './src/navigator/RootNavigator'
 import accountAction from './src/actions/account.action'
-// import classMenu from './src/actions/classMenu'
 import middlewares from './src/util/middlewares'
 
 const addListener = createReduxBoundAddListener('root')
