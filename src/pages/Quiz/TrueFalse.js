@@ -39,7 +39,7 @@ class TrueFalse extends Component {
       questionState: '',
       value: true,
       releaseTime: '',
-      correctRate: '0',
+      correctRate: 0,
     }
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }

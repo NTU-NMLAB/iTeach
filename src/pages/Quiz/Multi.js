@@ -49,7 +49,7 @@ class Multi extends Component {
       check4: true,
       check5: true,
       releaseTime: '',
-      correctRate: '0',
+      correctRate: 0,
     }
     this.onClick1 = this.onClick1.bind(this)
     this.onClick2 = this.onClick2.bind(this)

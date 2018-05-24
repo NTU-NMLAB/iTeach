@@ -41,7 +41,7 @@ class Single extends Component {
       wrongAns2: '',
       wrongAns3: '',
       releaseTime: '',
-      correctRate: '0',
+      correctRate: 0,
     }
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }

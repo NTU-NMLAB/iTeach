@@ -55,7 +55,7 @@ class HistoryRecord extends Component {
                   type={item.questionType}
                   description={item.questionState}
                   time={item.releaseTime}
-                  correctRate={item.correctRate}
+                  correctRate={item.correctRate.toString()}
                   onPress={this.HistoryOnPress.bind(this) }
                 />
               )}
