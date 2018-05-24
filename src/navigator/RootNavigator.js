@@ -35,9 +35,6 @@ export default SwitchNavigator({
   AddNewCourse: {
     screen: AddNewCourse, // Page for 新增課程
   },
-  CourseInfo: {
-    screen: CourseInfo,
-  },
   Quiz: {
     screen: Quiz,
   },
@@ -56,14 +53,6 @@ export default SwitchNavigator({
   HistoryRecord: {
     screen: HistoryRecord,
   },
-  /*
-  DrawLots: {
-    screen: DrawLots, // Page for 隨機抽籤
-  },
-  DrawFinish: {
-    screen: DrawFinish,
-  },
-  */
   Pages: DrawerNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料
@@ -74,11 +63,14 @@ export default SwitchNavigator({
     ClassMenu: {
       screen: ClassMenu,
     },
+    CourseInfo: {
+      screen: CourseInfo,
+    },
     DrawLots: {
       screen: DrawLots, // Page for 隨機抽籤
     },
     DrawFinish: {
-      screen: DrawFinish,
+      screen: DrawFinish, // Page for 隨機抽籤完成
     },
   }, {
     contentComponent: DrawerContainer,

@@ -3,19 +3,14 @@ import { connect } from 'react-redux'
 import {
   Text,
   View,
-  Image,
-  Alert,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/DrawLotsFinish.styles'
-import styles2 from './styles/DrawLots.styles'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
 import CloseImage from '../../asset/close.png'
-import OnlinePeerData from '../components/OnlinePeerData'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
-import share from '../../asset/icon/share.png'
 
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
@@ -38,41 +33,32 @@ const mapDispatchToProps = dispatch => ({
 class DrawLots extends Component {
   constructor(props) {
     super(props)
-    this.drawCore(this.props.drawLotsState.drawCount)
+    this.drawCore()
   }
-  drawCore(countToDraw) {
-    for (let it = 0; it < countToDraw; it += 1) {
-      const chosenID = Math.floor(Math.random() * OnlinePeerData.length)
-      const tmp = JSON.parse(JSON.stringify(OnlinePeerData[it]))
-      OnlinePeerData[it] = JSON.parse(JSON.stringify(OnlinePeerData[chosenID]))
-      OnlinePeerData[chosenID] = JSON.parse(JSON.stringify(tmp))
+  drawCore() {
+    const { drawLotsState, multiPeerState } = this.props
+    this.keysAfterShuffle = Object.keys(multiPeerState.peers)
+
+    for (let it = 0; it < drawLotsState.drawCount; it += 1) {
+      const chosenID = Math.floor(Math.random() * this.keysAfterShuffle.length)
+      const tmp = this.keysAfterShuffle[it]
+      this.keysAfterShuffle[it] = this.keysAfterShuffle[chosenID]
+      this.keysAfterShuffle[chosenID] = tmp
     }
+    this.keysAfterShuffle = this.keysAfterShuffle.slice(0, drawLotsState.drawCount)
   }
   send() {
-    const keys = Object.keys(this.props.multiPeerState.peers)
+    const { drawLotsState, multiPeerState } = this.props
+    const keys = this.keysAfterShuffle.filter(it => multiPeerState.peers[it].online)
     const data = {
       messageType: 'CHOSEN_ONE',
-      textPop: this.props.drawLotsState.drawAction,
-      // textPop: 'hail JS! long live REACT!',
-      // arrHidden: ['test', 'if', true, 101, ['okay?']],
+      textPop: drawLotsState.drawAction,
     }
-    
-    this.props.multiPeerAction.sendData(keys, data, ()=>{})
-  }
 
-  getShuffle(countToDraw) {
-    const keys = Object.keys(this.props.multiPeerState.peers)
-    for (let it = 0; it < countToDraw; it += 1 ) {
-      const chosenID = Math.floor(Math.random() * keys.length)
-      const tmp = keys[it]
-      keys[it] = keys[chosenID]
-      keys[chosenID] = tmp
-    }
-    return keys
+    this.props.multiPeerAction.sendData(keys, data, () => {})
   }
   render() {
-    const { drawLotsState } = this.props
-    const keysAfterShuffle = this.getShuffle(drawLotsState.drawCount) 
+    const { drawLotsState, multiPeerState } = this.props
 
     return (
       <View style={styles.container}>
@@ -89,10 +75,12 @@ class DrawLots extends Component {
             <Text style={styles.textBold}>抽籤結果</Text>
             <View style={styles.rowDrawLotsList}>
               <View style={styles.columnContainer}>
-                {keysAfterShuffle.slice(0, drawLotsState.drawCount).map(it => (
-                  <View key={this.props.multiPeerState.peers[it].info.username} style={styles.rowAvatar}>
-                    <Image style={styles.AvatarContainer} source={share} />
-                    <Text style={styles.name} numberOfLines={1}> {this.props.multiPeerState.peers[it].info.username}</Text>
+                {this.keysAfterShuffle.map(it => (
+                  <View key={it} style={styles.rowAvatar}>
+                    <View style={[styles.AvatarContainer, styles[((multiPeerState.peers[it].online) ? 'green' : 'grey')]]} />
+                    <Text style={styles.name} numberOfLines={1}>
+                      {`   ${multiPeerState.peers[it].info.username}`}
+                    </Text>
                   </View>
                 ))}
               </View>

@@ -5,7 +5,6 @@ import {
   View,
   TextInput,
   Modal,
-  Alert,
 } from 'react-native'
 import { Picker } from 'react-native-picker-dropdown'
 import PropTypes from 'prop-types'

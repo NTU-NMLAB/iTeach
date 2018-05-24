@@ -1,9 +1,12 @@
 const initialState = {
   drawCount: '1',
   drawAction: '',
+  assignedAction: '',
   afterDraw: false,
   actionAllSpace: false,
   countTooLarge: false,
+  noStudent: false,
+  chosen: 0,
 }
 
 const reducerMap = {
@@ -12,9 +15,12 @@ const reducerMap = {
     drawLots: {
       drawCount: '1',
       drawAction: '',
+      assignedAction: '',
       afterDraw: false,
       actionAllSpace: false,
       countTooLarge: false,
+      noStudent: false,
+      chosen: 0,
     },
   }),
   setDrawCount: (state, action) => {
@@ -37,6 +43,21 @@ const reducerMap = {
       drawAction: action.payload,
     },
   }),
+  setNoStudent: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      noStudent: true,
+    },
+  }),
+  setChosen: (state, action) => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      assignedAction: action.payload,
+      chosen: 1,
+    },
+  }),
   handleCountTooLarge: state => ({
     ...state,
     drawLots: {
@@ -49,6 +70,20 @@ const reducerMap = {
     drawLots: {
       ...state.drawLots,
       actionAllSpace: false,
+    },
+  }),
+  handleNoStudent: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      noStudent: false,
+    },
+  }),
+  handleChosen: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      chosen: 2,
     },
   }),
 }

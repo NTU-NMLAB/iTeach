@@ -71,9 +71,7 @@ class SearchPage extends Component {
         identity: info.identity,
         connected: this.props.peers[i].connected,
       }
-    }).filter((item) => {
-      return item.identity === 'teacher' && item.connected === true
-    })
+    }).filter(item => (item.identity === 'teacher' && item.connected === true))
   }
 
   render() {

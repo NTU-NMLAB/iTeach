@@ -1,4 +1,3 @@
-import { Alert } from 'react-native'
 import { PeerStatus } from '../components/Peer'
 
 const initialState = {
@@ -21,51 +20,41 @@ const reducerMap = {
     }),
   },
   backend: {
-    init: (state, action) => {
-      return {
-        ...state,
-        multiPeer: {
-          ...state.multiPeer,
-          selfName: action.payload.selfName,
-        },
-      }
-    },
-    browse: (state) => {
-      return {
-        ...state,
-        multiPeer: {
-          ...state.multiPeer,
-          isBrowsing: true,
-        },
-      }
-    },
-    stopBrowse: (state) => {
-      return {
-        ...state,
-        multiPeer: {
-          ...state.multiPeer,
-          isBrowsing: false,
-        },
-      }
-    },
-    disconnect: (state) => {
-      return {
-        ...state,
-        multiPeer: {
-          ...state.multiPeer,
-          selfName: state.multiPeer.selfName,
-        },
-      }
-    },
-    advertise: (state) => {
-      return {
-        ...state,
-        multiPeer: {
-          ...state.multiPeer,
-          isAdvertising: true,
-        },
-      }
-    },
+    init: (state, action) => ({
+      ...state,
+      multiPeer: {
+        ...state.multiPeer,
+        selfName: action.payload.selfName,
+      },
+    }),
+    browse: state => ({
+      ...state,
+      multiPeer: {
+        ...state.multiPeer,
+        isBrowsing: true,
+      },
+    }),
+    stopBrowse: state => ({
+      ...state,
+      multiPeer: {
+        ...state.multiPeer,
+        isBrowsing: false,
+      },
+    }),
+    disconnect: state => ({
+      ...state,
+      multiPeer: {
+        ...state.multiPeer,
+        selfName: state.multiPeer.selfName,
+      },
+    }),
+    advertise: state => ({
+      ...state,
+      multiPeer: {
+        ...state.multiPeer,
+        isAdvertising: true,
+      },
+    }),
     hide: (state) => {
       const peers = {}
       Object.keys(state.multiPeer.peers).forEach((peerId) => {
