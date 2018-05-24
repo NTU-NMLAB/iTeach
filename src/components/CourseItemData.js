@@ -20,7 +20,7 @@ const CourseItemData = [
   },
   {
     id: 1,
-    title: ['發布課程', '停止發佈'],
+    title: ['發佈課程', '停止發佈'],
     imgSrc: [share, unShare],
     user: 'teacher',
     onclick: false,
