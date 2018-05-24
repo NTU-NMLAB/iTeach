@@ -29,6 +29,7 @@ const { nav } = createActions({
     },
     backToDraw: () => null,
     quizMainPage: () => null,
+    changeCourseInfo: () => null,
     historyRecord: () => null,
     enterQuestion: id => QuizItemData[id].routeName,
   },

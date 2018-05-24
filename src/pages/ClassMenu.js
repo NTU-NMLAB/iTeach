@@ -31,8 +31,11 @@ const mapDispatchToProps = dispatch => ({
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
   },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem))
+    get: () => {
+      dispatch(classMenuAction.classList.get())
+    },
+    modify: (classItem, title) => {
+      dispatch(classMenuAction.classList.modify(classItem, title))
     },
     delete: (title) => {
       dispatch(classMenuAction.classList.delete(title))
@@ -66,6 +69,9 @@ class ClassMenu extends Component {
       }
     })
   }
+  componentWillMount() {
+    this.props.classListAction.get()
+  }
 
   deleteClass(title) {
     this.props.classListAction.delete(title)
@@ -87,7 +93,7 @@ class ClassMenu extends Component {
   }
 
 
-  render() {   
+  render() {
     return (
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
@@ -131,6 +137,7 @@ ClassMenu.propTypes = {
     addNewCourse: PropTypes.func.isRequired,
   }).isRequired,
   classListAction: PropTypes.shape({
+    get: PropTypes.func.isRequired,
     modify: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }).isRequired,
