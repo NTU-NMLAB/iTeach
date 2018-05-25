@@ -1,5 +1,7 @@
 import { Alert } from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
+import drawLotsAction from '../actions/drawLots.action'
+import Background from '../components/Background'
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
@@ -23,6 +25,7 @@ const messageMiddleware = ({ dispatch, getState }) => (
       if (action.type === 'multiPeer/backend/onDataReceived') {
         const { data } = action.payload
         if (data.messageType === 'CHOSEN_ONE') {
+          // dispatch(drawLotsAction.setChosen(data.textPop))
           Alert.alert(
             '您被老師抽到要',
             data.textPop,
