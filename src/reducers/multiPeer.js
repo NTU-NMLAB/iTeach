@@ -186,6 +186,10 @@ const reducerMap = {
         },
       }
     },
+    onDataReceived: (state, action) => {
+      console.log(action)
+      return state
+    },
   },
 }
 

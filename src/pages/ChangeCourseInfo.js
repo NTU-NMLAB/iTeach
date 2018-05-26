@@ -16,10 +16,12 @@ import getSemester from '../util/getSemester'
 import newCoursesValidation from '../util/newCoursesValidation'
 import addCourseAction from '../actions/addCourse.action'
 import navAction from '../actions/nav.action'
+import multiPeerAction from '../actions/multiPeer.action'
 import Appbar from '../components/Appbar'
 
 const mapStateToProps = state => ({
   // ...state.course,
+  peers: state.multiPeer.peers,
   status: state.account.status,
   classList: state.classMenu.classList,
   courseName: state.course.courseName,
@@ -33,6 +35,9 @@ const mapDispatchToProps = dispatch => ({
   addCourseAction: {
     update: (info, courseName) => { dispatch(addCourseAction.update(info, courseName)) },
   },
+  multiPeerAction: {
+    broadcast: data => dispatch(multiPeerAction.backend.broadcastData(data)),
+  },
 })
 
 class ChangeCourseInfo extends Component {
@@ -40,28 +45,7 @@ class ChangeCourseInfo extends Component {
     super(props)
     const { classList, courseName } = props
     const courseInfo = classList.find(item => item.title === courseName)
-    // const {
-    //   color,
-    //   teacher,
-    //   year,
-    //   semester,
-    //   classroom,
-    //   weekday,
-    //   time,
-    //   website,
-    // } = courseInfo
     this.state = courseInfo
-    // this.state = {
-    //   color,
-    //   teacher,
-    //   title: courseName,
-    //   year: new Date().getFullYear() - 1911,
-    //   semester,
-    //   classroom,
-    //   weekday,
-    //   time,
-    //   website,
-    // }
     this.connectionInfo = ''
     this.onPressConfirm = this.onPressConfirm.bind(this)
     this.onPressCancel = this.onPressCancel.bind(this)
@@ -111,6 +95,8 @@ class ChangeCourseInfo extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
+      console.log(Object.values(this.props.peers))
+      this.props.multiPeerAction.broadcast({ courseInfo: { ...this.state }, prevCourseName: this.props.courseName, messageType: 'CourseUpdate' })
       this.props.addCourseAction.update(this.state, this.props.courseName)
       // this.props.nav.course()
     }
@@ -259,9 +245,13 @@ ChangeCourseInfo.propTypes = {
   addCourseAction: PropTypes.shape({
     update: PropTypes.func.isRequired,
   }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    broadcast: PropTypes.func.isRequired,
+  }),
   nav: PropTypes.shape({
     course: PropTypes.func.isRequired,
   }).isRequired,
+  peers: PropTypes.object.isRequired,
   account: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
   courseName: PropTypes.string.isRequired,

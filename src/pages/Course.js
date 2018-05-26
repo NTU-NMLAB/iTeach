@@ -45,9 +45,20 @@ const mapDispatchToProps = dispatch => ({
   courseInfoAction: {
     save: (info) => { dispatch(courseInfoAction.save(info)) },
   },
+  multiPeerAction: {
+    inviteAll: (peerList) => {
+      peerList.forEach((peer) => {
+        const { id, info } = peer
+        dispatch(multiPeerAction.backend.invite(id, info))
+      })
+    },
+  },
 })
 
 class Course extends Component {
+  state = {
+    numPeers: null,
+  }
   getPeerInfo() {
     return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
   }
@@ -60,6 +71,13 @@ class Course extends Component {
       this.props.courseItem.courseItem[1].onclick,
     )
     this.props.navAction.enterFeature(id)
+  }
+  componentDidUpdate() {
+    const peerList = Object.values(this.props.peers)
+    if (peerList.length !== this.state.numPeers && this.props.status === 'teacher') {
+      this.props.multiPeerAction.inviteAll(peerList)
+      this.setState({ numPeers: peerList.length })
+    }
   }
   render() {
     const { courseItem } = this.props
@@ -98,6 +116,9 @@ Course.propTypes = {
     setName: PropTypes.func.isRequired,
     multiPeer: PropTypes.func.isRequired,
   }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    inviteAll: PropTypes.func.isRequired,
+  }),
   course: PropTypes.object.isRequired,
   courseItem: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
