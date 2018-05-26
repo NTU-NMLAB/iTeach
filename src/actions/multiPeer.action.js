@@ -2,8 +2,10 @@ import { createActions } from 'redux-actions'
 import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer'
 import MultipeerConnectivity from '../submodule/react-native-multipeer'
 import getRandomColor from '../util/getRandomColor'
+import appConstants from '../submodule/react-native-multipeer/constants/App.constant'
 
 const getStudentPeerInfo = state => ({
+  service: appConstants.SERVICE_TYPE,
   identity: 'student',
   username: state.account.username,
   course: state.course.courseName,
@@ -11,6 +13,7 @@ const getStudentPeerInfo = state => ({
 })
 
 const getTeacherPeerInfo = state => ({
+  service: appConstants.SERVICE_TYPE,
   identity: 'teacher',
   username: state.account.username,
   course: state.course.courseName,
@@ -72,7 +75,8 @@ const { multiPeer } = createActions({
         const state = getState()
         const identity = state.account.status
         if (identity === 'teacher') {
-          if (change === 'found' && state.multiPeer.status === PeerStatus.RELEASING) {
+          if (change === 'found' && state.multiPeer.status === PeerStatus.RELEASING
+            && peer.info.service === appConstants.SERVICE_TYPE) {
             const info = getTeacherPeerInfo(state)
             info.releasing = true
             dispatch(multiPeer.backend.invite(peer.id, info))
@@ -126,8 +130,10 @@ const { multiPeer } = createActions({
       },
       sendData: (recipients, data, callback = () => {}) => {
         const recipientIds = recipients.map((recipient) => {
-          if (recipient instanceof Peer) return recipient.id
-          return recipient
+          if (recipient instanceof Peer) {
+            return { recipient: recipient.id }
+          }
+          return { recipient }
         })
         MultipeerConnectivity.sendData(recipientIds, data, callback)
       },
