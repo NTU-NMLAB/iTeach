@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/DrawLotsFinish.styles'
+import Peer, { PeerStatus } from '../components/Peer'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
 import CloseImage from '../../asset/close.png'
@@ -26,6 +27,9 @@ const mapDispatchToProps = dispatch => ({
   multiPeerAction: {
     sendData: (recipients, data, callback) => {
       dispatch(multiPeerAction.backend.sendData(recipients, data, callback))
+    },
+    release: () => {
+      dispatch(multiPeerAction.common.setStatus(PeerStatus.RELEASING))  
     },
   },
 })
@@ -54,7 +58,7 @@ class DrawLots extends Component {
       messageType: 'CHOSEN_ONE',
       textPop: drawLotsState.drawAction,
     }
-
+    this.props.multiPeerAction.release()
     this.props.multiPeerAction.sendData(keys, data, () => {})
   }
   render() {
@@ -109,6 +113,7 @@ DrawLots.propTypes = {
   }).isRequired,
   multiPeerAction: PropTypes.shape({
     sendData: PropTypes.func.isRequired,
+    // release: PropTypes.func.isRequired,
   }).isRequired,
 }
 
