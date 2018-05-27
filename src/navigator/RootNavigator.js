@@ -18,6 +18,7 @@ import Multi from '../pages/Quiz/Multi'
 import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
+import ChangeCourseInfo from '../pages/ChangeCourseInfo'
 
 export default SwitchNavigator({
   Login: {
@@ -29,14 +30,11 @@ export default SwitchNavigator({
   SearchPage: {
     screen: SearchPage,
   },
-  OnlinePeerList: {
-    screen: OnlinePeerList,
-  },
   AddNewCourse: {
     screen: AddNewCourse, // Page for 新增課程
   },
-  CourseInfo: {
-    screen: CourseInfo,
+  ChangeCourseInfo: {
+    screen: ChangeCourseInfo,
   },
   Quiz: {
     screen: Quiz,
@@ -74,6 +72,12 @@ export default SwitchNavigator({
     },
     DrawFinish: {
       screen: DrawFinish,
+    },
+    CourseInfo: {
+      screen: CourseInfo,
+    },
+    OnlinePeerList: {
+      screen: OnlinePeerList,
     },
   }, {
     contentComponent: DrawerContainer,

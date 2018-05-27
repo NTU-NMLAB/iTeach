@@ -67,7 +67,15 @@ class Course extends Component {
       <View style={styles.container}>
         <Appbar title={this.props.course.courseName} withDrawer
           rightIcon={CloseImage}
-          onRightPress={ () => this.props.navAction.onExit(this.props.status) }/>
+          onRightPress={ () => {
+            this.props.courseItemAction.setName(1)
+            this.props.courseItemAction.multiPeer(
+              1,
+              this.props.status,
+              this.props.courseItem.courseItem[1].onclick,
+            )
+            this.props.navAction.onExit(this.props.status)
+          } }/>
         <View style={styles.itemContainer}>
           {CourseItemData.filter(item => item.user.includes(this.props.status))
             .map(item => (

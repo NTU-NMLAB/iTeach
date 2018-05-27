@@ -30,6 +30,7 @@ const { nav } = createActions({
       return actionIn.trim()
     },
     backToDraw: () => null,
+    changeCourseInfo: () => null,
     historyRecord: () => null,
     enterQuestion: id => QuizItemData[id].routeName,
   },

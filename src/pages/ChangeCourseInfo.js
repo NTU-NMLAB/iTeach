@@ -13,42 +13,55 @@ import PropTypes from 'prop-types'
 import Button from '../components/Button'
 import styles from './styles/AddNewCourse.styles'
 import getSemester from '../util/getSemester'
-import getRandomColor from '../util/getRandomColor'
 import newCoursesValidation from '../util/newCoursesValidation'
 import addCourseAction from '../actions/addCourse.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar'
 
 const mapStateToProps = state => ({
-  ...state.course,
+  // ...state.course,
+  status: state.account.status,
+  classList: state.classMenu.classList,
+  courseName: state.course.courseName,
   account: state.account,
 })
 
 const mapDispatchToProps = dispatch => ({
   nav: {
-    classMenu: () => {
-      dispatch(navAction.classMenu())
-    },
+    course: () => { dispatch(navAction.course()) },
   },
   addCourseAction: {
-    save: (info) => { dispatch(addCourseAction.save(info)) },
+    update: (info, courseName) => { dispatch(addCourseAction.update(info, courseName)) },
   },
 })
 
-class AddNewCourse extends Component {
+class ChangeCourseInfo extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      teacher: props.account.username,
-      title: '',
-      color: getRandomColor(),
-      year: new Date().getFullYear() - 1911,
-      semester: getSemester(),
-      classroom: '',
-      weekday: '星期一',
-      time: '12:00',
-      website: '',
-    }
+    const { classList, courseName } = props
+    const courseInfo = classList.find(item => item.title === courseName)
+    // const {
+    //   color,
+    //   teacher,
+    //   year,
+    //   semester,
+    //   classroom,
+    //   weekday,
+    //   time,
+    //   website,
+    // } = courseInfo
+    this.state = courseInfo
+    // this.state = {
+    //   color,
+    //   teacher,
+    //   title: courseName,
+    //   year: new Date().getFullYear() - 1911,
+    //   semester,
+    //   classroom,
+    //   weekday,
+    //   time,
+    //   website,
+    // }
     this.connectionInfo = ''
     this.onPressConfirm = this.onPressConfirm.bind(this)
     this.onPressCancel = this.onPressCancel.bind(this)
@@ -98,24 +111,26 @@ class AddNewCourse extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.save(this.state)
+      this.props.addCourseAction.update(this.state, this.props.courseName)
+      // this.props.nav.course()
     }
   }
 
   onPressCancel = () => {
-    this.props.nav.classMenu()
+    this.props.nav.course()
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Appbar title='新增課程'/>
+        <Appbar title='修改課程'/>
         <View style={styles.whiteContainer}>
           <View>
             <View style={styles.courseInputContainer}>
               <View style={[styles.colorBox, { backgroundColor: this.state.color }]} />
               <TextInput
                 style={styles.input}
+                defaultValue={this.state.title}
                 onChangeText={(title) => { this.setState({ title }) }}
                 value={this.state.course}
               />
@@ -240,14 +255,16 @@ class AddNewCourse extends Component {
   }
 }
 
-AddNewCourse.propTypes = {
+ChangeCourseInfo.propTypes = {
   addCourseAction: PropTypes.shape({
-    save: PropTypes.func.isRequired,
+    update: PropTypes.func.isRequired,
   }).isRequired,
   nav: PropTypes.shape({
-    classMenu: PropTypes.func.isRequired,
+    course: PropTypes.func.isRequired,
   }).isRequired,
   account: PropTypes.object.isRequired,
+  classList: PropTypes.array.isRequired,
+  courseName: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNewCourse)
+export default connect(mapStateToProps, mapDispatchToProps)(ChangeCourseInfo)

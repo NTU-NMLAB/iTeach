@@ -21,21 +21,34 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     onExit: () => dispatch(navAction.course()),
+    changeCourseInfo: () => { dispatch(navAction.changeCourseInfo()) },
   },
 })
 
 class CourseInfo extends Component {
+  constructor(props) {
+    super(props)
+    this.onPressModify = this.onPressModify.bind(this)
+  }
+
+  onPressModify = () => {
+    this.props.navAction.changeCourseInfo()
+  }
+
   render() {
     const { classList, courseName, status } = this.props
     const courseInfo = classList.find(item => item.title === courseName)
     const {
       color,
       teacher,
+      year,
       semester,
       classroom,
+      weekday,
       time,
       website,
     } = courseInfo
+
     return (
       <View style={styles.container}>
         <Appbar title='課程資訊' withDrawer
@@ -59,7 +72,7 @@ class CourseInfo extends Component {
             }
             <View style={styles.infoRowContainer}>
               <Text style={styles.text}>
-                開課學期 ：{semester}
+                開課學期 ：{`${year}學年${semester}學期`}
               </Text>
             </View>
             <View style={styles.infoRowContainer}>
@@ -69,7 +82,7 @@ class CourseInfo extends Component {
             </View>
             <View style={styles.infoRowContainer}>
               <Text style={styles.text}>
-                上課時間 ：{time}
+                上課時間 ：{ weekday + time }
               </Text>
             </View>
             <View style={styles.infoRowContainer}>
@@ -86,7 +99,7 @@ class CourseInfo extends Component {
           {
             status === 'teacher' &&
             <View style={styles.infoRowContainer}>
-              <Button label='修改' onPress={() => console.log('pressed')} />
+              <Button label='修改' onPress={this.onPressModify} />
             </View>
           }
         </View>
@@ -98,6 +111,7 @@ class CourseInfo extends Component {
 CourseInfo.propTypes = {
   navAction: PropTypes.shape({
     onExit: PropTypes.func.isRequired,
+    changeCourseInfo: PropTypes.func.isRequired,
   }),
   status: PropTypes.string.isRequired,
   classList: PropTypes.array.isRequired,
