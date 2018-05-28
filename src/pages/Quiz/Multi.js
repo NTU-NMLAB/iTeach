@@ -8,6 +8,7 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 import classMenuAction from '../../actions/classMenu.action'
+import getTime from '../../util/getTime'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -21,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
-    historyRecord: () => { dispatch(navAction.historyRecord()) }
+    historyRecord: () => { dispatch(navAction.historyRecord()) },
   },
   classListAction: {
     modify: (classItem) => {
@@ -35,6 +36,7 @@ class Multi extends Component {
   constructor() {
     super()
     this.state = {
+      questionType: '多選題',
       questionState: '',
       ans1State: '',
       ans2State: '',
@@ -46,6 +48,8 @@ class Multi extends Component {
       check3: true,
       check4: true,
       check5: true,
+      releaseTime: '',
+      correctRate: 0,
     }
     this.onClick1 = this.onClick1.bind(this)
     this.onClick2 = this.onClick2.bind(this)
@@ -87,6 +91,8 @@ class Multi extends Component {
     } else {
       courseData.quizHistory.push(this.state)
     }
+    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime
+      = getTime()
     this.props.classListAction.modify(courseData)
     this.props.navAction.historyRecord()
   }
@@ -209,7 +215,6 @@ Multi.propTypes = {
   classList: PropTypes.array.isRequired,
   classListAction: PropTypes.object.isRequired,
   course: PropTypes.object.isRequired,
-  quizItem: PropTypes.object,
   status: PropTypes.string.isRequired,
 }
 

@@ -7,6 +7,7 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 import classMenuAction from '../../actions/classMenu.action'
+import getTime from '../../util/getTime'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -20,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
-    historyRecord: () => { dispatch(navAction.historyRecord()) }
+    historyRecord: () => { dispatch(navAction.historyRecord()) },
   },
   classListAction: {
     modify: (classItem) => {
@@ -33,11 +34,14 @@ class Single extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      questionStatement: '',
+      questionType: '單選題',
+      questionState: '',
       rightAns: '',
       wrongAns1: '',
       wrongAns2: '',
       wrongAns3: '',
+      releaseTime: '',
+      correctRate: 0,
     }
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }
@@ -49,6 +53,8 @@ class Single extends Component {
     } else {
       courseData.quizHistory.push(this.state)
     }
+    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime
+      = getTime()
     this.props.classListAction.modify(courseData)
     this.props.navAction.historyRecord()
   }
@@ -70,7 +76,7 @@ class Single extends Component {
           <View style={styles.questionContext}>
             <TextInput
               style={styles.text}
-              onChangeText={(questionStatement) => { this.setState({ questionStatement }) }}
+              onChangeText={(questionState) => { this.setState({ questionState }) }}
               value={this.state.questionStatement}
               placeholder='題目敘述'
             />
@@ -144,7 +150,6 @@ Single.propTypes = {
   course: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
   classListAction: PropTypes.object.isRequired,
-  quizItem: PropTypes.object,
   status: PropTypes.string.isRequired,
 }
 

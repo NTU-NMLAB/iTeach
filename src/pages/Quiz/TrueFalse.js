@@ -7,6 +7,7 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 import classMenuAction from '../../actions/classMenu.action'
+import getTime from '../../util/getTime'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -34,8 +35,11 @@ class TrueFalse extends Component {
   constructor() {
     super()
     this.state = {
+      questionType: '是非題',
       questionState: '',
       value: true,
+      releaseTime: '',
+      correctRate: 0,
     }
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }
@@ -47,6 +51,8 @@ class TrueFalse extends Component {
     } else {
       courseData.quizHistory.push(this.state)
     }
+    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime
+      = getTime()
     this.props.classListAction.modify(courseData)
     this.props.navAction.historyRecord()
   }
@@ -104,7 +110,6 @@ TrueFalse.propTypes = {
   courseName: PropTypes.string.isRequired,
   classList: PropTypes.array.isRequired,
   course: PropTypes.object.isRequired,
-  quizItem: PropTypes.object,
   status: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,
 }
