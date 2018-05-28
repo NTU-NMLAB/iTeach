@@ -81,7 +81,7 @@ class ClassMenu extends Component {
   onPress(classItem) {
     this.props.courseAction.setName(classItem.title)
     this.props.courseAction.openCourse(this.props.account.status)
-    this.props.classListAction.modify(classItem)
+    this.props.classListAction.modify(classItem, classItem.title)
   }
 
   onPressAddPage = () => {
