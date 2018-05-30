@@ -32,6 +32,8 @@ const { nav } = createActions({
     backToDraw: () => null,
     changeCourseInfo: () => null,
     historyRecord: () => null,
+    uploadFile: () => null,
+    downloadFile: () => null,
     enterQuestion: id => QuizItemData[id].routeName,
   },
 })

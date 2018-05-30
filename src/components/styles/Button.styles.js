@@ -12,6 +12,7 @@ export default StyleSheet.create({
     padding: 10,
     borderRadius: 20,
     backgroundColor: '#3A8FB7',
+    width: '90%',
   },
   buttonLabel: {
     marginHorizontal: 20,

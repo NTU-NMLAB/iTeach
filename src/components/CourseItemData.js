@@ -66,14 +66,14 @@ const CourseItemData = [
     title: ['檔案上傳'],
     imgSrc: [upload],
     user: 'teacher',
-    routeName: '',
+    routeName: 'UploadFile',
   },
   {
     id: 8,
     title: ['檔案下載'],
     imgSrc: [download],
     user: 'student',
-    routeName: '',
+    routeName: 'DownloadFile',
   },
   {
     id: 9,
