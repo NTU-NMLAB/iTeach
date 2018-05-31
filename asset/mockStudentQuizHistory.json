@@ -1,8 +1,8 @@
 {
   "Questions": [
     {
-      "type": "單選題",
-      "description": "現在台大的校長是？",
+      "questionType": "單選題",
+      "questionState": "現在台大的校長是？",
       "options": [
         {
           "option": "A",
@@ -22,12 +22,12 @@
         },
       ],
       "answer": "A",
-      "time": "2018/05/08 23:12",
-      "correctRate": "72"
+      "releaseTime": "2018/05/08 23:12",
+      "answerState": "unAnswered"
     },
     {
-      "type": "多選題",
-      "description": "下列哪些國家為目前台灣的邦交國？",
+      "questionType": "多選題",
+      "questionState": "下列哪些國家為目前台灣的邦交國？",
       "options": [
         {
           "option": "A",
@@ -51,12 +51,12 @@
         },
       ],
       "answer": "CE",
-      "time": "2018/05/08 23:21",
-      "correctRate": "25"
+      "releaseTime": "2018/05/08 23:21",
+      "answerState": "Answered"
     },
     {
-      "type": "是非題",
-      "description": "2778675242701187是一個質數。",
+      "questionType": "是非題",
+      "questionState": "2778675242701187是一個質數。",
       "options": [
         {
           "option": "A",
@@ -68,12 +68,12 @@
         },
       ],
       "answer": "B",
-      "time": "2018/05/08 23:37",
-      "correctRate": "88"
+      "releaseTime": "2018/05/08 23:37",
+      "answerState": "Checked"
     },
     {
-      "type": "單選題",
-      "description": "你走進你的房間，看到床上面有4隻猴子，3隻羊，5隻狗，2隻貓還有3隻雀在飛，請問總共有多少隻腳在地上？",
+      "questionType": "單選題",
+      "questionState": "你走進你的房間，看到床上面有4隻猴子，3隻羊，5隻狗，2隻貓還有3隻雀在飛，請問總共有多少隻腳在地上？",
       "options": [
         {
           "option": "A",
@@ -93,8 +93,8 @@
         },
       ],
       "answer": "D",
-      "time": "2018/05/10 02:49",
-      "correctRate": "10"
+      "releaseTime": "2018/05/10 02:49",
+      "answerState": "unAnswered"
     },
   ]
 }

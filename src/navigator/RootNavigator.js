@@ -21,6 +21,7 @@ import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
 import ChangeCourseInfo from '../pages/ChangeCourseInfo'
+import StudentAnswerPage from '../pages/Quiz/StudentAnswerPage'
 
 export default SwitchNavigator({
   Login: {
@@ -59,11 +60,16 @@ export default SwitchNavigator({
   QuestionResult: {
     screen: QuestionResult,
   },
+<<<<<<< HEAD
   UploadFile: {
     screen: UploadFile,
   },
   DownloadFile: {
     screen: DownloadFile,
+=======
+  StudentAnswerPage: {
+    screen: StudentAnswerPage,
+>>>>>>> 0509_first
   },
   Pages: DrawerNavigator({
     EditProfile: {
