@@ -79,7 +79,7 @@ export default SwitchNavigator({
       screen: DrawLots, // Page for 隨機抽籤
     },
     DrawFinish: {
-      screen: DrawFinish,
+      screen: DrawFinish, // Page for 隨機抽籤完成
     },
     CourseInfo: {
       screen: CourseInfo,

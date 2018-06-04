@@ -68,7 +68,6 @@ export default StyleSheet.create({
   },
   columnContainer: {
     flex: 1,
-    padding: 15,
     flexDirection: 'column',
     marginTop: 0,
     backgroundColor: 'white',
@@ -80,14 +79,22 @@ export default StyleSheet.create({
     backgroundColor: 'white',
   },
   name: {
+    marginVertical: 5,
     color: '#3A8FB7',
     fontFamily: 'Avenir',
     fontSize: 20,
     textAlign: 'center',
   },
   AvatarContainer: {
-    width: 25,
-    height: 25,
-    backgroundColor: '#3A8FB7',
+    width: 35,
+    height: 35,
+    borderRadius: 20,
+    opacity: 0.6,
+  },
+  green: {
+    backgroundColor: 'green',
+  },
+  grey: {
+    backgroundColor: 'grey',
   },
 })

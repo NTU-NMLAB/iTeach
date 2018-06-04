@@ -15,9 +15,9 @@ import CloseImage from '../../asset/close.png'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
 
-
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
+  multiPeerState: state.multiPeer,
 })
 
 const mapDispatchToProps = dispatch => ({
