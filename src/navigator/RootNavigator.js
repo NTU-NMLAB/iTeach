@@ -60,12 +60,6 @@ export default SwitchNavigator({
   QuestionResult: {
     screen: QuestionResult,
   },
-  UploadFile: {
-    screen: UploadFile,
-  },
-  DownloadFile: {
-    screen: DownloadFile,
-  },
   Pages: DrawerNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料
@@ -102,6 +96,12 @@ export default SwitchNavigator({
     },
     ShortDescriptionAnswerPage: {
       screen: ShortDescriptionAnswerPage,
+    },
+    UploadFile: {
+      screen: UploadFile,
+    },
+    DownloadFile: {
+      screen: DownloadFile,
     },
   }, {
     contentComponent: DrawerContainer,
