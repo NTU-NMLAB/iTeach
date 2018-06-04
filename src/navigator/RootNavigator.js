@@ -100,7 +100,7 @@ export default SwitchNavigator({
     UploadFile: {
       screen: UploadFile,
     },
-    DownloadFile: {
+    DownloadFile: { // Page for 檔案下載
       screen: DownloadFile,
     },
   }, {
