@@ -1,9 +1,12 @@
 const initialState = {
   drawCount: '1',
   drawAction: '',
+  assignedAction: '',
   afterDraw: false,
   actionAllSpace: false,
   countTooLarge: false,
+  noStudent: false,
+  chosen: 0,
 }
 
 const reducerMap = {
@@ -12,19 +15,24 @@ const reducerMap = {
     drawLots: {
       drawCount: '1',
       drawAction: '',
+      assignedAction: '',
       afterDraw: false,
       actionAllSpace: false,
       countTooLarge: false,
+      noStudent: false,
+      chosen: 0,
     },
   }),
   setDrawCount: (state, action) => {
-    const countTooLarge = (action.payload > 5)
-    const drawCount = ((countTooLarge) ? state.drawLots.drawCount : action.payload)
+    const { multiPeer, drawLots, course } = state
+    const { payload } = action
+    const countTooLarge = (payload > Object.keys(multiPeer.courses[course.courseName]).length)
+    const drawCount = ((countTooLarge) ? drawLots.drawCount : payload)
 
     return ({
       ...state,
       drawLots: {
-        ...state.drawLots,
+        ...drawLots,
         drawCount,
         countTooLarge,
       },
@@ -35,6 +43,21 @@ const reducerMap = {
     drawLots: {
       ...state.drawLots,
       drawAction: action.payload,
+    },
+  }),
+  setNoStudent: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      noStudent: true,
+    },
+  }),
+  setChosen: (state, action) => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      assignedAction: action.payload,
+      chosen: 1,
     },
   }),
   handleCountTooLarge: state => ({
@@ -49,6 +72,20 @@ const reducerMap = {
     drawLots: {
       ...state.drawLots,
       actionAllSpace: false,
+    },
+  }),
+  handleNoStudent: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      noStudent: false,
+    },
+  }),
+  handleChosen: state => ({
+    ...state,
+    drawLots: {
+      ...state.drawLots,
+      chosen: 2,
     },
   }),
 }

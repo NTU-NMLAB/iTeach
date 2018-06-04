@@ -6,7 +6,6 @@ import {
   TouchableHighlight,
   View,
   FlatList,
-  Alert,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'

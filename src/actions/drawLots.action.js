@@ -5,8 +5,12 @@ const { drawLots } = createActions({
     initialize: () => null,
     setDrawCount: countIn => countIn,
     setDrawAction: actionIn => actionIn,
+    setNoStudent: () => null,
+    setChosen: actionIn => actionIn,
     handleCountTooLarge: () => null,
     handleActionAllSpace: () => null,
+    handleNoStudent: () => null,
+    handleChosen: () => null,
   },
 })
 

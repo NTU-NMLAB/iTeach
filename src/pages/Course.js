@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
+import {
+  View,
+  Text,
+  Modal,
+} from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
 import styles from './styles/Course.styles'
@@ -10,7 +14,9 @@ import CourseItem from '../components/CourseItem'
 import CourseItemData from '../components/CourseItemData'
 import courseInfoAction from '../actions/courseInfo.action'
 import Appbar from '../components/Appbar'
+import Button from '../components/Button'
 import multiPeerAction from '../actions/multiPeer.action'
+import drawLotsAction from '../actions/drawLots.action'
 
 const mapStateToProps = state => ({
   peers: state.multiPeer.peers,
@@ -45,6 +51,10 @@ const mapDispatchToProps = dispatch => ({
   courseInfoAction: {
     save: (info) => { dispatch(courseInfoAction.save(info)) },
   },
+  drawLotsAction: {
+    setNoStudent: () => { dispatch(drawLotsAction.setNoStudent()) },
+    handleNoStudent: () => { dispatch(drawLotsAction.handleNoStudent()) },
+  },
 })
 
 class Course extends Component {
@@ -53,16 +63,43 @@ class Course extends Component {
   }
 
   iconOnPress(id) {
+    const {
+      status,
+      multiPeer,
+      course,
+      courseItem,
+    } = this.props
+    switch (id) {
+    case 5:
+      if (typeof multiPeer.courses[course.courseName] === 'undefined') {
+        this.props.drawLotsAction.setNoStudent()
+        return
+      }
+      break
+    default:
+    }
     this.props.courseItemAction.setName(id)
     this.props.courseItemAction.multiPeer(
       id,
-      this.props.status,
-      this.props.courseItem.courseItem[1].onclick,
+      status,
+      courseItem.courseItem[1].onclick,
     )
     this.props.navAction.enterFeature(id)
   }
+  alertForStudent(signalIn) {
+    if (!signalIn) return null
+    return (
+      <View style={styles.insideAlert}>
+        <Text style={styles.alertTitle}>警告</Text>
+        <Text style={styles.alertText}>在線名單沒有任何同學</Text>
+        <View style={styles.alertButton}>
+          <Button label="OK" onPress={this.props.drawLotsAction.handleNoStudent}/>
+        </View>
+      </View>
+    )
+  }
   render() {
-    const { courseItem } = this.props
+    const { courseItem, drawLots } = this.props
     return (
       <View style={styles.container}>
         <Appbar title={this.props.course.courseName} withDrawer
@@ -93,6 +130,14 @@ class Course extends Component {
             ))
           }
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={drawLots.noStudent}>
+          <View style={styles.outsideAlert}>
+            {this.alertForStudent(drawLots.noStudent)}
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -107,6 +152,16 @@ Course.propTypes = {
   courseItemAction: PropTypes.shape({
     setName: PropTypes.func.isRequired,
     multiPeer: PropTypes.func.isRequired,
+  }).isRequired,
+  drawLotsAction: PropTypes.shape({
+    setNoStudent: PropTypes.func.isRequired,
+    handleNoStudent: PropTypes.func.isRequired,
+  }).isRequired,
+  drawLots: PropTypes.shape({
+    noStudent: PropTypes.bool.isRequired,
+  }).isRequired,
+  multiPeer: PropTypes.shape({
+    peers: PropTypes.object.isRequired,
   }).isRequired,
   course: PropTypes.object.isRequired,
   courseItem: PropTypes.object.isRequired,
