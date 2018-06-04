@@ -11,6 +11,8 @@ import OnlinePeerList from '../pages/OnlinePeerList'
 import CourseInfo from '../pages/CourseInfo'
 import DrawLots from '../pages/DrawLots'
 import DrawFinish from '../pages/DrawLotsFinish'
+import UploadFile from '../pages/UploadFile'
+import DownloadFile from '../pages/DownloadFile'
 import Quiz from '../pages/Quiz/Quiz'
 import QuestionResult from '../pages/Quiz/QuestionResult'
 import Single from '../pages/Quiz/Single'
@@ -56,6 +58,12 @@ export default SwitchNavigator({
   },
   QuestionResult: {
     screen: QuestionResult,
+  },
+  UploadFile: {
+    screen: UploadFile,
+  },
+  DownloadFile: {
+    screen: DownloadFile,
   },
   Pages: DrawerNavigator({
     EditProfile: {
