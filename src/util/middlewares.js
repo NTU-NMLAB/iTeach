@@ -24,13 +24,23 @@ const messageMiddleware = ({ dispatch, getState }) => (
     (action) => {
       if (action.type === 'multiPeer/backend/onDataReceived') {
         const { data } = action.payload
-        if (data.messageType === 'CHOSEN_ONE') {
+        switch (data.messageType) {
+        case 'CHOSEN_ONE':
           // dispatch(drawLotsAction.setChosen(data.textPop))
           Alert.alert(
             '您被老師抽到要',
             data.textPop,
             [{ text: 'OK' }],
           )
+          break
+        case 'QUESTION_DEBUT':
+          Alert.alert(
+            '老師發佈題目：',
+            JSON.stringify(data),
+            [{ text: 'OK' }],
+          )
+          break
+        default:
         }
       }
       return next(action)

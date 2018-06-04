@@ -13,6 +13,7 @@ import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 import classMenuAction from '../../actions/classMenu.action'
 import getTime from '../../util/getTime'
+import multiPeerAction from '../../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -20,6 +21,7 @@ const mapStateToProps = state => ({
   course: state.course,
   classMenu: state.classMenu,
   classList: state.classMenu.classList,
+  multiPeer: state.multiPeer,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -33,12 +35,18 @@ const mapDispatchToProps = dispatch => ({
       dispatch(classMenuAction.classList.modify(classItem, title))
     },
   },
+  multiPeerAction: {
+    sendData: (recipients, data) => {
+      dispatch(multiPeerAction.backend.sendData(recipients, data, () => {}))
+    },
+  },
 })
 
 class Single extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      questionID: '',
       questionType: '單選題',
       questionState: '',
       rightAns: '',
@@ -51,15 +59,38 @@ class Single extends Component {
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }
   onPressSubmit = () => {
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (typeof courseData.quizHistory === 'undefined') {
-      courseData.quizHistory = [this.state]
-    } else {
-      courseData.quizHistory.push(this.state)
+    const {
+      classMenu,
+      courseName,
+      classListAction,
+      multiPeer,
+    } = this.props
+
+    const timestampRightNow = getTime()
+    const courseData = classMenu.classList.filter(item => item.title === courseName)[0]
+    if (typeof courseData.quizHistory === 'undefined') courseData.quizHistory = []
+    this.setState({ releaseTime: timestampRightNow })
+    courseData.quizHistory.push(this.state)
+    classListAction.modify(courseData, courseName)
+
+    const keysInThisCourse = Object.keys(multiPeer.courses[courseName])
+    const keysOnline = keysInThisCourse.filter(it =>
+      multiPeer.peers[it].online && multiPeer.peers[it].info.course === courseName)
+    const data = {
+      messageType: 'QUESTION_DEBUT',
+      courseName,
+      questionType: this.state.questionType,
+      questionState: this.state.questionState,
+      releaseTime: timestampRightNow,
+      options: [
+        this.state.rightAns,
+        this.state.wrongAns1,
+        this.state.wrongAns2,
+        this.state.wrongAns3,
+      ],
     }
-    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime = getTime()
-    this.props.classListAction.modify(courseData, this.props.courseName)
+    this.props.multiPeerAction.sendData(keysOnline, data)
+
     this.props.navAction.historyRecord()
   }
 
@@ -81,7 +112,7 @@ class Single extends Component {
             <TextInput
               style={styles.text}
               onChangeText={(questionState) => { this.setState({ questionState }) }}
-              value={this.state.questionStatement}
+              value={this.state.questionState}
               placeholder='題目敘述'
             />
           </View>
@@ -149,12 +180,19 @@ Single.propTypes = {
     onExit: PropTypes.func.isRequired,
     historyRecord: PropTypes.func.isRequired,
   }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    sendData: PropTypes.func.isRequired,
+  }).isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,
   course: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
   classListAction: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
+  multiPeer: PropTypes.shape({
+    courses: PropTypes.object.isRequired,
+    peers: PropTypes.object.isRequired,
+  }).isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Single)
