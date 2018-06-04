@@ -26,9 +26,6 @@ export default SwitchNavigator({
   Login: {
     screen: Login,
   },
-  Course: {
-    screen: Course,
-  },
   SearchPage: {
     screen: SearchPage,
   },
@@ -37,27 +34,6 @@ export default SwitchNavigator({
   },
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
-  },
-  Quiz: {
-    screen: Quiz,
-  },
-  Single: {
-    screen: Single,
-  },
-  Multi: {
-    screen: Multi,
-  },
-  TrueFalse: {
-    screen: TrueFalse,
-  },
-  ShortDescription: {
-    screen: ShortDescription,
-  },
-  HistoryRecord: {
-    screen: HistoryRecord,
-  },
-  QuestionResult: {
-    screen: QuestionResult,
   },
   UploadFile: {
     screen: UploadFile,
@@ -74,6 +50,30 @@ export default SwitchNavigator({
     },
     ClassMenu: {
       screen: ClassMenu,
+    },
+    Course: {
+      screen: Course,
+    },
+    Quiz: {
+      screen: Quiz,
+    },
+    Single: {
+      screen: Single,
+    },
+    Multi: {
+      screen: Multi,
+    },
+    TrueFalse: {
+      screen: TrueFalse,
+    },
+    ShortDescription: {
+      screen: ShortDescription,
+    },
+    HistoryRecord: {
+      screen: HistoryRecord,
+    },
+    QuestionResult: {
+      screen: QuestionResult,
     },
     DrawLots: {
       screen: DrawLots, // Page for 隨機抽籤

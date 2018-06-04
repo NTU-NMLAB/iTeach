@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TouchableOpacity, TextInput } from 'react-native'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native'
 import PropTypes from 'prop-types'
 import CheckBox from 'react-native-check-box'
 import CloseImage from '../../../asset/close.png'
@@ -25,8 +30,8 @@ const mapDispatchToProps = dispatch => ({
     historyRecord: () => { dispatch(navAction.historyRecord()) },
   },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem))
+    modify: (classItem, title) => {
+      dispatch(classMenuAction.classList.modify(classItem, title))
     },
   },
 })
@@ -86,14 +91,13 @@ class Multi extends Component {
   onPressSubmit = () => {
     const courseData =
       this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (courseData.quizHistory === undefined) {
+    if (typeof courseData.quizHistory === 'undefined') {
       courseData.quizHistory = [this.state]
     } else {
       courseData.quizHistory.push(this.state)
     }
-    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime
-      = getTime()
-    this.props.classListAction.modify(courseData)
+    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime = getTime()
+    this.props.classListAction.modify(courseData, this.props.courseName)
     this.props.navAction.historyRecord()
   }
 
