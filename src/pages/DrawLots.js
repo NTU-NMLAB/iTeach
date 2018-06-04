@@ -14,6 +14,8 @@ import drawLots from '../actions/drawLots.action'
 import CloseImage from '../../asset/close.png'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
+import Peer, { PeerStatus } from '../components/Peer'
+import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
@@ -32,6 +34,11 @@ const mapDispatchToProps = dispatch => ({
     setDrawAction: (actionIn) => { dispatch(drawLots.setDrawAction(actionIn)) },
     handleActionAllSpace: () => { dispatch(drawLots.handleActionAllSpace()) },
     handleCountTooLarge: () => { dispatch(drawLots.handleCountTooLarge()) },
+  },
+  multiPeerAction: {
+    release: () => {
+      dispatch(multiPeerAction.common.setStatus(PeerStatus.RELEASING))  
+    },
   },
 })
 
@@ -110,6 +117,7 @@ class DrawLots extends Component {
           </Modal>
           <View style={styles.buttonContainer}>
             <Button label='抽籤' onPress={() => {
+              this.props.multiPeerAction.release()
               this.props.navAction.draw(drawLotsState.drawAction)
             }}/>
           </View>
@@ -140,6 +148,9 @@ DrawLots.propTypes = {
     setDrawAction: PropTypes.func.isRequired,
     handleActionAllSpace: PropTypes.func.isRequired,
     handleCountTooLarge: PropTypes.func.isRequired,
+  }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    release: PropTypes.func.isRequired,
   }).isRequired,
 }
 //  connect react component & redux store
