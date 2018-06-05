@@ -15,6 +15,7 @@ import Appbar from '../../components/Appbar'
 import classMenuAction from '../../actions/classMenu.action'
 import getTime from '../../util/getTime'
 import multiPeerAction from '../../actions/multiPeer.action'
+import getHash from '../../util/getHash'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -68,7 +69,12 @@ class TrueFalse extends Component {
     const timestampRightNow = getTime()
     const courseData = classMenu.classList.filter(item => item.title === courseName)[0]
     if (typeof courseData.quizHistory === 'undefined') courseData.quizHistory = []
-    this.setState({ releaseTime: timestampRightNow })
+    const hashID = getHash({
+      courseName,
+      timestampRightNow,
+      questionIndex: courseData.quizHistory.length,
+    }).toString()
+    this.setState({ questionID: hashID, releaseTime: timestampRightNow })
     courseData.quizHistory.push(this.state)
     classListAction.modify(courseData, courseName)
 
@@ -78,6 +84,7 @@ class TrueFalse extends Component {
     const data = {
       messageType: 'QUESTION_DEBUT',
       courseName,
+      questionID: hashID,
       questionType: this.state.questionType,
       questionState: this.state.questionState,
       releaseTime: timestampRightNow,

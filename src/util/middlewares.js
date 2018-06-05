@@ -35,9 +35,12 @@ const messageMiddleware = ({ dispatch, getState }) => (
           break
         case 'QUESTION_DEBUT':
           Alert.alert(
-            '老師發佈題目：',
-            JSON.stringify(data),
-            [{ text: 'OK' }],
+            data.releaseTime,
+            data.questionType,
+            [
+              { text: '前往答題', onPress: () => { /* TBD */ } },
+              { text: '收到' },
+            ],
           )
           break
         default:
