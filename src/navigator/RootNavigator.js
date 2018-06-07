@@ -60,20 +60,12 @@ export default SwitchNavigator({
   QuestionResult: {
     screen: QuestionResult,
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
   UploadFile: {
     screen: UploadFile,
   },
   DownloadFile: {
     screen: DownloadFile,
-=======
-  StudentAnswerPage: {
-    screen: StudentAnswerPage,
->>>>>>> 0509_first
   },
-=======
->>>>>>> route history to AnswerPage(empty)
   Pages: DrawerNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料
