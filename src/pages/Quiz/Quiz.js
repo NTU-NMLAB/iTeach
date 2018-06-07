@@ -26,7 +26,10 @@ const mapDispatchToProps = dispatch => ({
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.course()) },
     enterQuestion: (id) => { dispatch(navAction.enterQuestion(id)) },
-    studentAnswerPage: () => { dispatch(navAction.studentAnswerPage()) },
+    singleAnswerPage: () => { dispatch(navAction.singleAnswerPage()) },
+    multiAnswerPage: () => { dispatch(navAction.multiAnswerPage()) },
+    trueFalseAnswerPage: () => { dispatch(navAction.trueFalseAnswerPage()) },
+    shortDescriptionAnswerPage: () => { dispatch(navAction.shortDescriptionAnswerPage()) },
   },
   quizItemAction: {
     setName: (id) => {
@@ -42,19 +45,34 @@ const mapDispatchToProps = dispatch => ({
 
 
 class Quiz extends Component {
+  constructor() {
+    super()
+    this.iconOnPress = this.iconOnPress.bind(this)
+    this.historyOnPress = this.historyOnPress.bind(this)
+  }
+
   iconOnPress(id) {
     this.props.quizItemAction.setName(id)
     this.props.navAction.enterQuestion(id)
   }
 
-  historyOnPress() {
+  historyOnPress = (questionType) => {
+    if (questionType === '單選題') {
+      this.props.navAction.singleAnswerPage()
+    } else if (questionType === '多選題') {
+      this.props.navAction.multiAnswerPage()
+    } else if (questionType === '是非題') {
+      this.props.navAction.trueFalseAnswerPage()
+    } else if (questionType === '簡答題') {
+      this.props.navAction.shortDescriptionAnswerPage()
+    }
   }
 
   render() {
     const courseData =
       this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (courseData.quizHistory === undefined) {
-      courseData.quizHistory = mockStudentQuizHistory.Questions
+    if (this.props.status === 'student' && courseData.studentQuizHistory === undefined) {
+      courseData.studentQuizHistory = mockStudentQuizHistory.Questions
       this.props.classListAction.modify(courseData)
     }
     return (
@@ -78,7 +96,7 @@ class Quiz extends Component {
           <View style={styles.listContainer}>
             <FlatList
               style={styles.list}
-              data={[...courseData.quizHistory].reverse()}
+              data={[...courseData.studentQuizHistory].reverse()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <StudentHistoryItem
@@ -86,7 +104,7 @@ class Quiz extends Component {
                   description={item.questionState}
                   time={item.releaseTime}
                   answerState={item.answerState.toString()}
-                  onPress={this.historyOnPress.bind(this)}
+                  onPress={ () => { this.historyOnPress(item.questionType) } }
                 />
               )}
             />
@@ -102,7 +120,10 @@ Quiz.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
     enterQuestion: PropTypes.func.isRequired,
-    studentAnswerPage: PropTypes.func.isRequired,
+    singleAnswerPage: PropTypes.func.isRequired,
+    multiAnswerPage: PropTypes.func.isRequired,
+    trueFalseAnswerPage: PropTypes.func.isRequired,
+    shortDescriptionAnswerPage: PropTypes.func.isRequired,
   }).isRequired,
   quizItemAction: PropTypes.shape({
     setName: PropTypes.func.isRequired,

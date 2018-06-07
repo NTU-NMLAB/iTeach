@@ -20,17 +20,17 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-class StudentAnswerPage extends Component {
+class SingleAnswerPage extends Component {
   render() {
-    const title = '統計結果'
+    const title = '單選題'
     return (
       <View style={styles.container}>
-        <Appbar title={title}
+        <Appbar title={title} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
         <View style={styles.textContainer}>
           <Text style={styles.text}>
-            歡迎進入統計結果
+            歡迎進入單選題
           </Text>
         </View>
       </View>
@@ -38,7 +38,7 @@ class StudentAnswerPage extends Component {
   }
 }
 
-StudentAnswerPage.propTypes = {
+SingleAnswerPage.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
@@ -46,4 +46,4 @@ StudentAnswerPage.propTypes = {
   status: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentAnswerPage)
+export default connect(mapStateToProps, mapDispatchToProps)(SingleAnswerPage)

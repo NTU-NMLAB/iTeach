@@ -21,7 +21,10 @@ import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
 import ChangeCourseInfo from '../pages/ChangeCourseInfo'
-import StudentAnswerPage from '../pages/Quiz/StudentAnswerPage'
+import SingleAnswerPage from '../pages/Quiz/SingleAnswerPage'
+import MultiAnswerPage from '../pages/Quiz/MultiAnswerPage'
+import TrueFalseAnswerPage from '../pages/Quiz/TrueFalseAnswerPage'
+import ShortDescriptionAnswerPage from '../pages/Quiz/ShortDescriptionAnswerPage'
 
 export default SwitchNavigator({
   Login: {
@@ -38,9 +41,6 @@ export default SwitchNavigator({
   },
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
-  },
-  Quiz: {
-    screen: Quiz,
   },
   Single: {
     screen: Single,
@@ -61,6 +61,7 @@ export default SwitchNavigator({
     screen: QuestionResult,
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
   UploadFile: {
     screen: UploadFile,
   },
@@ -71,6 +72,8 @@ export default SwitchNavigator({
     screen: StudentAnswerPage,
 >>>>>>> 0509_first
   },
+=======
+>>>>>>> route history to AnswerPage(empty)
   Pages: DrawerNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料
@@ -92,6 +95,21 @@ export default SwitchNavigator({
     },
     OnlinePeerList: {
       screen: OnlinePeerList,
+    },
+    Quiz: {
+      screen: Quiz,
+    },
+    SingleAnswerPage: {
+      screen: SingleAnswerPage,
+    },
+    MultiAnswerPage: {
+      screen: MultiAnswerPage,
+    },
+    TrueFalseAnswerPage: {
+      screen: TrueFalseAnswerPage,
+    },
+    ShortDescriptionAnswerPage: {
+      screen: ShortDescriptionAnswerPage,
     },
   }, {
     contentComponent: DrawerContainer,

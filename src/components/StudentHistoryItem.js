@@ -22,7 +22,7 @@ class StudentHistoryItem extends Component {
     } = this.props
     return (
       <TouchableHighlight onPress={() => onPress()} underlayColor='white'>
-        <View style={styles.historyItemContainer} onPress = {() => { onPress() }}>
+        <View style={styles.historyItemContainer}>
           {answerState === 'unAnswered' &&
             <View style={styles.answerStateContainer}>
               <Text style={styles.answerStateText}>
