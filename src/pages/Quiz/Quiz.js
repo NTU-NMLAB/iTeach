@@ -38,7 +38,7 @@ const mapDispatchToProps = dispatch => ({
   },
   classListAction: {
     modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem))
+      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
     },
   },
 })
