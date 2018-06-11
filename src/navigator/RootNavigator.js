@@ -21,6 +21,10 @@ import TrueFalse from '../pages/Quiz/TrueFalse'
 import ShortDescription from '../pages/Quiz/ShortDescription'
 import HistoryRecord from '../pages/Quiz/HistoryRecord'
 import ChangeCourseInfo from '../pages/ChangeCourseInfo'
+import SingleAnswerPage from '../pages/Quiz/SingleAnswerPage'
+import MultiAnswerPage from '../pages/Quiz/MultiAnswerPage'
+import TrueFalseAnswerPage from '../pages/Quiz/TrueFalseAnswerPage'
+import ShortDescriptionAnswerPage from '../pages/Quiz/ShortDescriptionAnswerPage'
 
 export default SwitchNavigator({
   Login: {
@@ -37,9 +41,6 @@ export default SwitchNavigator({
   },
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
-  },
-  Quiz: {
-    screen: Quiz,
   },
   Single: {
     screen: Single,
@@ -86,6 +87,21 @@ export default SwitchNavigator({
     },
     OnlinePeerList: {
       screen: OnlinePeerList,
+    },
+    Quiz: {
+      screen: Quiz,
+    },
+    SingleAnswerPage: {
+      screen: SingleAnswerPage,
+    },
+    MultiAnswerPage: {
+      screen: MultiAnswerPage,
+    },
+    TrueFalseAnswerPage: {
+      screen: TrueFalseAnswerPage,
+    },
+    ShortDescriptionAnswerPage: {
+      screen: ShortDescriptionAnswerPage,
     },
   }, {
     contentComponent: DrawerContainer,

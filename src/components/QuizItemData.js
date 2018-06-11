@@ -37,7 +37,7 @@ const QuizItemData = [
     id: 4,
     title: ['歷史紀錄'],
     imgSrc: [rollCall],
-    user: 'teacher student',
+    user: 'teacher',
     routeName: 'HistoryRecord',
   },
 ]
