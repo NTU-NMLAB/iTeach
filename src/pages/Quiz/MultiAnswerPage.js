@@ -10,6 +10,7 @@ import Appbar from '../../components/Appbar'
 
 const mapStateToProps = state => ({
   status: state.account.status,
+  courseName: state.course.courseName,
   ...state,
 })
 
@@ -66,6 +67,10 @@ class MultiAnswerPage extends Component {
   render() {
     const title = '多選題'
     const submit = '提交'
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
+    const rdata = data[data.length - 1]
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -79,37 +84,37 @@ class MultiAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              一個禮拜中，回家該做網多作業的日子是哪幾天？
+              { rdata.questionState }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check1 } checkBoxColor='#3A8FB7' onClick={ this.onClick1}/>
             <Text style={styles.textmulti}>
-              星期一
+              { rdata.options[0].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check2 } checkBoxColor='#3A8FB7' onClick={ this.onClick2}/>
             <Text style={styles.textmulti}>
-              星期二
+              { rdata.options[1].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check3 } checkBoxColor='#3A8FB7' onClick={ this.onClick3}/>
             <Text style={styles.textmulti}>
-              星期三
+              { rdata.options[2].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check4 } checkBoxColor='#3A8FB7' onClick={ this.onClick4}/>
             <Text style={styles.textmulti}>
-              星期四
+              { rdata.options[3].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check5 } checkBoxColor='#3A8FB7' onClick={ this.onClick5}/>
             <Text style={styles.textmulti}>
-              星期五
+              { rdata.options[4].description }
             </Text>
           </View>
           <TouchableOpacity
@@ -132,6 +137,8 @@ MultiAnswerPage.propTypes = {
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   status: PropTypes.string.isRequired,
+  classMenu: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MultiAnswerPage)

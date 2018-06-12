@@ -46,7 +46,7 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   questionContext: {
-    height: 100,
+    height: 140,
     paddingLeft: 20,
     paddingRight: 20,
     backgroundColor: '#FFFFFF',
@@ -75,7 +75,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   singlesubmitCon: {
-    top: 130,
+    top: 100,
     height: 45,
     width: 100,
     borderWidth: 2,
@@ -86,7 +86,7 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
   },
   truefalsesubmitCon: {
-    top: 280,
+    top: 250,
     height: 45,
     width: 100,
     borderWidth: 2,
@@ -97,7 +97,7 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
   },
   multisubmitCon: {
-    top: 75,
+    top: 45,
     height: 45,
     width: 100,
     borderWidth: 2,

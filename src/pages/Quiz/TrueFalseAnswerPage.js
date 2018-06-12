@@ -9,6 +9,7 @@ import Appbar from '../../components/Appbar'
 
 const mapStateToProps = state => ({
   status: state.account.status,
+  courseName: state.course.courseName,
   ...state,
 })
 
@@ -32,6 +33,10 @@ class TrueFalseAnswerPage extends Component {
   render() {
     const title = '是非題'
     const submit = '提交'
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
+    const rdata = data[data.length - 1]
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -45,7 +50,7 @@ class TrueFalseAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              網多實驗課又涼又甜？
+              { rdata.questionState }
             </Text>
           </View>
           <View style={styles.truefalseAnswer}>
@@ -74,6 +79,8 @@ TrueFalseAnswerPage.propTypes = {
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   status: PropTypes.string.isRequired,
+  classMenu: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrueFalseAnswerPage)
