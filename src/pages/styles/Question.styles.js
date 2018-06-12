@@ -131,4 +131,12 @@ export default StyleSheet.create({
     fontSize: 22,
     right: 50,
   },
+  textmulti: {
+    color: '#3A8FB7',
+    fontFamily: 'Avenir',
+    fontSize: 22,
+    marginLeft: 13,
+    paddingBottom: 5,
+    top: -3,
+  },
 })
