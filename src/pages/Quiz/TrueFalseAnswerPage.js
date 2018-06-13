@@ -35,8 +35,8 @@ class TrueFalseAnswerPage extends Component {
     const submit = '提交'
     const courseData =
       this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
-    const rdata = data[data.length - 1]
+    // const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
+    // const rdata = data[data.length - 1]
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -50,7 +50,7 @@ class TrueFalseAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              { rdata.questionState }
+              { courseData.quizdata.questionState }
             </Text>
           </View>
           <View style={styles.truefalseAnswer}>

@@ -162,8 +162,9 @@ class SingleAnswerPage extends Component {
     const submit = '提交'
     const courseData =
       this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
-    const rdata = data[data.length - 1]
+    // const rdata =
+    // courseData.studentQuizHistory.filter(item => item.questionState === this.props.questionState)
+    // const rdata = data[data.length - 1]
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -177,7 +178,7 @@ class SingleAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              { rdata.questionState }
+              { courseData.quizdata.questionState }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -190,7 +191,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { rdata.options[0].description }
+              { courseData.quizdata.options[0].description }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -203,7 +204,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { rdata.options[1].description }
+              { courseData.quizdata.options[1].description }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -216,7 +217,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { rdata.options[2].description }
+              { courseData.quizdata.options[2].description }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -229,7 +230,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { rdata.options[3].description }
+              { courseData.quizdata.options[3].description }
             </Text>
           </View>
           <TouchableOpacity

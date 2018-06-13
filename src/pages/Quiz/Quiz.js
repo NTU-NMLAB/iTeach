@@ -56,7 +56,12 @@ class Quiz extends Component {
     this.props.navAction.enterQuestion(id)
   }
 
-  historyOnPress = (questionType) => {
+  historyOnPress = (questionType, questionState) => {
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    const quizdata =
+      courseData.studentQuizHistory.find(item => item.questionState === questionState)
+    courseData.quizdata = quizdata
     if (questionType === '單選題') {
       this.props.navAction.singleAnswerPage()
     } else if (questionType === '多選題') {
@@ -104,7 +109,7 @@ class Quiz extends Component {
                   description={item.questionState}
                   time={item.releaseTime}
                   answerState={item.answerState.toString()}
-                  onPress={ () => { this.historyOnPress(item.questionType) } }
+                  onPress={ () => { this.historyOnPress(item.questionType, item.questionState) } }
                 />
               )}
             />
