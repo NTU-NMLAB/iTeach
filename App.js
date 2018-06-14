@@ -10,7 +10,6 @@ import RootNavigator from './src/navigator/RootNavigator'
 import accountAction from './src/actions/account.action'
 import classMenu from './src/actions/classMenu.action'
 import middlewares from './src/util/middlewares'
-import DownloadData from './src/components/DownloadData'
 // import mockData from './asset/mockData.json'
 
 const addListener = createReduxBoundAddListener('root')
@@ -18,7 +17,7 @@ export const store = createStore(reducer, applyMiddleware(...middlewares))
 
 const initStore = async () => {
   // Load data from local storage
-  // store.dispatch(DownloadData)
+  // store.dispatch(mockData)
   store.dispatch(accountAction.get())
   store.dispatch(classMenu.classList.get())
 }

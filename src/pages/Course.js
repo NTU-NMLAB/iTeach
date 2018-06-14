@@ -17,11 +17,15 @@ import Appbar from '../components/Appbar'
 import Button from '../components/Button'
 import multiPeerAction from '../actions/multiPeer.action'
 import drawLotsAction from '../actions/drawLots.action'
+import classMenuAction from '../actions/classMenu.action'
+import mockDownloadData from '../../asset/mockDownloadData.json'
 
 const mapStateToProps = state => ({
   peers: state.multiPeer.peers,
   status: state.account.status,
   mul: state.multiPeer,
+  courseName: state.course.courseName,
+  classMenu: state.classMenu,
   ...state,
 })
 
@@ -55,11 +59,26 @@ const mapDispatchToProps = dispatch => ({
     setNoStudent: () => { dispatch(drawLotsAction.setNoStudent()) },
     handleNoStudent: () => { dispatch(drawLotsAction.handleNoStudent()) },
   },
+  classListAction: {
+    modify: (classItem) => {
+      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
+    },
+  },
 })
 
 class Course extends Component {
   getPeerInfo() {
     return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
+  }
+
+  componentWillMount() {
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    if (this.props.status === 'student' && courseData.downloadData === undefined) {
+      courseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
+      courseData.showActivityIndicator = false
+      this.props.classListAction.modify(courseData)
+    }
   }
 
   iconOnPress(id) {
@@ -168,6 +187,9 @@ Course.propTypes = {
   status: PropTypes.string.isRequired,
   peers: PropTypes.object.isRequired,
   mul: PropTypes.object.isRequired,
+  classMenu: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
+  classListAction: PropTypes.object.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Course)

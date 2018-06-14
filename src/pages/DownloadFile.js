@@ -12,11 +12,12 @@ import navAction from '../actions/nav.action'
 import CloseImage from '../../asset/close.png'
 import Appbar from '../components/Appbar'
 import FileItem from '../components/FileItem'
-import mockDownloadData from '../../asset/mockDownloadData.json'
+import classMenuAction from '../actions/classMenu.action'
 
 
 const mapStateToProps = state => ({
-  ...state.fileDesc,
+  courseName: state.course.courseName,
+  classMenu: state.classMenu,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -24,38 +25,45 @@ const mapDispatchToProps = dispatch => ({
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.course()) },
   },
+  classListAction: {
+    modify: (classItem) => {
+      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
+    },
+  },
 })
 
 class DownloadFile extends Component {
   constructor() {
     super()
-    this.state = {
-      showActivityIndicator: false,
-      downloadData: mockDownloadData.Files,
-    }
     this.FileOnPress = this.FileOnPress.bind(this)
   }
 
   FileOnPress = (pressedItem) => {
-    const FileData = this.state.downloadData
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    const FileData = courseData.downloadData
     const itemIndex = FileData.findIndex(item => item === pressedItem)
     if (FileData[itemIndex].State === '未下載') {
-      this.setState({ showActivityIndicator: !this.state.showActivityIndicator })
-      setTimeout(() => this.setState({ showActivityIndicator: false }), 3000)
+      courseData.showActivityIndicator = true
+      this.props.classListAction.modify(courseData)
       setTimeout(() => {
         FileData[itemIndex].State = '已下載'
-        this.setState({ downloadData: FileData })
+        courseData.showActivityIndicator = false
+        courseData.downloadData = FileData
+        this.props.classListAction.modify(courseData)
       }, 3000)
     }
   }
 
   render() {
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
     return (
       <View style={styles.container}>
         <Appbar title='檔案下載' withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (this.state.downloadData === undefined) ? (
+        { (courseData.downloadData === undefined) ? (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
               目前已上傳檔案是空的QQ
@@ -65,7 +73,7 @@ class DownloadFile extends Component {
           <View style={styles.listContainer}>
             <FlatList
               style={styles.list}
-              data={[...this.state.downloadData].reverse()}
+              data={[...courseData.downloadData].reverse()}
               keyExtractor={ (item, index) => index.toString()}
               renderItem={({ item }) => (
                 <FileItem
@@ -77,7 +85,7 @@ class DownloadFile extends Component {
                 />
               )}
             />
-            {this.state.showActivityIndicator === true && (
+            {courseData.showActivityIndicator === true && (
               <View style={styles.OverlayContainer}>
                 <View style={styles.activityIndicatorContainer}>
                   <ActivityIndicator style={styles.activityIndicator} size="large" color="#3A8FB7" />
@@ -101,6 +109,9 @@ DownloadFile.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
+  classMenu: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
+  classListAction: PropTypes.object.isRequired,
 }
 //  connect react component & redux store
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadFile)
