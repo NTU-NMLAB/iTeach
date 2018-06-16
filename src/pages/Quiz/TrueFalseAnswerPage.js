@@ -7,15 +7,8 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 
-const mapStateToProps = state => ({
-  status: state.account.status,
-  courseName: state.course.courseName,
-  ...state,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
-    openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
   },
 })
@@ -27,7 +20,6 @@ class TrueFalseAnswerPage extends Component {
     this.state = {
       value: true,
     }
-    // this.onPressSubmit = this.onPressSubmit.bind(this)
   }
 
   render() {
@@ -72,7 +64,6 @@ class TrueFalseAnswerPage extends Component {
 
 TrueFalseAnswerPage.propTypes = {
   navAction: PropTypes.shape({
-    openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   navigation: PropTypes.shape({
@@ -82,9 +73,6 @@ TrueFalseAnswerPage.propTypes = {
       }),
     }),
   }),
-  status: PropTypes.string.isRequired,
-  classMenu: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TrueFalseAnswerPage)
+export default connect(undefined, mapDispatchToProps)(TrueFalseAnswerPage)

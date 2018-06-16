@@ -8,15 +8,8 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 
-const mapStateToProps = state => ({
-  status: state.account.status,
-  courseName: state.course.courseName,
-  ...state,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
-    openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
   },
 })
@@ -37,7 +30,6 @@ class MultiAnswerPage extends Component {
     this.onClick3 = this.onClick3.bind(this)
     this.onClick4 = this.onClick4.bind(this)
     this.onClick5 = this.onClick5.bind(this)
-    // this.onPressSubmit = this.onPressSubmit.bind(this)
   }
   onClick1 = () => {
     this.setState({
@@ -130,7 +122,6 @@ class MultiAnswerPage extends Component {
 
 MultiAnswerPage.propTypes = {
   navAction: PropTypes.shape({
-    openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   navigation: PropTypes.shape({
@@ -140,9 +131,6 @@ MultiAnswerPage.propTypes = {
       }),
     }),
   }),
-  status: PropTypes.string.isRequired,
-  classMenu: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MultiAnswerPage)
+export default connect(undefined, mapDispatchToProps)(MultiAnswerPage)

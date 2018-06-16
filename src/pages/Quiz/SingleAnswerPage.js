@@ -8,15 +8,8 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 
-const mapStateToProps = state => ({
-  status: state.account.status,
-  courseName: state.course.courseName,
-  ...state,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
-    openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
   },
 })
@@ -35,21 +28,7 @@ class SingleAnswerPage extends Component {
     this.click2 = this.click2.bind(this)
     this.click3 = this.click3.bind(this)
     this.click4 = this.click4.bind(this)
-    // this.onPressSubmit = this.onPressSubmit.bind(this)
   }
-  // onPressSubmit = () => {
-  //   const courseData =
-  //     this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-  //   if (courseData.quizHistory === undefined) {
-  //     courseData.quizHistory = [this.state]
-  //   } else {
-  //     courseData.quizHistory.push(this.state)
-  //   }
-  //   courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime
-  //     = getTime()
-  //   this.props.classListAction.modify(courseData)
-  //   this.props.navAction.historyRecord()
-  // }
   click1 = () => {
     if (this.state.check1 === true) {
       this.setState({
@@ -245,7 +224,6 @@ class SingleAnswerPage extends Component {
 
 SingleAnswerPage.propTypes = {
   navAction: PropTypes.shape({
-    openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   navigation: PropTypes.shape({
@@ -255,9 +233,6 @@ SingleAnswerPage.propTypes = {
       }),
     }),
   }),
-  status: PropTypes.string.isRequired,
-  classMenu: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleAnswerPage)
+export default connect(undefined, mapDispatchToProps)(SingleAnswerPage)
