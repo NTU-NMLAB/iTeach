@@ -67,10 +67,7 @@ class MultiAnswerPage extends Component {
   render() {
     const title = '多選題'
     const submit = '提交'
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    // const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
-    // const rdata = data[data.length - 1]
+    const { quizData } = { ...this.props.navigation.state.params }
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -84,37 +81,37 @@ class MultiAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              { courseData.quizdata.questionState }
+              { quizData.questionState }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check1 } checkBoxColor='#3A8FB7' onClick={ this.onClick1}/>
             <Text style={styles.textmulti}>
-              { courseData.quizdata.options[0].description }
+              { quizData.options[0].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check2 } checkBoxColor='#3A8FB7' onClick={ this.onClick2}/>
             <Text style={styles.textmulti}>
-              { courseData.quizdata.options[1].description }
+              { quizData.options[1].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check3 } checkBoxColor='#3A8FB7' onClick={ this.onClick3}/>
             <Text style={styles.textmulti}>
-              { courseData.quizdata.options[2].description }
+              { quizData.options[2].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check4 } checkBoxColor='#3A8FB7' onClick={ this.onClick4}/>
             <Text style={styles.textmulti}>
-              { courseData.quizdata.options[3].description }
+              { quizData.options[3].description }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check5 } checkBoxColor='#3A8FB7' onClick={ this.onClick5}/>
             <Text style={styles.textmulti}>
-              { courseData.quizdata.options[4].description }
+              { quizData.options[4].description }
             </Text>
           </View>
           <TouchableOpacity
@@ -136,6 +133,13 @@ MultiAnswerPage.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        quizData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
   status: PropTypes.string.isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,

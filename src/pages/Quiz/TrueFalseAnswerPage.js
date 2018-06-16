@@ -33,10 +33,7 @@ class TrueFalseAnswerPage extends Component {
   render() {
     const title = '是非題'
     const submit = '提交'
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    // const data = courseData.studentQuizHistory.filter(item => item.questionType === title)
-    // const rdata = data[data.length - 1]
+    const { quizData } = { ...this.props.navigation.state.params }
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -50,7 +47,7 @@ class TrueFalseAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              { courseData.quizdata.questionState }
+              { quizData.questionState }
             </Text>
           </View>
           <View style={styles.truefalseAnswer}>
@@ -78,6 +75,13 @@ TrueFalseAnswerPage.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        quizData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
   status: PropTypes.string.isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,

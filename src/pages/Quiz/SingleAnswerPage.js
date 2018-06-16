@@ -29,7 +29,7 @@ class SingleAnswerPage extends Component {
       check1: false,
       check2: false,
       check3: false,
-      check4: false
+      check4: false,
     }
     this.click1 = this.click1.bind(this)
     this.click2 = this.click2.bind(this)
@@ -160,11 +160,7 @@ class SingleAnswerPage extends Component {
   render() {
     const title = '單選題'
     const submit = '提交'
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    // const rdata =
-    // courseData.studentQuizHistory.filter(item => item.questionState === this.props.questionState)
-    // const rdata = data[data.length - 1]
+    const { quizData } = { ...this.props.navigation.state.params }
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -178,7 +174,7 @@ class SingleAnswerPage extends Component {
           </View>
           <View style={styles.questionContext}>
             <Text style={styles.text}>
-              { courseData.quizdata.questionState }
+              { quizData.questionState }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -191,7 +187,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { courseData.quizdata.options[0].description }
+              { quizData.options[0].description }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -204,7 +200,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { courseData.quizdata.options[1].description }
+              { quizData.options[1].description }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -217,7 +213,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { courseData.quizdata.options[2].description }
+              { quizData.options[2].description }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -230,7 +226,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { courseData.quizdata.options[3].description }
+              { quizData.options[3].description }
             </Text>
           </View>
           <TouchableOpacity
@@ -252,6 +248,13 @@ SingleAnswerPage.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        quizData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
   status: PropTypes.string.isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,
