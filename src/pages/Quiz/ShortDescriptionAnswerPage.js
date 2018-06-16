@@ -7,11 +7,6 @@ import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 
-const mapStateToProps = state => ({
-  status: state.account.status,
-  ...state,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
@@ -40,10 +35,8 @@ class ShortDescriptionAnswerPage extends Component {
 
 ShortDescriptionAnswerPage.propTypes = {
   navAction: PropTypes.shape({
-    openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  status: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShortDescriptionAnswerPage)
+export default connect(undefined, mapDispatchToProps)(ShortDescriptionAnswerPage)

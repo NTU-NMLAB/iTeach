@@ -26,10 +26,10 @@ const mapDispatchToProps = dispatch => ({
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.course()) },
     enterQuestion: (id) => { dispatch(navAction.enterQuestion(id)) },
-    singleAnswerPage: () => { dispatch(navAction.singleAnswerPage()) },
-    multiAnswerPage: () => { dispatch(navAction.multiAnswerPage()) },
-    trueFalseAnswerPage: () => { dispatch(navAction.trueFalseAnswerPage()) },
-    shortDescriptionAnswerPage: () => { dispatch(navAction.shortDescriptionAnswerPage()) },
+    singleAnswerPage: (quizData) => { dispatch(navAction.singleAnswerPage(quizData)) },
+    multiAnswerPage: (quizData) => { dispatch(navAction.multiAnswerPage(quizData)) },
+    trueFalseAnswerPage: (quizData) => { dispatch(navAction.trueFalseAnswerPage(quizData)) },
+    shortDescriptionAnswerPage: (quizData) => { dispatch(navAction.shortDescriptionAnswerPage(quizData)) },
   },
   quizItemAction: {
     setName: (id) => {
@@ -56,15 +56,19 @@ class Quiz extends Component {
     this.props.navAction.enterQuestion(id)
   }
 
-  historyOnPress = (questionType) => {
+  historyOnPress = (questionType, questionState) => {
+    const courseData =
+      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    const quizData =
+      courseData.studentQuizHistory.find(item => item.questionState === questionState)
     if (questionType === '單選題') {
-      this.props.navAction.singleAnswerPage()
+      this.props.navAction.singleAnswerPage(quizData)
     } else if (questionType === '多選題') {
-      this.props.navAction.multiAnswerPage()
+      this.props.navAction.multiAnswerPage(quizData)
     } else if (questionType === '是非題') {
-      this.props.navAction.trueFalseAnswerPage()
+      this.props.navAction.trueFalseAnswerPage(quizData)
     } else if (questionType === '簡答題') {
-      this.props.navAction.shortDescriptionAnswerPage()
+      this.props.navAction.shortDescriptionAnswerPage(quizData)
     }
   }
 
@@ -104,7 +108,7 @@ class Quiz extends Component {
                   description={item.questionState}
                   time={item.releaseTime}
                   answerState={item.answerState.toString()}
-                  onPress={ () => { this.historyOnPress(item.questionType) } }
+                  onPress={ () => { this.historyOnPress(item.questionType, item.questionState) } }
                 />
               )}
             />
