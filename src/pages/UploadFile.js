@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
 } from 'react-native'
+import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker'
 import PropTypes from 'prop-types'
 import styles from './styles/UploadFile.styles'
 import navAction from '../actions/nav.action'
@@ -30,12 +31,30 @@ class UploadFile extends Component {
     this.state = {
       fileDesc: '這是這次上課會用到的檔案 =)',
     }
+    this.filepath = ''
     this.onPressUpload = this.onPressUpload.bind(this)
     this.onPressChoose = this.onPressChoose.bind(this)
   }
-  onPressUpload = () => {
-  }
   onPressChoose = () => {
+    DocumentPicker.show({
+      filetype: [DocumentPickerUtil.allFiles()],
+    }, (error, res) => {
+      console.log(
+        res.uri,
+        res.type,
+        res.file,
+        res.fileSize,
+      )
+      this.filepath = { uri: res.uri }
+    })
+  }
+  onPressUpload = () => {
+    if (this.filepath === '') {
+      alert('尚未選擇檔案，無法上傳')
+    } else {
+      alert('上傳成功')
+      this.filepath = ''
+    }
   }
   render() {
     return (
@@ -73,4 +92,3 @@ UploadFile.propTypes = {
 }
 //  connect react component & redux store
 export default connect(mapStateToProps, mapDispatchToProps)(UploadFile)
-
