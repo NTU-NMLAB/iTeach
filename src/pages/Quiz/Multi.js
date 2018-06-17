@@ -48,11 +48,11 @@ class Multi extends Component {
       ans3State: '',
       ans4State: '',
       ans5State: '',
-      check1: true,
-      check2: true,
-      check3: true,
-      check4: true,
-      check5: true,
+      check1: false,
+      check2: false,
+      check3: false,
+      check4: false,
+      check5: false,
       releaseTime: '',
       correctRate: 0,
     }
@@ -63,27 +63,27 @@ class Multi extends Component {
     this.onClick5 = this.onClick5.bind(this)
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }
-  onClick1() {
+  onClick1 = () => {
     this.setState({
       check1: !this.state.check1,
     })
   }
-  onClick2() {
+  onClick2 = () => {
     this.setState({
       check2: !this.state.check2,
     })
   }
-  onClick3() {
+  onClick3 = () => {
     this.setState({
       check3: !this.state.check3,
     })
   }
-  onClick4() {
+  onClick4 = () => {
     this.setState({
       check4: !this.state.check4,
     })
   }
-  onClick5() {
+  onClick5 = () => {
     this.setState({
       check5: !this.state.check5,
     })
@@ -135,7 +135,7 @@ class Multi extends Component {
               placeholder='選項'
             />
             <Text style={styles.cbContainer}>
-              正確？<CheckBox value={this.state.check2} checkBoxColor='#3A8FB7' onClick={() => this.onClick2}/>
+              正確？<CheckBox isChecked={this.state.check1} checkBoxColor='#3A8FB7' onClick={this.onClick1}/>
             </Text>
           </View>
           <View style={styles.multiAnswer}>
@@ -149,7 +149,7 @@ class Multi extends Component {
               placeholder='選項'
             />
             <Text style={styles.cbContainer}>
-              正確？<CheckBox value={this.state.check2} checkBoxColor='#3A8FB7' onClick={() => this.onClick2}/>
+              正確？<CheckBox isChecked={this.state.check2} checkBoxColor='#3A8FB7' onClick={this.onClick2}/>
             </Text>
           </View>
           <View style={styles.multiAnswer}>
@@ -163,7 +163,7 @@ class Multi extends Component {
               placeholder='選項'
             />
             <Text style={styles.cbContainer}>
-              正確？<CheckBox value={this.state.check2} checkBoxColor='#3A8FB7' onClick={() => this.onClick2}/>
+              正確？<CheckBox isChecked={this.state.check3} checkBoxColor='#3A8FB7' onClick={this.onClick3}/>
             </Text>
           </View>
           <View style={styles.multiAnswer}>
@@ -177,7 +177,7 @@ class Multi extends Component {
               placeholder='選項'
             />
             <Text style={styles.cbContainer}>
-              正確？<CheckBox value={this.state.check2} checkBoxColor='#3A8FB7' onClick={() => this.onClick2}/>
+              正確？<CheckBox isChecked={this.state.check4} checkBoxColor='#3A8FB7' onClick={this.onClick4}/>
             </Text>
           </View>
           <View style={styles.multiAnswer}>
@@ -191,7 +191,7 @@ class Multi extends Component {
               placeholder='選項'
             />
             <Text style={styles.cbContainer}>
-              正確？<CheckBox value={this.state.check2} checkBoxColor='#3A8FB7' onClick={() => this.onClick2}/>
+              正確？<CheckBox isChecked={this.state.check5} checkBoxColor='#3A8FB7' onClick={this.onClick5}/>
             </Text>
           </View>
           <TouchableOpacity

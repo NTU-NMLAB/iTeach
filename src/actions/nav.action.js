@@ -35,6 +35,10 @@ const { nav } = createActions({
     uploadFile: () => null,
     downloadFile: () => null,
     enterQuestion: id => QuizItemData[id].routeName,
+    singleAnswerPage: quizData => quizData,
+    multiAnswerPage: quizData => quizData,
+    trueFalseAnswerPage: quizData => quizData,
+    shortDescriptionAnswerPage: quizData => quizData,
   },
 })
 

@@ -56,6 +56,22 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HistoryRecord' }), state.nav),
   }),
+  singleAnswerPage: (state, action) => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'SingleAnswerPage', params: { quizData: action.payload } }), state.nav),
+  }),
+  multiAnswerPage: (state, action) => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'MultiAnswerPage', params: { quizData: action.payload } }), state.nav),
+  }),
+  trueFalseAnswerPage: (state, action) => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'TrueFalseAnswerPage', params: { quizData: action.payload } }), state.nav),
+  }),
+  shortDescriptionAnswerPage: (state, action) => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ShortDescriptionAnswerPage', params: { quizData: action.payload } }), state.nav),
+  }),
   enterFeature: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: action.payload }),
