@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { View, FlatList, Text } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
+import courseAction from '../../actions/course.action'
 import styles from '../styles/HistoryRecord.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
@@ -21,18 +22,35 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
-    getResult: () => { dispatch(navAction.quizResultPage()) },
+    enterResult: (id) => { dispatch(navAction.enterResult(id)) },
+  },
+  courseAction: {
+    setQuizTime: (time) => {dispatch(courseAction.setQuizTime(time))},
   },
 })
 
 class HistoryRecord extends Component {
-  HistoryOnPress() {
-    this.props.navAction.getResult()
-  }
+  HistoryOnPress(time,type){ 
+
+    this.props.courseAction.setQuizTime(time)
+    	
+	switch(type){
+		case '單選題':
+			this.props.navAction.enterResult(0);
+			break;
+   	case '多選題':   
+			this.props.navAction.enterResult(1);
+			break;
+    case '是非題':
+			this.props.navAction.enterResult(2);
+			break;
+	}
+  } 
   render() {
     const questionType = '歷史紀錄'
     const courseData =
       this.props.classList.filter(item => item.title === this.props.courseName)[0]
+    window.alert(courseData.quizHistory[0].questionState)
     return (
       <View style={styles.container}>
         <Appbar title={questionType}
@@ -56,10 +74,12 @@ class HistoryRecord extends Component {
                   description={item.questionState}
                   time={item.releaseTime}
                   correctRate={item.correctRate.toString()}
-                  onPress={this.HistoryOnPress.bind(this) }
+                  onPress={this.HistoryOnPress.bind(this)}
                 />
+
               )}
-            />
+
+            />      
           </View>
         )}
       </View>
@@ -71,7 +91,10 @@ HistoryRecord.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
-    getResult: PropTypes.func.isRequired,
+    enterResult: PropTypes.func.isRequired,
+  }).isRequired,
+  courseAction: PropTypes.shape({
+    setQuizTime: PropTypes.func.isRequired,
   }).isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,

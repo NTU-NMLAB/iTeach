@@ -1,5 +1,6 @@
 import { createActions } from 'redux-actions'
 import CourseItemData from '../components/CourseItemData'
+import ResultItemData from '../components/ResultItemData'
 import QuizItemData from '../components/QuizItemData'
 
 /*  if you call nav.openDrawer()
@@ -32,7 +33,9 @@ const { nav } = createActions({
     backToDraw: () => null,
     changeCourseInfo: () => null,
     historyRecord: () => null,
+    enterResult: id => ResultItemData[id].routeName, 
     enterQuestion: id => QuizItemData[id].routeName,
+    
   },
 })
 

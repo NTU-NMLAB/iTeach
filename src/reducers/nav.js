@@ -48,10 +48,6 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Quiz' }), state.nav),
   }),
-  quizResultPage: state => ({
-    ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult' }), state.nav),
-  }),
   historyRecord: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HistoryRecord' }), state.nav),
@@ -96,6 +92,16 @@ const reducerMap = {
     )
     return { ...state, nav }
   },
+  enterResult: (state, action) => {
+    const nav = RootNavigator.router.getStateForAction(
+      NavigationActions.navigate({ routeName: action.payload }),
+      state.nav,
+    )
+    alert('action.payload=')
+    alert(action.payload)
+    return { ...state, nav }
+  },
+
 }
 
 export default { initialState, reducerMap }
