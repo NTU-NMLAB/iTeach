@@ -51,3 +51,13 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+# VSCode
+.vscode/
+
+# React Native build
+android/
+
+# lock
+package-lock.json
+yarn.lock
