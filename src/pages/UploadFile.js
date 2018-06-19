@@ -30,8 +30,8 @@ class UploadFile extends Component {
     super(props)
     this.state = {
       fileDesc: '這是這次上課會用到的檔案 =)',
+      filepath: '',
     }
-    this.filepath = ''
     this.onPressUpload = this.onPressUpload.bind(this)
     this.onPressChoose = this.onPressChoose.bind(this)
   }
@@ -45,15 +45,15 @@ class UploadFile extends Component {
         res.file,
         res.fileSize,
       )
-      this.filepath = { uri: res.uri }
+      this.setState({ filepath: res.uri })
     })
   }
   onPressUpload = () => {
-    if (this.filepath === '') {
+    if (this.state.filepath === '') {
       alert('尚未選擇檔案，無法上傳')
     } else {
       alert('上傳成功')
-      this.filepath = ''
+      this.setState({ filepath: '' })
     }
   }
   render() {
