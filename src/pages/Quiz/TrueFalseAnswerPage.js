@@ -44,8 +44,8 @@ class TrueFalseAnswerPage extends Component {
           </View>
           <View style={styles.truefalseAnswer}>
             <Text style={styles.text}>
-              答案：   是  <Switch style={styles.switch} value={this.state.value}
-                onValueChange={ value => this.setState({ value })} />  否
+              答案：   否  <Switch style={styles.switch} value={this.state.value}
+                onValueChange={ value => this.setState({ value })} />  是
             </Text>
           </View>
           <TouchableOpacity

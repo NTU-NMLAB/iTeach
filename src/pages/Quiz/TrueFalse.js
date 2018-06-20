@@ -67,8 +67,7 @@ class TrueFalse extends Component {
     } = this.props
 
     const timestampRightNow = getTime()
-    const courseData = classMenu.classList.filter(item => item.title === courseName)[0]
-    if (typeof courseData.quizHistory === 'undefined') courseData.quizHistory = []
+    const courseData = classMenu.classList.find(item => item.title === courseName)
     const hashID = getHash({
       courseName,
       timestampRightNow,
@@ -78,7 +77,10 @@ class TrueFalse extends Component {
     courseData.quizHistory.push(this.state)
     classListAction.modify(courseData, courseName)
 
-    const keysInThisCourse = Object.keys(multiPeer.courses[courseName])
+    let keysInThisCourse = []
+    if (typeof multiPeer.courses[courseName] !== 'undefined') {
+      keysInThisCourse = Object.keys(multiPeer.courses[courseName])
+    }
     const keysOnline = keysInThisCourse.filter(it =>
       multiPeer.peers[it].online && multiPeer.peers[it].info.course === courseName)
     const data = {
@@ -118,8 +120,8 @@ class TrueFalse extends Component {
           </View>
           <View style={styles.truefalseAnswer}>
             <Text style={styles.text}>
-              正確答案：   是  <Switch style={styles.switch} value={this.state.value}
-                onValueChange={ value => this.setState({ value })} />  否
+              正確答案：   否  <Switch style={styles.switch} value={this.state.value}
+                onValueChange={ value => this.setState({ value })} />  是
             </Text>
           </View>
           <TouchableOpacity

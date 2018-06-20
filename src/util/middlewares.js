@@ -2,6 +2,8 @@ import { Alert } from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 // import drawLotsAction from '../actions/drawLots.action'
 // import Background from '../components/Background'
+import classMenuAction from '../actions/classMenu.action'
+import navAction from '../actions/nav.action'
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
@@ -22,6 +24,7 @@ const asyncFunctionMiddleware = ({ dispatch, getState }) => (
 const messageMiddleware = ({ dispatch, getState }) => (
   next => (
     (action) => {
+      let courseData
       if (action.type === 'multiPeer/backend/onDataReceived') {
         const { data } = action.payload
         switch (data.messageType) {
@@ -34,11 +37,33 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         case 'QUESTION_DEBUT':
+          courseData = getState().classMenu.classList.find(item => item.title === data.courseName)
+          courseData.studentQuizHistory.push({ ...data, answerState: 'unAnswered' })
+          dispatch(classMenuAction.classList.modify(courseData, data.courseName))
           Alert.alert(
             data.releaseTime,
             data.questionType,
             [
-              { text: '前往答題', onPress: () => { /* TBD */ } },
+              {
+                text: '前往答題',
+                onPress: () => {
+                  switch (data.questionType) {
+                  case '單選題':
+                    dispatch(navAction.singleAnswerPage(data))
+                    break
+                  case '多選題':
+                    dispatch(navAction.multiAnswerPage(data))
+                    break
+                  case '是非題':
+                    dispatch(navAction.trueFalseAnswerPage(data))
+                    break
+                  case '簡答題':
+                    dispatch(navAction.shortDescriptionAnswerPage(data))
+                    break
+                  default:
+                  }
+                },
+              },
               { text: '收到' },
             ],
           )

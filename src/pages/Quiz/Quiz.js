@@ -11,13 +11,10 @@ import QuizItem from '../../components/QuizItem'
 import QuizItemData from '../../components/QuizItemData'
 import Appbar from '../../components/Appbar'
 import StudentHistoryItem from '../../components/StudentHistoryItem'
-import mockStudentQuizHistory from '../../../asset/mockStudentQuizHistory.json'
 
 const mapStateToProps = state => ({
   status: state.account.status,
   courseName: state.course.courseName,
-  classMenu: state.classMenu,
-  course: state.course,
   ...state,
 })
 
@@ -56,28 +53,34 @@ class Quiz extends Component {
     this.props.navAction.enterQuestion(id)
   }
 
-  historyOnPress = (questionType, questionState) => {
+  historyOnPress = (questionID) => {
     const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+      this.props.classMenu.classList.find(item => item.title === this.props.courseName)
     const quizData =
-      courseData.studentQuizHistory.find(item => item.questionState === questionState)
-    if (questionType === '單選題') {
+      courseData.studentQuizHistory.find(item => item.questionID === questionID)
+    switch (quizData.questionType) {
+    case '單選題':
       this.props.navAction.singleAnswerPage(quizData)
-    } else if (questionType === '多選題') {
+      break
+    case '多選題':
       this.props.navAction.multiAnswerPage(quizData)
-    } else if (questionType === '是非題') {
+      break
+    case '是非題':
       this.props.navAction.trueFalseAnswerPage(quizData)
-    } else if (questionType === '簡答題') {
+      break
+    case '簡答題':
       this.props.navAction.shortDescriptionAnswerPage(quizData)
+      break
+    default:
     }
   }
 
   render() {
     const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (this.props.status === 'student' && courseData.studentQuizHistory === undefined) {
-      courseData.studentQuizHistory = mockStudentQuizHistory.Questions
-      this.props.classListAction.modify(courseData)
+      this.props.classMenu.classList.find(item => item.title === this.props.courseName)
+    if (this.props.status === 'student') {
+      // courseData.studentQuizHistory = mockStudentQuizHistory.Questions
+      // this.props.classListAction.modify(courseData)
     }
     return (
       <View style={styles.container}>
@@ -107,8 +110,8 @@ class Quiz extends Component {
                   type={item.questionType}
                   description={item.questionState}
                   time={item.releaseTime}
-                  answerState={item.answerState.toString()}
-                  onPress={ () => { this.historyOnPress(item.questionType, item.questionState) } }
+                  answerState={item.answerState}
+                  onPress={ () => { this.historyOnPress(item.questionID) } }
                 />
               )}
             />

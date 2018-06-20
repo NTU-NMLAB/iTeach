@@ -106,8 +106,7 @@ class Multi extends Component {
     } = this.props
 
     const timestampRightNow = getTime()
-    const courseData = classMenu.classList.filter(item => item.title === courseName)[0]
-    if (typeof courseData.quizHistory === 'undefined') courseData.quizHistory = []
+    const courseData = classMenu.classList.find(item => item.title === courseName)
     const hashID = getHash({
       courseName,
       timestampRightNow,
@@ -117,7 +116,10 @@ class Multi extends Component {
     courseData.quizHistory.push(this.state)
     classListAction.modify(courseData, courseName)
 
-    const keysInThisCourse = Object.keys(multiPeer.courses[courseName])
+    let keysInThisCourse = []
+    if (typeof multiPeer.courses[courseName] !== 'undefined') {
+      keysInThisCourse = Object.keys(multiPeer.courses[courseName])
+    }
     const keysOnline = keysInThisCourse.filter(it =>
       multiPeer.peers[it].online && multiPeer.peers[it].info.course === courseName)
     const data = {

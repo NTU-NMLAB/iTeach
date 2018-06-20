@@ -10,8 +10,11 @@ const { addCourse } = createActions({
   addCourse: {
     // save data to storage and update state
     save: courseData => (async (dispatch) => {
+      const courseDataToSave = { ...courseData }
+      courseDataToSave.quizHistory = []
+
       let success = false
-      await AsyncStorage.setItem('iTeachStore:Course', JSON.stringify(courseData), (error) => {
+      await AsyncStorage.setItem('iTeachStore:Course', JSON.stringify(courseDataToSave), (error) => {
         if (error) {
           Alert.alert(
             '加入課程錯誤',
@@ -22,8 +25,8 @@ const { addCourse } = createActions({
         }
       })
       if (success) {
-        // dispatch(courseInfo.set(courseData))
-        dispatch(classMenuAction.classList.add(courseData))
+        // dispatch(courseInfo.set(courseDataToSave))
+        dispatch(classMenuAction.classList.add(courseDataToSave))
       }
     }),
     update: (courseData, title) => (async (dispatch) => {

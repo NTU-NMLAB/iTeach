@@ -166,7 +166,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { quizData.options[0].description }
+              { quizData.options[0] }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -179,7 +179,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { quizData.options[1].description }
+              { quizData.options[1] }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -192,7 +192,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { quizData.options[2].description }
+              { quizData.options[2] }
             </Text>
           </View>
           <View style={styles.singleAnswer}>
@@ -205,7 +205,7 @@ class SingleAnswerPage extends Component {
               innerColor="#3A8FB7"
             />
             <Text style={styles.text}>
-              { quizData.options[3].description }
+              { quizData.options[3] }
             </Text>
           </View>
           <TouchableOpacity

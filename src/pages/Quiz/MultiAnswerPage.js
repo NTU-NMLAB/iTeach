@@ -79,31 +79,31 @@ class MultiAnswerPage extends Component {
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check1 } checkBoxColor='#3A8FB7' onClick={ this.onClick1}/>
             <Text style={styles.textmulti}>
-              { quizData.options[0].description }
+              { quizData.options[0] }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check2 } checkBoxColor='#3A8FB7' onClick={ this.onClick2}/>
             <Text style={styles.textmulti}>
-              { quizData.options[1].description }
+              { quizData.options[1] }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check3 } checkBoxColor='#3A8FB7' onClick={ this.onClick3}/>
             <Text style={styles.textmulti}>
-              { quizData.options[2].description }
+              { quizData.options[2] }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check4 } checkBoxColor='#3A8FB7' onClick={ this.onClick4}/>
             <Text style={styles.textmulti}>
-              { quizData.options[3].description }
+              { quizData.options[3] }
             </Text>
           </View>
           <View style={styles.multiAnswer}>
             <CheckBox isChecked={ this.state.check5 } checkBoxColor='#3A8FB7' onClick={ this.onClick5}/>
             <Text style={styles.textmulti}>
-              { quizData.options[4].description }
+              { quizData.options[4] }
             </Text>
           </View>
           <TouchableOpacity
