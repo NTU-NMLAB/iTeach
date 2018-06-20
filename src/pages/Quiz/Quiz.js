@@ -78,10 +78,6 @@ class Quiz extends Component {
   render() {
     const courseData =
       this.props.classMenu.classList.find(item => item.title === this.props.courseName)
-    if (this.props.status === 'student') {
-      // courseData.studentQuizHistory = mockStudentQuizHistory.Questions
-      // this.props.classListAction.modify(courseData)
-    }
     return (
       <View style={styles.container}>
         <Appbar title={'隨堂測驗'} withDrawer
