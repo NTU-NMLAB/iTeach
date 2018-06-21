@@ -5,8 +5,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import classMenuAction from '../actions/classMenu.action'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
-import quizAction from '../actions/quiz.action'
-import multiPeer from '../actions/multiPeer.action';
+// import quizAction from '../actions/quiz.action'
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
