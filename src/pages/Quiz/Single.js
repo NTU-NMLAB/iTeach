@@ -47,14 +47,12 @@ class Single extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      questionID: '',
       questionType: '單選題',
       questionState: '',
       rightAns: '',
       wrongAns1: '',
       wrongAns2: '',
       wrongAns3: '',
-      releaseTime: '',
       correctRate: 0,
     }
     this.onPressSubmit = this.onPressSubmit.bind(this)
@@ -74,8 +72,7 @@ class Single extends Component {
       timestampRightNow,
       questionIndex: courseData.quizHistory.length,
     }).toString()
-    this.setState({ questionID: hashID, releaseTime: timestampRightNow })
-    courseData.quizHistory.push(this.state)
+    courseData.quizHistory.push({ ...this.state, questionID: hashID, releaseTime: timestampRightNow })
     classListAction.modify(courseData, courseName)
 
     let keysInThisCourse = []

@@ -1,14 +1,11 @@
-import { NavigationActions } from 'react-navigation'
-import RootNavigator from '../navigator/RootNavigator'
-
 const initialState = {
-  courseName: '',
+  teacherACKs: [],
 }
 
 const reducerMap = {
-  setName: (state, action) => {
-    const nav = RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Quiz' }), state.nav)
-    return { ...state, nav, course: action.payload }
+  catchTeacherACK: (state, action) => {
+    state.quiz.teacherACKs.push(action.payload)
+    return state
   },
 }
 

@@ -49,7 +49,6 @@ class Multi extends Component {
   constructor() {
     super()
     this.state = {
-      questionID: '',
       questionType: '多選題',
       questionState: '',
       ans1State: '',
@@ -62,7 +61,6 @@ class Multi extends Component {
       check3: false,
       check4: false,
       check5: false,
-      releaseTime: '',
       correctRate: 0,
     }
     this.onClick1 = this.onClick1.bind(this)
@@ -112,8 +110,7 @@ class Multi extends Component {
       timestampRightNow,
       questionIndex: courseData.quizHistory.length,
     }).toString()
-    this.setState({ questionID: hashID, releaseTime: timestampRightNow })
-    courseData.quizHistory.push(this.state)
+    courseData.quizHistory.push({ ...this.state, questionID: hashID, releaseTime: timestampRightNow })
     classListAction.modify(courseData, courseName)
 
     let keysInThisCourse = []

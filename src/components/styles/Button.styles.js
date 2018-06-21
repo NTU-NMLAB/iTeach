@@ -21,4 +21,7 @@ export default StyleSheet.create({
     fontFamily: 'Avenir',
     fontSize: 24,
   },
+  gray: {
+    backgroundColor: 'gray',
+  },
 })
