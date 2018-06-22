@@ -75,7 +75,7 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         case 'ANSWER_BACK':
-          dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID }
+          dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID, courseName: data.courseName }
           dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
           dataToSave = getState().classMenu.classList.find(it => it.title === data.courseName)
           dataToSave = dataToSave.quizHistory.find(it => it.questionID === data.questionID)
@@ -86,12 +86,10 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         case 'ACK_BACK':
-          // dispatch(quizAction.catchTeacherACK(data.questionID))
-          Alert.alert(
-            'ACK catch',
-            'no handling at all!',
-            [{ text: 'OK' }],
-          )
+          courseData = getState().classMenu.classList.find(it => it.title === data.courseName)
+          dataToSave = courseData.studentQuizHistory.findIndex(it => it.questionID === data.questionID)
+          courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
+          dispatch(classMenuAction.classList.modify(courseData, data.courseName))
           break
         default:
         }

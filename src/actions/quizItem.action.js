@@ -27,7 +27,6 @@ const { quizItem } = createActions({
       }
 
       const classItem = getState().classMenu.classList.find(it => it.title === reply.courseName)
-      const target = classItem.studentQuizHistory.findIndex(it => it.questionID === reply.questionID)
       const targetContent = classItem.studentQuizHistory.find(it => it.questionID === reply.questionID)
       const replyToSend = { messageType: 'ANSWER_BACK', ...reply }
       if (reply.answerState !== 'Answered') replyToSend.answer = targetContent.answer
@@ -35,8 +34,9 @@ const { quizItem } = createActions({
       dispatch(multiPeerAction.backend.sendData([toWhom], replyToSend))
 
       setTimeout(() => {
-        const expected = getState().quiz.teacherACKs.findIndex(it => it === reply.questionID)
-        if (expected < 0) {
+        const courseData = getState().classMenu.classList.find(it => it.title === reply.courseName)
+        const targetToCheck = courseData.studentQuizHistory.find(it => it.questionID === reply.questionID)
+        if (targetToCheck.answerState !== 'Checked') {
           Alert.alert(
             '傳送失敗',
             '回應等待時間過長！',
@@ -45,10 +45,7 @@ const { quizItem } = createActions({
               { text: '稍後再試' },
             ],
           )
-          return
         }
-        classItem.studentQuizHistory[target].answerState = 'Checked'
-        dispatch(classMenuAction.classList.modify(classItem, reply.courseName))
       }, 5000)
     }),
   },
