@@ -1,16 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text } from 'react-native'
 import CircleCheckBox, { LABEL_POSITION } from 'react-native-circle-checkbox'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Question.styles'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
+import quizItemAction from '../../actions/quizItem.action'
+import Button from '../../components/Button'
+
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
     onExit: () => { dispatch(navAction.quizMainPage()) },
+  },
+  quizItemAction: {
+    update: (reply) => { dispatch(quizItemAction.update(reply)) },
+    answer: (reply, toWhom) => { dispatch(quizItemAction.answer(reply, toWhom)) },
   },
 })
 
@@ -28,6 +35,33 @@ class SingleAnswerPage extends Component {
     this.click2 = this.click2.bind(this)
     this.click3 = this.click3.bind(this)
     this.click4 = this.click4.bind(this)
+  }
+  componentDidMount() {
+    const stateDraft = {}
+    const { quizData } = this.props.navigation.state.params
+    if (quizData.answerState !== 'unAnswered') {
+      quizData.answer.forEach((it) => {
+        stateDraft[`check${it + 1}`] = true
+      })
+    }
+    this.setState(stateDraft)
+  }
+  onPressSubmit = () => {
+    const { quizData } = this.props.navigation.state.params
+    const dataToSave = { courseName: quizData.courseName, questionID: quizData.questionID }
+    switch (quizData.answerState) {
+    case 'Checked':
+      return
+    case 'unAnswered':
+      dataToSave.answerState = 'Answered'
+      dataToSave.answer = []
+      for (let it = 1; it < 5; it += 1) if (this.state[`check${it}`]) dataToSave.answer.push(it - 1)
+      this.props.quizItemAction.update(dataToSave)
+      break
+    default:
+    }
+    this.props.quizItemAction.answer(dataToSave, quizData.senderId)
+    this.props.navAction.onExit()
   }
   click1 = () => {
     if (this.state.check1 === true) {
@@ -138,8 +172,9 @@ class SingleAnswerPage extends Component {
   }
   render() {
     const title = '單選題'
-    const submit = '提交'
     const { quizData } = { ...this.props.navigation.state.params }
+    const submit = (quizData.answerState === 'unAnswered') ? '提交答案' : '重新送出'
+    const invalidPress = (quizData.answerState === 'Checked')
     return (
       <View style={styles.container}>
         <Appbar title={title} withDrawer
@@ -208,14 +243,7 @@ class SingleAnswerPage extends Component {
               { quizData.options[3] }
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.singlesubmitCon}
-            onPress={this.onPressSubmit}
-          >
-            <Text style={styles.submit}>
-              {submit}
-            </Text>
-          </TouchableOpacity>
+          <Button label={submit} onPress={this.onPressSubmit} invalid={invalidPress}/>
         </View>
       </View>
     )
@@ -225,6 +253,10 @@ class SingleAnswerPage extends Component {
 SingleAnswerPage.propTypes = {
   navAction: PropTypes.shape({
     onExit: PropTypes.func.isRequired,
+  }).isRequired,
+  quizItemAction: PropTypes.shape({
+    update: PropTypes.func.isRequired,
+    answer: PropTypes.func.isRequired,
   }).isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({

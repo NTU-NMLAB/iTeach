@@ -17,6 +17,7 @@ const { quizItem } = createActions({
     }),
     answer: (reply, toWhom) => ((dispatch, getState) => {
       const { peers } = getState().multiPeer
+      const timeOut = (reply.answerState === 'Answered') ? 1000 : 5000
       if ((!peers[toWhom].online) || (peers[toWhom].info.course !== reply.courseName)) {
         Alert.alert(
           '教師離線',
@@ -30,23 +31,25 @@ const { quizItem } = createActions({
       const targetContent = classItem.studentQuizHistory.find(it => it.questionID === reply.questionID)
       const replyToSend = { messageType: 'ANSWER_BACK', ...reply }
       if (reply.answerState !== 'Answered') replyToSend.answer = targetContent.answer
-      replyToSend.answer = replyToSend.answer.map(it => targetContent.options[it])
+      if (targetContent.questionType === '是非題') replyToSend.answer.map(it => it.toString())
+      else replyToSend.answer = replyToSend.answer.map(it => targetContent.options[it])
       dispatch(multiPeerAction.backend.sendData([toWhom], replyToSend))
 
       setTimeout(() => {
         const courseData = getState().classMenu.classList.find(it => it.title === reply.courseName)
         const targetToCheck = courseData.studentQuizHistory.find(it => it.questionID === reply.questionID)
         if (targetToCheck.answerState !== 'Checked') {
+          const replyAgain = { ...reply, answerState: undefined }
           Alert.alert(
             '傳送失敗',
             '回應等待時間過長！',
             [
-              { text: '重送', onPress: () => { dispatch(quizItem.answer(reply, toWhom)) } },
+              { text: '重送', onPress: () => { dispatch(quizItem.answer(replyAgain, toWhom)) } },
               { text: '稍後再試' },
             ],
           )
         }
-      }, 5000)
+      }, timeOut)
     }),
   },
 })
