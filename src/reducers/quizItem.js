@@ -1,7 +1,4 @@
-import QuizItemData from '../components/QuizItemData'
-
 const initialState = {
-  quizItem: QuizItemData,
 }
 
 const reducerMap = {

@@ -25,7 +25,7 @@ class ShortDescription extends Component {
     const questionType = '簡答題'
     return (
       <View style={styles.container}>
-        <Appbar title={questionType}
+        <Appbar title={questionType} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
         <View style={styles.textContainer}>

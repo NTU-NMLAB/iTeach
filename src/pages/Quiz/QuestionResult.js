@@ -25,7 +25,7 @@ class Stat extends Component {
     const title = '統計結果'
     return (
       <View style={styles.container}>
-        <Appbar title={title}
+        <Appbar title={title} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
         <View style={styles.textContainer}>

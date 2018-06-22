@@ -8,6 +8,8 @@ import RootNavigator from '../navigator/RootNavigator'
 import onlinePeerList from './onlinePeerList'
 import multiPeer from '../submodule/react-native-multipeer/reducers/MultiPeer.reducer'
 import drawLots from './drawLots'
+import quizItem from './quizItem'
+import quiz from './quiz'
 
 // define states
 const initialState = {
@@ -19,6 +21,8 @@ const initialState = {
   onlinePeerList: onlinePeerList.initialState,
   multiPeer: multiPeer.initialState,
   drawLots: drawLots.initialState,
+  quizItem: quizItem.initialState,
+  quiz: quiz.initialState,
   initComplete: false,
 }
 
@@ -32,6 +36,8 @@ const reducerMap = {
   onlinePeerList: onlinePeerList.reducerMap,
   multiPeer: multiPeer.reducerMap,
   drawLots: drawLots.reducerMap,
+  quizItem: quizItem.reducerMap,
+  quiz: quiz.reducerMap,
   addCourse: state => state,
   changeCourseInfo: state => state,
   initComplete: state => ({ ...state, initComplete: true }),

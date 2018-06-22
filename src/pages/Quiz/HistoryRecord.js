@@ -35,10 +35,10 @@ class HistoryRecord extends Component {
       this.props.classList.filter(item => item.title === this.props.courseName)[0]
     return (
       <View style={styles.container}>
-        <Appbar title={questionType}
+        <Appbar title={questionType} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (courseData.quizHistory === undefined) ? (
+        { (courseData.quizHistory.length === 0) ? (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
               目前歷史紀錄是空的QQ

@@ -8,13 +8,15 @@ import PropTypes from 'prop-types'
 import styles from './styles/Button.styles'
 
 const Button = (props) => {
-  const { label, onPress } = props
+  const { label, onPress, invalid } = props
+  const buttonStyles = [styles.button]
+  if (invalid) buttonStyles.push(styles.gray)
   return (
     <View style={styles.buttonContainer}>
       <TouchableHighlight
         underlayColor='steelblue'
         onPress={onPress}
-        style={styles.button}>
+        style={buttonStyles}>
         <Text style={styles.buttonLabel}>
           {label}
         </Text>
@@ -26,11 +28,13 @@ const Button = (props) => {
 Button.propTypes = {
   label: PropTypes.string,
   onPress: PropTypes.func,
+  invalid: PropTypes.bool,
 }
 
 Button.defaultProps = {
   label: '',
   onPress: () => {},
+  invalid: false,
 }
 
 export default Button

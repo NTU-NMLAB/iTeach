@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, Switch, TouchableOpacity, TextInput } from 'react-native'
+import {
+  View,
+  Text,
+  Switch,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Question.styles'
@@ -8,6 +14,8 @@ import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar'
 import classMenuAction from '../../actions/classMenu.action'
 import getTime from '../../util/getTime'
+import multiPeerAction from '../../actions/multiPeer.action'
+import getHash from '../../util/getHash'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -15,6 +23,7 @@ const mapStateToProps = state => ({
   classMenu: state.classMenu,
   course: state.course,
   classList: state.classMenu.classList,
+  multiPeer: state.multiPeer,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -24,8 +33,13 @@ const mapDispatchToProps = dispatch => ({
     historyRecord: () => { dispatch(navAction.historyRecord()) },
   },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
+    modify: (classItem, title) => {
+      dispatch(classMenuAction.classList.modify(classItem, title))
+    },
+  },
+  multiPeerAction: {
+    sendData: (recipients, data) => {
+      dispatch(multiPeerAction.backend.sendData(recipients, data, () => {}))
     },
   },
 })
@@ -38,22 +52,44 @@ class TrueFalse extends Component {
       questionType: '是非題',
       questionState: '',
       value: true,
-      releaseTime: '',
       correctRate: 0,
     }
     this.onPressSubmit = this.onPressSubmit.bind(this)
   }
   onPressSubmit = () => {
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (courseData.quizHistory === undefined) {
-      courseData.quizHistory = [this.state]
-    } else {
-      courseData.quizHistory.push(this.state)
+    const {
+      classMenu,
+      courseName,
+      classListAction,
+      multiPeer,
+    } = this.props
+
+    const timestampRightNow = getTime()
+    const courseData = classMenu.classList.find(item => item.title === courseName)
+    const hashID = getHash({
+      courseName,
+      timestampRightNow,
+      questionIndex: courseData.quizHistory.length,
+    }).toString()
+    courseData.quizHistory.push({ ...this.state, questionID: hashID, releaseTime: timestampRightNow })
+    classListAction.modify(courseData, courseName)
+
+    let keysInThisCourse = []
+    if (typeof multiPeer.courses[courseName] !== 'undefined') {
+      keysInThisCourse = Object.keys(multiPeer.courses[courseName])
     }
-    courseData.quizHistory[courseData.quizHistory.length - 1].releaseTime
-      = getTime()
-    this.props.classListAction.modify(courseData)
+    const keysOnline = keysInThisCourse.filter(it =>
+      multiPeer.peers[it].online && multiPeer.peers[it].info.course === courseName)
+    const data = {
+      messageType: 'QUESTION_DEBUT',
+      courseName,
+      questionID: hashID,
+      questionType: this.state.questionType,
+      questionState: this.state.questionState,
+      releaseTime: timestampRightNow,
+    }
+    this.props.multiPeerAction.sendData(keysOnline, data)
+
     this.props.navAction.historyRecord()
   }
 
@@ -81,8 +117,8 @@ class TrueFalse extends Component {
           </View>
           <View style={styles.truefalseAnswer}>
             <Text style={styles.text}>
-              正確答案：   是  <Switch style={styles.switch} value={this.state.value}
-                onValueChange={ value => this.setState({ value })} />  否
+              正確答案：   否  <Switch style={styles.switch} value={this.state.value}
+                onValueChange={ value => this.setState({ value })} />  是
             </Text>
           </View>
           <TouchableOpacity
@@ -104,7 +140,9 @@ TrueFalse.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
     historyRecord: PropTypes.func.isRequired,
-
+  }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    sendData: PropTypes.func.isRequired,
   }).isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,
@@ -112,6 +150,10 @@ TrueFalse.propTypes = {
   course: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,
+  multiPeer: PropTypes.shape({
+    courses: PropTypes.object.isRequired,
+    peers: PropTypes.object.isRequired,
+  }).isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TrueFalse)

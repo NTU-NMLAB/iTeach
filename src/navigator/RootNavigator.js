@@ -30,9 +30,6 @@ export default SwitchNavigator({
   Login: {
     screen: Login,
   },
-  Course: {
-    screen: Course,
-  },
   SearchPage: {
     screen: SearchPage,
   },
@@ -42,23 +39,11 @@ export default SwitchNavigator({
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
   },
-  Single: {
-    screen: Single,
+  UploadFile: {
+    screen: UploadFile,
   },
-  Multi: {
-    screen: Multi,
-  },
-  TrueFalse: {
-    screen: TrueFalse,
-  },
-  ShortDescription: {
-    screen: ShortDescription,
-  },
-  HistoryRecord: {
-    screen: HistoryRecord,
-  },
-  QuestionResult: {
-    screen: QuestionResult,
+  DownloadFile: {
+    screen: DownloadFile,
   },
   Pages: DrawerNavigator({
     EditProfile: {
@@ -69,6 +54,30 @@ export default SwitchNavigator({
     },
     ClassMenu: {
       screen: ClassMenu,
+    },
+    Course: {
+      screen: Course,
+    },
+    Quiz: {
+      screen: Quiz,
+    },
+    Single: {
+      screen: Single,
+    },
+    Multi: {
+      screen: Multi,
+    },
+    TrueFalse: {
+      screen: TrueFalse,
+    },
+    ShortDescription: {
+      screen: ShortDescription,
+    },
+    HistoryRecord: {
+      screen: HistoryRecord,
+    },
+    QuestionResult: {
+      screen: QuestionResult,
     },
     DrawLots: {
       screen: DrawLots, // Page for 隨機抽籤
@@ -81,9 +90,6 @@ export default SwitchNavigator({
     },
     OnlinePeerList: {
       screen: OnlinePeerList,
-    },
-    Quiz: {
-      screen: Quiz,
     },
     SingleAnswerPage: {
       screen: SingleAnswerPage,
