@@ -64,111 +64,47 @@ class SingleAnswerPage extends Component {
     this.props.navAction.onExit()
   }
   click1 = () => {
-    if (this.state.check1 === true) {
-      this.setState({
-        check1: true,
-      })
-    } else if (this.state.check2 === true) {
-      this.setState({
-        check1: true,
-        check2: false,
-      })
-    } else if (this.state.check3 === true) {
-      this.setState({
-        check1: true,
-        check3: false,
-      })
-    } else if (this.state.check4 === true) {
-      this.setState({
-        check1: true,
-        check4: false,
-      })
-    } else {
-      this.setState({
-        check1: true,
-      })
-    }
+    const { quizData } = this.props.navigation.state.params
+    if (quizData.answerState !== 'unAnswered') return
+    this.setState({
+      check1: true,
+      check2: false,
+      check3: false,
+      check4: false,
+    })
   }
 
   click2 = () => {
-    if (this.state.check1 === true) {
-      this.setState({
-        check1: false,
-        check2: true,
-      })
-    } else if (this.state.check2 === true) {
-      this.setState({
-        check2: true,
-      })
-    } else if (this.state.check3 === true) {
-      this.setState({
-        check2: true,
-        check3: false,
-      })
-    } else if (this.state.check4 === true) {
-      this.setState({
-        check2: true,
-        check4: false,
-      })
-    } else {
-      this.setState({
-        check2: true,
-      })
-    }
+    const { quizData } = this.props.navigation.state.params
+    if (quizData.answerState !== 'unAnswered') return
+    this.setState({
+      check1: false,
+      check2: true,
+      check3: false,
+      check4: false,
+    })
   }
 
   click3 = () => {
-    if (this.state.check1 === true) {
-      this.setState({
-        check1: false,
-        check3: true,
-      })
-    } else if (this.state.check2 === true) {
-      this.setState({
-        check3: true,
-        check2: false,
-      })
-    } else if (this.state.check3 === true) {
-      this.setState({
-        check3: true,
-      })
-    } else if (this.state.check4 === true) {
-      this.setState({
-        check3: true,
-        check4: false,
-      })
-    } else {
-      this.setState({
-        check3: true,
-      })
-    }
+    const { quizData } = this.props.navigation.state.params
+    if (quizData.answerState !== 'unAnswered') return
+    this.setState({
+      check1: false,
+      check2: false,
+      check3: true,
+      check4: false,
+    })
   }
 
   click4 = () => {
-    if (this.state.check1 === true) {
-      this.setState({
-        check1: false,
-        check4: true,
-      })
-    } else if (this.state.check2 === true) {
-      this.setState({
-        check4: true,
-        check2: false,
-      })
-    } else if (this.state.check3 === true) {
-      this.setState({
-        check4: true,
-        check3: false,
-      })
-    } else if (this.state.check4 === true) {
-      this.setState({
-        check4: true,
-      })
-    } else {
-      this.setState({
-        check4: true,
-      })
-    }
+    const { quizData } = this.props.navigation.state.params
+    if (quizData.answerState !== 'unAnswered') return
+    this.setState({
+      check1: false,
+      check2: false,
+      check3: false,
+      check4: true,
+    })
   }
   render() {
     const title = '單選題'
@@ -243,6 +179,7 @@ class SingleAnswerPage extends Component {
               { quizData.options[3] }
             </Text>
           </View>
+          <View style={styles.singlesubmitCon}></View>
           <Button label={submit} onPress={this.onPressSubmit} invalid={invalidPress}/>
         </View>
       </View>

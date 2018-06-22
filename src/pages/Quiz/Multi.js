@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {
   View,
   Text,
-  TouchableOpacity,
   TextInput,
 } from 'react-native'
 import PropTypes from 'prop-types'
@@ -16,6 +15,7 @@ import classMenuAction from '../../actions/classMenu.action'
 import getTime from '../../util/getTime'
 import multiPeerAction from '../../actions/multiPeer.action'
 import getHash from '../../util/getHash'
+import Button from '../../components/Button'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -142,7 +142,7 @@ class Multi extends Component {
 
   render() {
     const questionType = '多選題'
-    const submit = '發布'
+    const submit = '發佈問題'
     return (
       <View style={styles.container}>
         <Appbar title={questionType} withDrawer
@@ -232,14 +232,8 @@ class Multi extends Component {
               正確？<CheckBox isChecked={this.state.check5} checkBoxColor='#3A8FB7' onClick={this.onClick5}/>
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.multisubmitCon}
-            onPress={this.onPressSubmit}
-          >
-            <Text style={styles.submit}>
-              {submit}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.multisubmitCon}></View>
+          <Button label={submit} onPress={this.onPressSubmit}/>
         </View>
       </View>
     )

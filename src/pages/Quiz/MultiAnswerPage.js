@@ -50,39 +50,34 @@ class MultiAnswerPage extends Component {
   }
 
   onClick1 = () => {
-    const { quizData } = this.props.navigation.state.params
-    if (quizData.answerState !== 'unAnswered') return
-    this.setState({
-      check1: !this.state.check1,
-    })
+    const { answerState } = this.props.navigation.state.params.quizData
+    const newState = {}
+    if (answerState === 'unAnswered') newState.check1 = !this.state.check1
+    this.setState(newState)
   }
   onClick2 = () => {
-    const { quizData } = this.props.navigation.state.params
-    if (quizData.answerState !== 'unAnswered') return
-    this.setState({
-      check2: !this.state.check2,
-    })
+    const { answerState } = this.props.navigation.state.params.quizData
+    const newState = {}
+    if (answerState === 'unAnswered') newState.check2 = !this.state.check2
+    this.setState(newState)
   }
   onClick3 = () => {
-    const { quizData } = this.props.navigation.state.params
-    if (quizData.answerState !== 'unAnswered') return
-    this.setState({
-      check3: !this.state.check3,
-    })
+    const { answerState } = this.props.navigation.state.params.quizData
+    const newState = {}
+    if (answerState === 'unAnswered') newState.check3 = !this.state.check3
+    this.setState(newState)
   }
   onClick4 = () => {
-    const { quizData } = this.props.navigation.state.params
-    if (quizData.answerState !== 'unAnswered') return
-    this.setState({
-      check4: !this.state.check4,
-    })
+    const { answerState } = this.props.navigation.state.params.quizData
+    const newState = {}
+    if (answerState === 'unAnswered') newState.check4 = !this.state.check4
+    this.setState(newState)
   }
   onClick5 = () => {
-    const { quizData } = this.props.navigation.state.params
-    if (quizData.answerState !== 'unAnswered') return
-    this.setState({
-      check5: !this.state.check5,
-    })
+    const { answerState } = this.props.navigation.state.params.quizData
+    const newState = {}
+    if (answerState === 'unAnswered') newState.check5 = !this.state.check5
+    this.setState(newState)
   }
   onPressSubmit = () => {
     const { quizData } = this.props.navigation.state.params
@@ -153,6 +148,7 @@ class MultiAnswerPage extends Component {
               { quizData.options[4] }
             </Text>
           </View>
+          <View style={styles.multisubmitCon}></View>
           <Button label={submit} onPress={this.onPressSubmit} invalid={invalidPress}/>
         </View>
       </View>

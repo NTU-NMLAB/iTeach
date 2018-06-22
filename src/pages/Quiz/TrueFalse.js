@@ -4,7 +4,6 @@ import {
   View,
   Text,
   Switch,
-  TouchableOpacity,
   TextInput,
 } from 'react-native'
 import PropTypes from 'prop-types'
@@ -16,6 +15,7 @@ import classMenuAction from '../../actions/classMenu.action'
 import getTime from '../../util/getTime'
 import multiPeerAction from '../../actions/multiPeer.action'
 import getHash from '../../util/getHash'
+import Button from '../../components/Button'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -95,7 +95,7 @@ class TrueFalse extends Component {
 
   render() {
     const questionType = '是非題'
-    const submit = '發布'
+    const submit = '發佈問題'
     return (
       <View style={styles.container}>
         <Appbar title={questionType} withDrawer
@@ -121,14 +121,10 @@ class TrueFalse extends Component {
                 onValueChange={ value => this.setState({ value })} />  是
             </Text>
           </View>
-          <TouchableOpacity
-            style={styles.truefalsesubmitCon}
-            onPress={this.onPressSubmit}
-          >
-            <Text style={styles.submit}>
-              {submit}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.truefalsesubmitCon}></View>
+          <View style={styles.truefalsesubmitCon}>
+            <Button label={submit} onPress={this.onPressSubmit}/>
+          </View>
         </View>
       </View>
     )
