@@ -7,11 +7,6 @@ import styles from '../styles/Question.style'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar.component'
 
-const mapStateToProps = state => ({
-  status: state.account.status,
-  ...state,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
@@ -43,7 +38,6 @@ Stat.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  status: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stat)
+export default connect(mapDispatchToProps)(Stat)

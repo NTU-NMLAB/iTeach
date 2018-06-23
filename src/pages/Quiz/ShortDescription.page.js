@@ -9,7 +9,7 @@ import Appbar from '../../components/Appbar.component'
 
 const mapStateToProps = state => ({
   status: state.account.status,
-  ...state,
+  courseName: state.course.courseName,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -31,7 +31,7 @@ class ShortDescription extends Component {
         <View style={styles.textContainer}>
           <Text style={styles.text}>
             歡迎進入隨堂測驗{'\n'}
-            課程：{this.props.course.courseName}{'\n'}
+            課程：{this.props.courseName}{'\n'}
             題型：{questionType}
           </Text>
         </View>
@@ -45,8 +45,7 @@ ShortDescription.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  course: PropTypes.object.isRequired,
-  quizItem: PropTypes.object,
+  courseName: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
 }
 

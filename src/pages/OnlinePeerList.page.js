@@ -17,7 +17,6 @@ const mapStateToProps = state => ({
   status: state.account.status,
   multiPeer: state.multiPeer,
   courseName: state.course.courseName,
-  ...state,
 })
 
 const mapDispatchToProps = dispatch => ({

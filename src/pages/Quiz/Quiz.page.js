@@ -15,7 +15,7 @@ import StudentHistoryItem from '../../components/StudentHistoryItem.component'
 const mapStateToProps = state => ({
   status: state.account.status,
   courseName: state.course.courseName,
-  ...state,
+  classList: state.classMenu.classList,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -55,7 +55,7 @@ class Quiz extends Component {
 
   historyOnPress = (questionID) => {
     const courseData =
-      this.props.classMenu.classList.find(item => item.title === this.props.courseName)
+      this.props.classList.find(item => item.title === this.props.courseName)
     const quizData =
       courseData.studentQuizHistory.find(item => item.questionID === questionID)
     switch (quizData.questionType) {
@@ -77,7 +77,7 @@ class Quiz extends Component {
 
   render() {
     const courseData =
-      this.props.classMenu.classList.find(item => item.title === this.props.courseName)
+      this.props.classList.find(item => item.title === this.props.courseName)
     return (
       <View style={styles.container}>
         <Appbar title={'隨堂測驗'} withDrawer
@@ -131,10 +131,9 @@ Quiz.propTypes = {
   quizItemAction: PropTypes.shape({
     setName: PropTypes.func.isRequired,
   }).isRequired,
-  course: PropTypes.object.isRequired,
   quizItem: PropTypes.object,
   status: PropTypes.string.isRequired,
-  classMenu: PropTypes.object.isRequired,
+  classList: PropTypes.array.isRequired,
   courseName: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,
 }

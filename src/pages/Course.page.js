@@ -23,10 +23,11 @@ import mockDownloadData from '../../asset/mockDownloadData.json'
 const mapStateToProps = state => ({
   peers: state.multiPeer.peers,
   status: state.account.status,
-  mul: state.multiPeer,
+  multiPeer: state.multiPeer,
+  courseItem: state.courseItem,
+  drawLots: state.drawLots,
   courseName: state.course.courseName,
   classMenu: state.classMenu,
-  ...state,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -85,12 +86,12 @@ class Course extends Component {
     const {
       status,
       multiPeer,
-      course,
+      courseName,
       courseItem,
     } = this.props
     switch (id) {
     case 5:
-      if (typeof multiPeer.courses[course.courseName] === 'undefined') {
+      if (typeof multiPeer.courses[courseName] === 'undefined') {
         this.props.drawLotsAction.setNoStudent()
         return
       }
@@ -121,7 +122,7 @@ class Course extends Component {
     const { courseItem, drawLots } = this.props
     return (
       <View style={styles.container}>
-        <Appbar title={this.props.course.courseName} withDrawer
+        <Appbar title={this.props.courseName} withDrawer
           rightIcon={CloseImage}
           onRightPress={ () => {
             if (this.props.status === 'teacher' && this.props.courseItem.courseItem[1].onclick) {
@@ -182,11 +183,9 @@ Course.propTypes = {
   multiPeer: PropTypes.shape({
     peers: PropTypes.object.isRequired,
   }).isRequired,
-  course: PropTypes.object.isRequired,
   courseItem: PropTypes.object.isRequired,
   status: PropTypes.string.isRequired,
   peers: PropTypes.object.isRequired,
-  mul: PropTypes.object.isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,

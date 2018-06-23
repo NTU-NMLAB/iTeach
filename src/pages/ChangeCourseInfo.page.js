@@ -19,7 +19,6 @@ import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 
 const mapStateToProps = state => ({
-  // ...state.course,
   status: state.account.status,
   classList: state.classMenu.classList,
   courseName: state.course.courseName,

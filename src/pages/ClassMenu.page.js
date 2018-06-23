@@ -18,15 +18,15 @@ import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   account: state.account,
-  ...state.classMenu,
+  classList: state.classMenu.classList,
 })
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    searchPage: (info = {}) => {
+    searchPage: () => {
       dispatch(navAction.searchPage())
-      dispatch(multiPeerAction.student.startSearch(info))
+      dispatch(multiPeerAction.student.startSearch())
     },
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
   },
@@ -89,7 +89,7 @@ class ClassMenu extends Component {
   }
 
   onPressSearchPage = () => {
-    this.props.navAction.searchPage(this.props.info)
+    this.props.navAction.searchPage()
   }
 
 
