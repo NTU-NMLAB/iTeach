@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     onExit: () => dispatch(navAction.courseHome()),
-    changeCourseInfo: () => { dispatch(navAction.changeCourseInfo()) },
+    editCourseInfo: () => { dispatch(navAction.editCourseInfo()) },
   },
 })
 
@@ -32,7 +32,7 @@ class CourseInfo extends Component {
   }
 
   onPressModify = () => {
-    this.props.navAction.changeCourseInfo()
+    this.props.navAction.editCourseInfo()
   }
 
   render() {
@@ -111,7 +111,7 @@ class CourseInfo extends Component {
 CourseInfo.propTypes = {
   navAction: PropTypes.shape({
     onExit: PropTypes.func.isRequired,
-    changeCourseInfo: PropTypes.func.isRequired,
+    editCourseInfo: PropTypes.func.isRequired,
   }),
   isTeacher: PropTypes.bool.isRequired,
   classList: PropTypes.array.isRequired,

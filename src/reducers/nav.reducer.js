@@ -32,9 +32,9 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'AddCourse' }), state.nav),
   }),
-  changeCourseInfo: state => ({
+  editCourseInfo: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ChangeCourseInfo' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'EditCourseInfo' }), state.nav),
   }),
   onlinePeerList: state => ({
     ...state,

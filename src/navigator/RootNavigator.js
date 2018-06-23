@@ -19,7 +19,7 @@ import Multi from '../pages/Quiz/Multi.page'
 import TrueFalse from '../pages/Quiz/TrueFalse.page'
 import ShortDescription from '../pages/Quiz/ShortDescription.page'
 import HistoryRecord from '../pages/Quiz/HistoryRecord.page'
-import ChangeCourseInfo from '../pages/ChangeCourseInfo.page'
+import EditCourseInfo from '../pages/EditCourseInfo.page'
 import SingleAnswerPage from '../pages/Quiz/SingleAnswer.page'
 import MultiAnswerPage from '../pages/Quiz/MultiAnswer.page'
 import TrueFalseAnswerPage from '../pages/Quiz/TrueFalseAnswer.page'
@@ -35,8 +35,8 @@ export default SwitchNavigator({
   AddCourse: {
     screen: AddCourse,
   },
-  ChangeCourseInfo: {
-    screen: ChangeCourseInfo,
+  EditCourseInfo: {
+    screen: EditCourseInfo,
   },
   FileUpload: {
     screen: FileUpload,

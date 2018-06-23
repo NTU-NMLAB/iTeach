@@ -29,7 +29,7 @@ const { nav } = createActions({
       return actionIn.trim()
     },
     backToDraw: () => null,
-    changeCourseInfo: () => null,
+    editCourseInfo: () => null,
     historyRecord: () => null,
     fileUpload: () => null,
     fileDownload: () => null,

@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class ChangeCourseInfo extends Component {
+class EditCourseInfo extends Component {
   constructor(props) {
     super(props)
     const { classList, courseName } = props
@@ -257,7 +257,7 @@ class ChangeCourseInfo extends Component {
   }
 }
 
-ChangeCourseInfo.propTypes = {
+EditCourseInfo.propTypes = {
   addCourseAction: PropTypes.shape({
     update: PropTypes.func.isRequired,
   }).isRequired,
@@ -269,4 +269,4 @@ ChangeCourseInfo.propTypes = {
   courseName: PropTypes.string.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangeCourseInfo)
+export default connect(mapStateToProps, mapDispatchToProps)(EditCourseInfo)
