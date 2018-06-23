@@ -14,7 +14,7 @@ import navAction from '../actions/nav.action'
 import OnlineListItem from '../components/OnlineListItem.component'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   multiPeer: state.multiPeer,
   courseName: state.course.courseName,
 })
@@ -92,7 +92,7 @@ OnlinePeerList.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   multiPeer: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,
 }

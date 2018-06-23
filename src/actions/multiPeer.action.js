@@ -6,16 +6,16 @@ import appConstants from '../submodule/react-native-multipeer/constants/App.cons
 
 const getStudentPeerInfo = state => ({
   service: appConstants.SERVICE_TYPE,
-  identity: 'student',
-  username: state.account.username,
+  isTeacher: 'false',
+  username: state.profile.username,
   course: state.course.courseName,
   color: getRandomColor(),
 })
 
 const getTeacherPeerInfo = state => ({
   service: appConstants.SERVICE_TYPE,
-  identity: 'teacher',
-  username: state.account.username,
+  isTeacher: 'true',
+  username: state.profile.username,
   course: state.course.courseName,
   color: getRandomColor(),
 })
@@ -73,20 +73,17 @@ const { multiPeer } = createActions({
       onPeerStateChange: (peer, change) => (dispatch, getState) => {
         // change: found, lost
         const state = getState()
-        const identity = state.account.status
-        if (identity === 'teacher') {
+        if (state.profile.isTeacher) {
           if (change === 'found' && state.multiPeer.status === PeerStatus.RELEASING
             && peer.info.service === appConstants.SERVICE_TYPE) {
             const info = getTeacherPeerInfo(state)
             info.releasing = true
             dispatch(multiPeer.backend.invite(peer.id, info))
           }
-        } else if (identity === 'student') {
-          if (change === 'found') {
-            // TODO
-          } else if (change === 'lost') {
-            // TODO
-          }
+        } else if (change === 'found') {
+          // TODO
+        } else if (change === 'lost') {
+          // TODO
         }
       },
     },

@@ -22,7 +22,7 @@ import mockDownloadData from '../../asset/mockDownloadData.json'
 
 const mapStateToProps = state => ({
   peers: state.multiPeer.peers,
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   multiPeer: state.multiPeer,
   courseItem: state.courseItem,
   drawLots: state.drawLots,
@@ -33,9 +33,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: (identity) => {
+    onExit: (isTeacher) => {
       dispatch(navAction.classMenu())
-      dispatch(multiPeerAction[identity].exitCourse())
+      dispatch(multiPeerAction[isTeacher ? 'teacher' : 'student'].exitCourse())
     },
     enterFeature: (id) => { dispatch(navAction.enterFeature(id)) },
   },
@@ -43,8 +43,8 @@ const mapDispatchToProps = dispatch => ({
     setName: (id) => {
       dispatch(courseItemAction.setName(id))
     },
-    multiPeer: (id, status = '', onclick = false) => {
-      if (id === 1 && status === 'teacher') {
+    multiPeer: (id, isTeacher = false, onclick = false) => {
+      if (id === 1 && isTeacher === true) {
         if (onclick === false) {
           dispatch(multiPeerAction.teacher.startRelease())
         } else {
@@ -75,7 +75,7 @@ class Course extends Component {
   componentWillMount() {
     const courseData =
       this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (this.props.status === 'student' && courseData.downloadData === undefined) {
+    if (this.props.isTeacher === false && courseData.downloadData === undefined) {
       courseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
       courseData.showActivityIndicator = false
       this.props.classListAction.modify(courseData)
@@ -84,7 +84,7 @@ class Course extends Component {
 
   iconOnPress(id) {
     const {
-      status,
+      isTeacher,
       multiPeer,
       courseName,
       courseItem,
@@ -101,7 +101,7 @@ class Course extends Component {
     this.props.courseItemAction.setName(id)
     this.props.courseItemAction.multiPeer(
       id,
-      status,
+      isTeacher,
       courseItem.courseItem[1].onclick,
     )
     this.props.navAction.enterFeature(id)
@@ -125,29 +125,42 @@ class Course extends Component {
         <Appbar title={this.props.courseName} withDrawer
           rightIcon={CloseImage}
           onRightPress={ () => {
-            if (this.props.status === 'teacher' && this.props.courseItem.courseItem[1].onclick) {
+            if (this.props.isTeacher === true && this.props.courseItem.courseItem[1].onclick) {
               this.props.courseItemAction.setName(1)
               this.props.courseItemAction.multiPeer(
                 1,
-                this.props.status,
+                this.props.isTeacher,
                 this.props.courseItem.courseItem[1].onclick,
               )
             }
-            this.props.navAction.onExit(this.props.status)
+            this.props.navAction.onExit(this.props.isTeacher)
           } }/>
         <View style={styles.itemContainer}>
-          {CourseItemData.filter(item => item.user.includes(this.props.status))
-            .map(item => (
-              <CourseItem
-                key={item.id} id={item.id}
-                title={courseItem.courseItem[item.id].onclick
-                  ? courseItem.courseItem[item.id].title[1]
-                  : courseItem.courseItem[item.id].title[0]}
-                imgSrc={courseItem.courseItem[item.id].onclick
-                  ? courseItem.courseItem[item.id].imgSrc[1]
-                  : courseItem.courseItem[item.id].imgSrc[0]}
-                onPress={this.iconOnPress.bind(this)}/>
-            ))
+          {this.props.isTeacher === true ?
+            CourseItemData.filter(item => item.user.includes('teacher'))
+              .map(item => (
+                <CourseItem
+                  key={item.id} id={item.id}
+                  title={courseItem.courseItem[item.id].onclick
+                    ? courseItem.courseItem[item.id].title[1]
+                    : courseItem.courseItem[item.id].title[0]}
+                  imgSrc={courseItem.courseItem[item.id].onclick
+                    ? courseItem.courseItem[item.id].imgSrc[1]
+                    : courseItem.courseItem[item.id].imgSrc[0]}
+                  onPress={this.iconOnPress.bind(this)}/>
+              )) :
+            CourseItemData.filter(item => item.user.includes('student'))
+              .map(item => (
+                <CourseItem
+                  key={item.id} id={item.id}
+                  title={courseItem.courseItem[item.id].onclick
+                    ? courseItem.courseItem[item.id].title[1]
+                    : courseItem.courseItem[item.id].title[0]}
+                  imgSrc={courseItem.courseItem[item.id].onclick
+                    ? courseItem.courseItem[item.id].imgSrc[1]
+                    : courseItem.courseItem[item.id].imgSrc[0]}
+                  onPress={this.iconOnPress.bind(this)}/>
+              ))
           }
         </View>
         <Modal
@@ -184,7 +197,7 @@ Course.propTypes = {
     peers: PropTypes.object.isRequired,
   }).isRequired,
   courseItem: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   peers: PropTypes.object.isRequired,
   classMenu: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,

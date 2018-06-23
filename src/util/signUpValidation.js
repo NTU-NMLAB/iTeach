@@ -3,8 +3,7 @@ errorCode:
 0: No error
 1: Username error
 2: Email error
-3: Status error
-4: Unexpected error
+3: Unexpected error
 */
 
 function checkUserName(username) {
@@ -31,12 +30,12 @@ function checkUserName(username) {
   }
   return {
     valid: false,
-    errorCode: 4,
+    errorCode: 3,
     description: '意外狀況發生，請聯絡工程師。',
   }
 }
 
-function checkEmail(email, status) {
+function checkEmail(email, isTeacher) {
   const ntuEmail = '@ntu.edu.tw' // 臺大信箱格式
   // 正則表達式用以判斷學生的學號格式
   // 關於學號格式，參見：http://www.aca.ntu.edu.tw/aca2012/reg/services/serno.htm
@@ -53,7 +52,7 @@ function checkEmail(email, status) {
       errorCode: 2,
       description: 'E-mail須符合臺大信箱格式。',
     }
-  } else if (status === 'student') { // 判斷是否為學生，若為學生則檢查其學號格式
+  } else if (isTeacher === false) { // 判斷是否為學生，若為學生則檢查其學號格式
     if (!regExpStudent.test(email)) { // 不滿足學號格式
       return {
         valid: false,
@@ -67,7 +66,7 @@ function checkEmail(email, status) {
         description: null,
       }
     }
-  } else if (status === 'teacher') { // 若身份是教師，則不須進一步檢查
+  } else if (isTeacher === true) { // 若身份是教師，則不須進一步檢查
     return {
       valid: true,
       errorCode: 0,
@@ -76,27 +75,21 @@ function checkEmail(email, status) {
   }
   return {
     valid: false,
-    errorCode: 4,
+    errorCode: 3,
     description: '意外狀況發生，請聯絡工程師。',
   }
 }
 
-export default function signUpValidation(accountInfo) {
+export default function signUpValidation(profile) {
   // 判斷是否有填寫身份
-  if (accountInfo.status === '') {
-    return {
-      valid: false,
-      errorCode: 3,
-      description: '身份欄未填寫。',
-    }
-  } else if (!checkUserName(accountInfo.username).valid) { // 判斷暱稱格式
-    return checkUserName(accountInfo.username)
-  } else if (checkUserName(accountInfo.username).valid) { // 判斷E-mail格式
-    return checkEmail(accountInfo.email, accountInfo.status)
+  if (!checkUserName(profile.username).valid) { // 判斷暱稱格式
+    return checkUserName(profile.username)
+  } else if (checkUserName(profile.username).valid) { // 判斷E-mail格式
+    return checkEmail(profile.email, profile.isTeacher)
   }
   return { // 理論上用不到的return
     valid: false,
-    errorCode: 4,
+    errorCode: 3,
     description: '意外狀況發生，請聯絡工程師。',
   }
 }

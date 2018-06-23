@@ -6,7 +6,7 @@ import styles from './styles/DrawerContainer.style'
 import navAction from '../actions/nav.action'
 
 const mapStateToProps = state => ({
-  username: state.account.username,
+  username: state.profile.username,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -17,7 +17,7 @@ import multiPeerAction from '../actions/multiPeer.action'
 // import mockNewClass from '../../asset/mockNewClass.json'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   peers: state.multiPeer.peers,
   courseName: state.course.courseName,
 })
@@ -69,10 +69,10 @@ class SearchPage extends Component {
         title: info.course,
         teacher: info.username,
         color: info.color,
-        identity: info.identity,
+        isTeacher: info.isTeacher === 'true',
         connected: this.props.peers[i].connected,
       }
-    }).filter(item => (item.identity === 'teacher' && item.connected === true))
+    }).filter(item => (item.isTeacher && item.connected === true))
   }
 
   render() {
@@ -109,7 +109,7 @@ SearchPage.propTypes = {
   classListAction: PropTypes.shape({
     add: PropTypes.func.isRequired,
   }).isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   peers: PropTypes.object.isRequired,
   courseName: PropTypes.string.isRequired,
 }

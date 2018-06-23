@@ -18,7 +18,7 @@ import getHash from '../../util/getHash'
 import Button from '../../components/Button.component'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   courseName: state.course.courseName,
   classMenu: state.classMenu,
   course: state.course,
@@ -254,7 +254,7 @@ Multi.propTypes = {
   classList: PropTypes.array.isRequired,
   classListAction: PropTypes.object.isRequired,
   course: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   multiPeer: PropTypes.shape({
     courses: PropTypes.object.isRequired,
     peers: PropTypes.object.isRequired,

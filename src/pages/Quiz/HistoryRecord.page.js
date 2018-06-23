@@ -10,7 +10,7 @@ import HistoryItem from '../../components/HistoryItem.component'
 // import mockQuizHistory from '../../../asset/mockQuizHistory.json'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   courseName: state.course.courseName,
   course: state.course,
   classMenu: state.classMenu,
@@ -77,7 +77,7 @@ HistoryRecord.propTypes = {
   courseName: PropTypes.string.isRequired,
   classList: PropTypes.array.isRequired,
   course: PropTypes.object.isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryRecord)

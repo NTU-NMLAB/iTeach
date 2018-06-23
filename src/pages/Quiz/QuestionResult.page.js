@@ -40,4 +40,4 @@ Stat.propTypes = {
   }).isRequired,
 }
 
-export default connect(mapDispatchToProps)(Stat)
+export default connect(undefined, mapDispatchToProps)(Stat)

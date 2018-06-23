@@ -13,7 +13,7 @@ import navAction from '../actions/nav.action'
 import closeImage from '../../asset/close.png'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   classList: state.classMenu.classList,
   courseName: state.course.courseName,
 })
@@ -36,7 +36,7 @@ class CourseInfo extends Component {
   }
 
   render() {
-    const { classList, courseName, status } = this.props
+    const { classList, courseName, isTeacher } = this.props
     const courseInfo = classList.find(item => item.title === courseName)
     const {
       color,
@@ -63,7 +63,7 @@ class CourseInfo extends Component {
           </View>
           <View style={styles.infoContainer}>
             {
-              status === 'student' &&
+              isTeacher === false &&
               <View style={styles.infoRowContainer}>
                 <Text style={styles.text}>
                   授課老師 ：{teacher}
@@ -97,7 +97,7 @@ class CourseInfo extends Component {
             </View>
           </View>
           {
-            status === 'teacher' &&
+            isTeacher === true &&
             <View style={styles.infoRowContainer}>
               <Button label='修改' onPress={this.onPressModify} />
             </View>
@@ -113,7 +113,7 @@ CourseInfo.propTypes = {
     onExit: PropTypes.func.isRequired,
     changeCourseInfo: PropTypes.func.isRequired,
   }),
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   classList: PropTypes.array.isRequired,
   courseName: PropTypes.string.isRequired,
 }

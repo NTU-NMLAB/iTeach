@@ -13,7 +13,7 @@ import Appbar from '../../components/Appbar.component'
 import StudentHistoryItem from '../../components/StudentHistoryItem.component'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   courseName: state.course.courseName,
   classList: state.classMenu.classList,
 })
@@ -83,9 +83,9 @@ class Quiz extends Component {
         <Appbar title={'隨堂測驗'} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (this.props.status === 'teacher') ? (
+        { (this.props.isTeacher === true) ? (
           <View style={styles.itemContainer}>
-            {QuizItemData.filter(item => item.user.includes(this.props.status))
+            {QuizItemData.filter(item => item.user.includes('teacher'))
               .map(item => (
                 <QuizItem
                   key={item.id} id={item.id}
@@ -132,7 +132,7 @@ Quiz.propTypes = {
     setName: PropTypes.func.isRequired,
   }).isRequired,
   quizItem: PropTypes.object,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   classList: PropTypes.array.isRequired,
   courseName: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,

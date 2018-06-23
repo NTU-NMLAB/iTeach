@@ -12,16 +12,16 @@ import Button from '../components/Button.component'
 import TextFormInput from '../components/TextFormInput.component'
 import styles from './styles/Register.style'
 import signUpValidation from '../util/signUpValidation'
-import accountAction from '../actions/account.action'
+import profileAction from '../actions/profile.action'
 
 const mapStateToProps = state => ({
-  ...state.account,
+  ...state.profile,
   initComplete: state.initComplete,
 })
 
 const mapDispatchToProps = dispatch => ({
-  accountAction: {
-    save: (info) => { dispatch(accountAction.save(info)) },
+  profileAction: {
+    save: (info) => { dispatch(profileAction.save(info)) },
   },
 })
 
@@ -29,7 +29,7 @@ class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: '',
+      isTeacher: false,
       username: '',
       email: '',
     }
@@ -60,19 +60,19 @@ class Register extends Component {
         break
       case 3:
         this.setState({
-          status: '',
+          isTeacher: false,
         })
         break
       default:
         this.setState({
-          status: '',
+          isTeacher: false,
           username: '',
           email: '',
         })
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.accountAction.save(this.state)
+      this.props.profileAction.save(this.state)
     }
   }
 
@@ -88,10 +88,10 @@ class Register extends Component {
           <Picker
             style={styles.picker}
             textStyle={styles.text}
-            selectedValue={this.state.status}
-            onValueChange={(itemValue) => { this.setState({ status: itemValue }) }}>
-            <Picker.Item label='老師' value='teacher' />
-            <Picker.Item label='學生' value='student' />
+            selectedValue={this.state.isTeacher}
+            onValueChange={(value) => { this.setState({ isTeacher: value }) }}>
+            <Picker.Item label='老師' value={true} />
+            <Picker.Item label='學生' value={false} />
           </Picker>
           <TextFormInput
             label='暱稱 :'
@@ -109,7 +109,7 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  accountAction: PropTypes.shape({
+  profileAction: PropTypes.shape({
     save: PropTypes.func.isRequired,
   }).isRequired,
   username: PropTypes.string.isRequired,

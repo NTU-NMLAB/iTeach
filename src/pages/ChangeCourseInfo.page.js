@@ -19,10 +19,10 @@ import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   classList: state.classMenu.classList,
   courseName: state.course.courseName,
-  account: state.account,
+  profile: state.profile,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -264,7 +264,7 @@ ChangeCourseInfo.propTypes = {
   nav: PropTypes.shape({
     course: PropTypes.func.isRequired,
   }).isRequired,
-  account: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
   courseName: PropTypes.string.isRequired,
 }

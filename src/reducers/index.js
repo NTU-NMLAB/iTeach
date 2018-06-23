@@ -3,7 +3,7 @@ import nav from './nav.reducer'
 import course from './course.reducer'
 import courseItem from './courseItem.reducer'
 import classMenu from './classMenu.reducer'
-import account from './account.reducer'
+import profile from './profile.reducer'
 import RootNavigator from '../navigator/RootNavigator'
 import onlinePeerList from './onlinePeerList.reducer'
 import multiPeer from '../submodule/react-native-multipeer/reducers/MultiPeer.reducer'
@@ -17,7 +17,7 @@ const initialState = {
   classMenu: classMenu.initialState,
   course: course.initialState,
   courseItem: courseItem.initialState,
-  account: account.initialState,
+  profile: profile.initialState,
   onlinePeerList: onlinePeerList.initialState,
   multiPeer: multiPeer.initialState,
   drawLots: drawLots.initialState,
@@ -32,7 +32,7 @@ const reducerMap = {
   classMenu: classMenu.reducerMap,
   course: course.reducerMap,
   courseItem: courseItem.reducerMap,
-  account: account.reducerMap,
+  profile: profile.reducerMap,
   onlinePeerList: onlinePeerList.reducerMap,
   multiPeer: multiPeer.reducerMap,
   drawLots: drawLots.reducerMap,

@@ -17,7 +17,7 @@ import Appbar from '../components/Appbar.component'
 import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
-  account: state.account,
+  profile: state.profile,
   classList: state.classMenu.classList,
 })
 
@@ -43,7 +43,7 @@ const mapDispatchToProps = dispatch => ({
   },
   courseAction: {
     setName: (title) => { dispatch(courseAction.setName(title)) },
-    openCourse: (identity) => { dispatch(multiPeerAction[identity].openCourse()) },
+    openCourse: (isTeacher) => { dispatch(multiPeerAction[isTeacher ? 'teacher' : 'student'].openCourse()) },
   },
 })
 
@@ -80,7 +80,7 @@ class ClassMenu extends Component {
 
   onPress(classItem) {
     this.props.courseAction.setName(classItem.title)
-    this.props.courseAction.openCourse(this.props.account.status)
+    this.props.courseAction.openCourse(this.props.profile.isTeacher)
     this.props.classListAction.modify(classItem, classItem.title)
   }
 
@@ -97,14 +97,14 @@ class ClassMenu extends Component {
     return (
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
-          rightIcon={this.props.account.status === 'teacher' ? AddImage : SearchImage}
-          onRightPress={this.props.account.status === 'teacher' ? this.onPressAddPage : this.onPressSearchPage}/>
+          rightIcon={this.props.profile.isTeacher === true ? AddImage : SearchImage}
+          onRightPress={this.props.profile.isTeacher === true ? this.onPressAddPage : this.onPressSearchPage}/>
         <View style={styles.listContainer}>
           <View style={[styles.welcomeMsgContainer, { display: this.props.classList.length === 0 ? 'flex' : 'none' }]}>
             <Text style={styles.welcomeMsg}>{`
               (歡迎訊息)
               歡迎使用 iTeach
-              請利用右上方按鈕`}{this.props.account.status === 'teacher' ? '新增' : '搜尋'}課程
+              請利用右上方按鈕`}{this.props.profile.isTeacher === true ? '新增' : '搜尋'}課程
             </Text>
           </View>
           <FlatList
@@ -145,7 +145,7 @@ ClassMenu.propTypes = {
     setName: PropTypes.func.isRequired,
     openCourse: PropTypes.func.isRequired,
   }).isRequired,
-  account: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
   classList: PropTypes.array.isRequired,
 }
 

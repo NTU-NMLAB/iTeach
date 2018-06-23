@@ -20,7 +20,7 @@ import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 
 const mapStateToProps = state => ({
-  account: state.account,
+  profile: state.profile,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -38,7 +38,7 @@ class AddNewCourse extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      teacher: props.account.username,
+      teacher: props.profile.username,
       title: '',
       color: getRandomColor(),
       year: new Date().getFullYear() - 1911,
@@ -249,7 +249,7 @@ AddNewCourse.propTypes = {
   nav: PropTypes.shape({
     classMenu: PropTypes.func.isRequired,
   }).isRequired,
-  account: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewCourse)

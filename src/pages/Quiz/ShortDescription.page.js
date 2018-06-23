@@ -8,7 +8,7 @@ import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar.component'
 
 const mapStateToProps = state => ({
-  status: state.account.status,
+  isTeacher: state.profile.isTeacher,
   courseName: state.course.courseName,
 })
 
@@ -46,7 +46,7 @@ ShortDescription.propTypes = {
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   courseName: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShortDescription)

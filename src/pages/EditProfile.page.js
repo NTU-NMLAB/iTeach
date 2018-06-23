@@ -10,16 +10,16 @@ import Button from '../components/Button.component'
 import TextFormInput from '../components/TextFormInput.component'
 import styles from './styles/Register.style'
 import signUpValidation from '../util/signUpValidation'
-import accountAction from '../actions/account.action'
+import profileAction from '../actions/profile.action'
 import navAction from '../actions/nav.action'
 
 const mapStateToProps = state => ({
-  ...state.account,
+  ...state.profile,
 })
 
 const mapDispatchToProps = dispatch => ({
-  accountAction: {
-    set: (info) => { dispatch(accountAction.save(info)) },
+  profileAction: {
+    set: (info) => { dispatch(profileAction.save(info)) },
   },
   navAction: {
     classMenu: () => { dispatch(navAction.classMenu()) },
@@ -30,7 +30,7 @@ class EditProfile extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      status: this.props.status,
+      isTeacher: this.props.isTeacher,
       username: this.props.username,
       email: this.props.email,
     }
@@ -72,7 +72,7 @@ class EditProfile extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.accountAction.set(this.state)
+      this.props.profileAction.set(this.state)
     }
   }
 
@@ -99,13 +99,13 @@ class EditProfile extends Component {
 }
 
 EditProfile.propTypes = {
-  accountAction: PropTypes.shape({
+  profileAction: PropTypes.shape({
     set: PropTypes.func.isRequired,
   }).isRequired,
   navAction: PropTypes.shape({
     classMenu: PropTypes.func.isRequired,
   }).isRequired,
-  status: PropTypes.string.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
 }
