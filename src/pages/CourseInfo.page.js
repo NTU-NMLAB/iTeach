@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
-    onExit: () => dispatch(navAction.course()),
+    onExit: () => dispatch(navAction.courseHome()),
     changeCourseInfo: () => { dispatch(navAction.changeCourseInfo()) },
   },
 })

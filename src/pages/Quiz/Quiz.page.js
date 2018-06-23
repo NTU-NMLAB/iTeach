@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: () => { dispatch(navAction.course()) },
+    onExit: () => { dispatch(navAction.courseHome()) },
     enterQuestion: (id) => { dispatch(navAction.enterQuestion(id)) },
     singleAnswerPage: (quizData) => { dispatch(navAction.singleAnswerPage(quizData)) },
     multiAnswerPage: (quizData) => { dispatch(navAction.multiAnswerPage(quizData)) },

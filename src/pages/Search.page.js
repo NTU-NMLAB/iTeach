@@ -19,7 +19,6 @@ import multiPeerAction from '../actions/multiPeer.action'
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
   peers: state.multiPeer.peers,
-  courseName: state.course.courseName,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -111,7 +110,6 @@ SearchPage.propTypes = {
   }).isRequired,
   isTeacher: PropTypes.bool.isRequired,
   peers: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)

@@ -67,7 +67,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class Course extends Component {
+class CourseHome extends Component {
   getPeerInfo() {
     return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
   }
@@ -176,7 +176,7 @@ class Course extends Component {
   }
 }
 
-Course.propTypes = {
+CourseHome.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
@@ -204,4 +204,4 @@ Course.propTypes = {
   classListAction: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Course)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseHome)

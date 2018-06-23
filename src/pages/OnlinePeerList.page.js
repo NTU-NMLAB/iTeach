@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => {
-      dispatch(navAction.course())
+      dispatch(navAction.courseHome())
     },
   },
 })

@@ -21,7 +21,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: () => { dispatch(navAction.course()) },
+    onExit: () => { dispatch(navAction.courseHome()) },
   },
 })
 

@@ -7,7 +7,7 @@ const initialState = {
 
 const reducerMap = {
   setName: (state, action) => {
-    const nav = RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Course' }), state.nav)
+    const nav = RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseHome' }), state.nav)
     return { ...state, nav, course: { courseName: action.payload } }
   },
 }
