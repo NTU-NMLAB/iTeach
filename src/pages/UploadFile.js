@@ -37,7 +37,7 @@ class UploadFile extends Component {
   }
   onPressChoose = () => {
     DocumentPicker.show({
-      filetype: [DocumentPickerUtil.allFiles()],
+      filetype: ['public.content'],
     }, (error, url) => {
       this.setState({ filepath: url })
     })
