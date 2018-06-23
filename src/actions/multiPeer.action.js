@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions'
-import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer'
+import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer.class'
 import MultipeerConnectivity from '../submodule/react-native-multipeer'
 import getRandomColor from '../util/getRandomColor'
 import appConstants from '../submodule/react-native-multipeer/constants/App.constant'

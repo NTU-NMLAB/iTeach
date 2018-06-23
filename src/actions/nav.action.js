@@ -1,6 +1,6 @@
 import { createActions } from 'redux-actions'
-import CourseItemData from '../components/CourseItemData'
-import QuizItemData from '../components/QuizItemData'
+import CourseItemData from '../components/CourseItemData.component'
+import QuizItemData from '../components/QuizItemData.const'
 
 /*  if you call nav.openDrawer()
     the returned action will be
