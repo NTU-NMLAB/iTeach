@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Text, Switch, Alert } from 'react-native'
+import { View, Text, Switch } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Question.styles'
@@ -78,7 +78,10 @@ class TrueFalseAnswerPage extends Component {
                 }} />  是
             </Text>
           </View>
-          <Button label={submit} onPress={this.onPressSubmit} invalid={invalidPress}/>
+          <View style={styles.truefalsesubmitCon}></View>
+          <View style={styles.truefalsesubmitCon}>
+            <Button label={submit} onPress={this.onPressSubmit} invalid={invalidPress}/>
+          </View>
         </View>
       </View>
     )

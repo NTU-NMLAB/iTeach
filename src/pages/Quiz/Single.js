@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {
   View,
   Text,
-  TouchableOpacity,
   TextInput,
 } from 'react-native'
 import PropTypes from 'prop-types'
@@ -15,6 +14,7 @@ import classMenuAction from '../../actions/classMenu.action'
 import getTime from '../../util/getTime'
 import multiPeerAction from '../../actions/multiPeer.action'
 import getHash from '../../util/getHash'
+import Button from '../../components/Button'
 
 const mapStateToProps = state => ({
   status: state.account.status,
@@ -107,7 +107,7 @@ class Single extends Component {
 
   render() {
     const questionType = '單選題'
-    const submit = '發布'
+    const submit = '發佈問題'
     return (
       <View style={styles.container}>
         <Appbar title={questionType} withDrawer
@@ -171,14 +171,8 @@ class Single extends Component {
               placeholder='錯誤答案'
             />
           </View>
-          <TouchableOpacity
-            style={styles.singlesubmitCon}
-            onPress={this.onPressSubmit}
-          >
-            <Text style={styles.submit}>
-              {submit}
-            </Text>
-          </TouchableOpacity>
+          <View style={styles.singlesubmitCon}></View>
+          <Button label={submit} onPress={this.onPressSubmit}/>
         </View>
       </View>
     )
