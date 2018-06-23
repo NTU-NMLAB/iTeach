@@ -15,7 +15,7 @@ import styles from './styles/AddCourse.style'
 import getSemester from '../util/getSemester'
 import getRandomColor from '../util/getRandomColor'
 import newCoursesValidation from '../util/newCoursesValidation'
-import addCourseAction from '../actions/addCourse.action'
+import classMenuAction from '../actions/classMenu.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 
@@ -29,8 +29,8 @@ const mapDispatchToProps = dispatch => ({
       dispatch(navAction.classMenu())
     },
   },
-  addCourseAction: {
-    save: (info) => { dispatch(addCourseAction.save(info)) },
+  classMenuAction: {
+    add: (info) => { dispatch(classMenuAction.classList.add(info)) },
   },
 })
 
@@ -97,7 +97,7 @@ class AddCourse extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.save(this.state)
+      this.props.classMenuAction.add(this.state)
     }
   }
 
@@ -243,8 +243,8 @@ class AddCourse extends Component {
 }
 
 AddCourse.propTypes = {
-  addCourseAction: PropTypes.shape({
-    save: PropTypes.func.isRequired,
+  classMenuAction: PropTypes.shape({
+    add: PropTypes.func.isRequired,
   }).isRequired,
   nav: PropTypes.shape({
     classMenu: PropTypes.func.isRequired,

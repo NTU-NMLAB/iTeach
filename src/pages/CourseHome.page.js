@@ -12,7 +12,6 @@ import navAction from '../actions/nav.action'
 import courseItemAction from '../actions/courseItem.action'
 import CourseItem from '../components/CourseItem.component'
 import CourseItemData from '../components/CourseItemData.component'
-import courseInfoAction from '../actions/courseInfo.action'
 import Appbar from '../components/Appbar.component'
 import Button from '../components/Button.component'
 import multiPeerAction from '../actions/multiPeer.action'
@@ -52,9 +51,6 @@ const mapDispatchToProps = dispatch => ({
         }
       }
     },
-  },
-  courseInfoAction: {
-    save: (info) => { dispatch(courseInfoAction.save(info)) },
   },
   drawLotsAction: {
     setNoStudent: () => { dispatch(drawLotsAction.setNoStudent()) },

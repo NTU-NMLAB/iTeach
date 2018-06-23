@@ -14,7 +14,7 @@ import Button from '../components/Button.component'
 import styles from './styles/AddCourse.style'
 import getSemester from '../util/getSemester'
 import newCoursesValidation from '../util/newCoursesValidation'
-import addCourseAction from '../actions/addCourse.action'
+import classMenuAction from '../actions/classMenu.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 
@@ -29,8 +29,8 @@ const mapDispatchToProps = dispatch => ({
   nav: {
     courseHome: () => { dispatch(navAction.courseHome()) },
   },
-  addCourseAction: {
-    update: (info, courseName) => { dispatch(addCourseAction.update(info, courseName)) },
+  classMenuAction: {
+    modify: (info, courseName) => { dispatch(classMenuAction.classList.modify(info, courseName)) },
   },
 })
 
@@ -110,8 +110,8 @@ class EditCourseInfo extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.update(this.state, this.props.courseName)
-      // this.props.nav.courseHome()
+      this.props.classMenuAction.modify(this.state, this.props.courseName)
+      this.props.nav.courseHome()
     }
   }
 
@@ -258,8 +258,8 @@ class EditCourseInfo extends Component {
 }
 
 EditCourseInfo.propTypes = {
-  addCourseAction: PropTypes.shape({
-    update: PropTypes.func.isRequired,
+  classMenuAction: PropTypes.shape({
+    modify: PropTypes.func.isRequired,
   }).isRequired,
   nav: PropTypes.shape({
     courseHome: PropTypes.func.isRequired,

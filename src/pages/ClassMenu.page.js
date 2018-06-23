@@ -29,6 +29,7 @@ const mapDispatchToProps = dispatch => ({
       dispatch(multiPeerAction.student.startSearch())
     },
     addCourse: () => { dispatch(navAction.addCourse()) },
+    courseHome: () => { dispatch(navAction.courseHome()) },
   },
   classListAction: {
     get: () => {
@@ -82,6 +83,7 @@ class ClassMenu extends Component {
     this.props.courseAction.setName(classItem.title)
     this.props.courseAction.openCourse(this.props.profile.isTeacher)
     this.props.classListAction.modify(classItem, classItem.title)
+    this.props.navAction.courseHome()
   }
 
   onPressAddPage = () => {
@@ -135,6 +137,7 @@ ClassMenu.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     courseSearch: PropTypes.func.isRequired,
     addCourse: PropTypes.func.isRequired,
+    courseHome: PropTypes.func.isRequired,
   }).isRequired,
   classListAction: PropTypes.shape({
     get: PropTypes.func.isRequired,

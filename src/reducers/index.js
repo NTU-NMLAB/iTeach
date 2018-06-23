@@ -38,7 +38,6 @@ const reducerMap = {
   drawLots: drawLots.reducerMap,
   quizItem: quizItem.reducerMap,
   quiz: quiz.reducerMap,
-  addCourse: state => state,
   editCourseInfo: state => state,
   initComplete: state => ({ ...state, initComplete: true }),
 }

@@ -4,6 +4,7 @@ import {
 } from 'react-native'
 import { createActions } from 'redux-actions'
 import navAction from '../actions/nav.action'
+import courseAction from './course.action'
 
 const { classMenu } = createActions({
   classMenu: {
@@ -12,7 +13,7 @@ const { classMenu } = createActions({
       add: classItem => (async (dispatch, getState) => {
         let success = false
         const { classList } = getState().classMenu
-        classList.splice(0, 0, classItem)
+        classList.splice(0, 0, { ...classItem, quizHistory: [] })
         await AsyncStorage.setItem('iTeachStore:Class', JSON.stringify(classList), (error) => {
           if (error) {
             Alert.alert(
@@ -52,6 +53,7 @@ const { classMenu } = createActions({
           }
         })
         if (success) {
+          dispatch(courseAction.setName(title))
           dispatch(classMenu.classList.set(classList))
         }
       }),
