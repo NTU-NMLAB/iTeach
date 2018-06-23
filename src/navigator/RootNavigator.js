@@ -14,10 +14,7 @@ import FileUpload from '../pages/FileUpload.page'
 import FileDownload from '../pages/FileDownload.page'
 import Quiz from '../pages/Quiz/Quiz.page'
 import QuestionResult from '../pages/Quiz/QuestionResult.page'
-import Single from '../pages/Quiz/Single.page'
-import Multi from '../pages/Quiz/Multi.page'
-import TrueFalse from '../pages/Quiz/TrueFalse.page'
-import ShortDescription from '../pages/Quiz/ShortDescription.page'
+import QuestionCreate from '../pages/Quiz/QuestionCreate.page'
 import HistoryRecord from '../pages/Quiz/HistoryRecord.page'
 import EditCourseInfo from '../pages/EditCourseInfo.page'
 import SingleAnswerPage from '../pages/Quiz/SingleAnswer.page'
@@ -57,17 +54,8 @@ export default SwitchNavigator({
     Quiz: {
       screen: Quiz,
     },
-    Single: {
-      screen: Single,
-    },
-    Multi: {
-      screen: Multi,
-    },
-    TrueFalse: {
-      screen: TrueFalse,
-    },
-    ShortDescription: {
-      screen: ShortDescription,
+    QuestionCreate: {
+      screen: QuestionCreate,
     },
     HistoryRecord: {
       screen: HistoryRecord,

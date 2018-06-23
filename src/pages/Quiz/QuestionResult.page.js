@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import { View, Text } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
-import styles from '../styles/Question.style'
+import styles from '../styles/Quiz.style'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar.component'
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: () => { dispatch(navAction.enterQuestion(4)) },
+    onExit: () => { dispatch(navAction.historyRecord()) },
   },
 })
 

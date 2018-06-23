@@ -22,7 +22,10 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.courseHome()) },
-    enterQuestion: (id) => { dispatch(navAction.enterQuestion(id)) },
+    enterQuestionCreate: (id, quizData) => {
+      dispatch(navAction.questionCreate(id, quizData))
+    },
+    enterHistoryRecord: () => { dispatch(navAction.historyRecord()) },
     singleAnswerPage: (quizData) => { dispatch(navAction.singleAnswerPage(quizData)) },
     multiAnswerPage: (quizData) => { dispatch(navAction.multiAnswerPage(quizData)) },
     trueFalseAnswerPage: (quizData) => { dispatch(navAction.trueFalseAnswerPage(quizData)) },
@@ -50,7 +53,21 @@ class Quiz extends Component {
 
   iconOnPress(id) {
     this.props.quizItemAction.setName(id)
-    this.props.navAction.enterQuestion(id)
+    switch (id) {
+    case 0: // TrueFalse
+    case 1: // Single
+    case 2: // Multi
+    case 3: // ShortDescription
+      this.props.navAction.enterQuestionCreate(id, {
+        courseName: this.props.courseName,
+        classList: this.props.classList,
+        classListModify: this.props.classListAction.modify,
+      })
+      break
+    case 4: // HistoryRecord
+    default:
+      this.props.navAction.enterHistoryRecord()
+    }
   }
 
   historyOnPress = (questionID) => {
@@ -89,7 +106,7 @@ class Quiz extends Component {
               .map(item => (
                 <QuizItem
                   key={item.id} id={item.id}
-                  title={item.title[0]}
+                  title={item.title}
                   imgSrc={item.imgSrc[0]}
                   onPress={this.iconOnPress.bind(this)}/>
               ))
@@ -122,7 +139,8 @@ Quiz.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
-    enterQuestion: PropTypes.func.isRequired,
+    enterQuestionCreate: PropTypes.func.isRequired,
+    enterHistoryRecord: PropTypes.func.isRequired,
     singleAnswerPage: PropTypes.func.isRequired,
     multiAnswerPage: PropTypes.func.isRequired,
     trueFalseAnswerPage: PropTypes.func.isRequired,

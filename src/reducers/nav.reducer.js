@@ -101,9 +101,15 @@ const reducerMap = {
       afterDraw: true,
     },
   }),
-  enterQuestion: (state, action) => {
+  questionCreate: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
-      NavigationActions.navigate({ routeName: action.payload }),
+      NavigationActions.navigate({
+        routeName: 'QuestionCreate',
+        params: {
+          quizItemId: action.payload.quizItemId,
+          quizData: action.payload.quizData,
+        },
+      }),
       state.nav,
     )
     return { ...state, nav }
