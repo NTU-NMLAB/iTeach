@@ -18,7 +18,6 @@ const { nav } = createActions({
     editProfile: () => null,
     classMenu: () => null,
     course: () => null,
-    channels: () => null,
     searchPage: () => null,
     addNewCourse: () => null,
     onlinePeerList: () => null,

@@ -13,7 +13,6 @@ const mapDispatchToProps = dispatch => ({
   nav: {
     classMenu: () => { dispatch(navAction.classMenu()) },
     editProfile: () => { dispatch(navAction.editProfile()) },
-    channels: () => { dispatch(navAction.channels()) },
     closeDrawer: () => { dispatch(navAction.closeDrawer()) },
   },
 })
@@ -37,11 +36,6 @@ class DrawerContainer extends Component {
             style={styles.drawerItem}>
             修改個人資料
           </Text>
-          <Text
-            onPress={this.props.nav.channels}
-            style={styles.drawerItem}>
-            切換頻道
-          </Text>
         </View>
         <View style={styles.footerContainer}>
           <Text
@@ -59,7 +53,6 @@ DrawerContainer.propTypes = {
   nav: PropTypes.shape({
     classMenu: PropTypes.func.isRequired,
     editProfile: PropTypes.func.isRequired,
-    channels: PropTypes.func.isRequired,
     closeDrawer: PropTypes.func.isRequired,
   }).isRequired,
   username: PropTypes.string.isRequired,
