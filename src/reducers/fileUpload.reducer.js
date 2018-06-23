@@ -5,7 +5,7 @@ const initialState = {
 const reducerMap = {
   initialize: state => ({
     ...state,
-    uploadFile: {
+    fileUpload: {
       fileDesc: '',
     },
   }),

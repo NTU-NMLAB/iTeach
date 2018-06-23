@@ -10,8 +10,8 @@ import OnlinePeerList from '../pages/OnlinePeerList.page'
 import CourseInfo from '../pages/CourseInfo.page'
 import DrawLots from '../pages/DrawLots.page'
 import DrawFinish from '../pages/DrawLotsFinish.page'
-import UploadFile from '../pages/UploadFile.page'
-import DownloadFile from '../pages/DownloadFile.page'
+import FileUpload from '../pages/FileUpload.page'
+import FileDownload from '../pages/FileDownload.page'
 import Quiz from '../pages/Quiz/Quiz.page'
 import QuestionResult from '../pages/Quiz/QuestionResult.page'
 import Single from '../pages/Quiz/Single.page'
@@ -38,11 +38,11 @@ export default SwitchNavigator({
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
   },
-  UploadFile: {
-    screen: UploadFile,
+  FileUpload: {
+    screen: FileUpload,
   },
-  DownloadFile: {
-    screen: DownloadFile,
+  FileDownload: {
+    screen: FileDownload,
   },
   Pages: DrawerNavigator({
     EditProfile: {
@@ -99,11 +99,11 @@ export default SwitchNavigator({
     ShortDescriptionAnswerPage: {
       screen: ShortDescriptionAnswerPage,
     },
-    UploadFile: {
-      screen: UploadFile,
+    FileUpload: {
+      screen: FileUpload,
     },
-    DownloadFile: { // Page for 檔案下載
-      screen: DownloadFile,
+    FileDownload: {
+      screen: FileDownload,
     },
   }, {
     contentComponent: DrawerContainer,

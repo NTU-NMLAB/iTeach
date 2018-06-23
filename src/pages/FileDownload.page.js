@@ -7,7 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native'
 import PropTypes from 'prop-types'
-import styles from './styles/DownloadFile.style'
+import styles from './styles/FileDownload.style'
 import navAction from '../actions/nav.action'
 import CloseImage from '../../asset/close.png'
 import Appbar from '../components/Appbar.component'
@@ -32,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class DownloadFile extends Component {
+class FileDownload extends Component {
   constructor() {
     super()
     this.FileOnPress = this.FileOnPress.bind(this)
@@ -104,7 +104,7 @@ class DownloadFile extends Component {
 
 // .propTypes  ~= constructor
 // course : proptypes.string,isRequired --> course 「必須」是string
-DownloadFile.propTypes = {
+FileDownload.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
@@ -114,4 +114,4 @@ DownloadFile.propTypes = {
   classListAction: PropTypes.object.isRequired,
 }
 //  connect react component & redux store
-export default connect(mapStateToProps, mapDispatchToProps)(DownloadFile)
+export default connect(mapStateToProps, mapDispatchToProps)(FileDownload)

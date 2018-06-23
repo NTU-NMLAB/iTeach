@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { DocumentPicker, DocumentPickerUtil } from 'react-native-document-picker'
 import PropTypes from 'prop-types'
-import styles from './styles/UploadFile.style'
+import styles from './styles/FileUpload.style'
 import navAction from '../actions/nav.action'
 import CloseImage from '../../asset/close.png'
 import Button from '../components/Button.component'
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class UploadFile extends Component {
+class FileUpload extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -78,11 +78,11 @@ class UploadFile extends Component {
 
 // .propTypes  ~= constructor
 // course : proptypes.string,isRequired --> course 「必須」是string
-UploadFile.propTypes = {
+FileUpload.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
 }
 //  connect react component & redux store
-export default connect(mapStateToProps, mapDispatchToProps)(UploadFile)
+export default connect(mapStateToProps, mapDispatchToProps)(FileUpload)
