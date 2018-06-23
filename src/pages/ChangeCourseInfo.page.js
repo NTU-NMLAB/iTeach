@@ -132,6 +132,7 @@ class ChangeCourseInfo extends Component {
                 defaultValue={this.state.title}
                 onChangeText={(title) => { this.setState({ title }) }}
                 value={this.state.course}
+                autoCapitalize = 'none'
               />
             </View>
             <View>
@@ -179,6 +180,7 @@ class ChangeCourseInfo extends Component {
                     style={styles.input}
                     onChangeText={(classroom) => { this.setState({ classroom }) }}
                     value={this.state.classroom}
+                    autoCapitalize = 'none'
                   />
                 </View>
                 <View style={styles.infoInputContainer}>
@@ -239,6 +241,7 @@ class ChangeCourseInfo extends Component {
                     style={styles.input}
                     onChangeText={(website) => { this.setState({ website }) }}
                     value={this.state.website}
+                    autoCapitalize = 'none'
                   />
                 </View>
               </View>
