@@ -28,9 +28,9 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseSearch' }), state.nav),
   }),
-  addNewCourse: state => ({
+  addCourse: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'AddNewCourse' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'AddCourse' }), state.nav),
   }),
   changeCourseInfo: state => ({
     ...state,

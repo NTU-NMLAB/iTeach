@@ -11,7 +11,7 @@ import { Picker } from 'react-native-picker-dropdown'
 import DatePicker from 'react-native-datepicker'
 import PropTypes from 'prop-types'
 import Button from '../components/Button.component'
-import styles from './styles/AddNewCourse.style'
+import styles from './styles/AddCourse.style'
 import getSemester from '../util/getSemester'
 import getRandomColor from '../util/getRandomColor'
 import newCoursesValidation from '../util/newCoursesValidation'
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class AddNewCourse extends Component {
+class AddCourse extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -242,7 +242,7 @@ class AddNewCourse extends Component {
   }
 }
 
-AddNewCourse.propTypes = {
+AddCourse.propTypes = {
   addCourseAction: PropTypes.shape({
     save: PropTypes.func.isRequired,
   }).isRequired,
@@ -252,4 +252,4 @@ AddNewCourse.propTypes = {
   profile: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddNewCourse)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCourse)
