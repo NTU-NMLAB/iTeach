@@ -1,5 +1,5 @@
 import { DrawerNavigator, SwitchNavigator } from 'react-navigation'
-import Login from '../pages/Login'
+import Register from '../pages/Register'
 import Course from '../pages/Course'
 import ClassMenu from '../pages/ClassMenu'
 import EditProfile from '../pages/EditProfile'
@@ -26,8 +26,8 @@ import TrueFalseAnswerPage from '../pages/Quiz/TrueFalseAnswerPage'
 import ShortDescriptionAnswerPage from '../pages/Quiz/ShortDescriptionAnswerPage'
 
 export default SwitchNavigator({
-  Login: {
-    screen: Login,
+  Register: {
+    screen: Register,
   },
   SearchPage: {
     screen: SearchPage,
@@ -111,5 +111,5 @@ export default SwitchNavigator({
     drawerPosition: 'left',
   }),
 }, {
-  initialRouteName: 'Login',
+  initialRouteName: 'Register',
 })

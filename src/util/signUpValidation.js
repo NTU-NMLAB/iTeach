@@ -81,18 +81,18 @@ function checkEmail(email, status) {
   }
 }
 
-export default function signUpValidation(loginState) {
+export default function signUpValidation(accountInfo) {
   // 判斷是否有填寫身份
-  if (loginState.status === '') {
+  if (accountInfo.status === '') {
     return {
       valid: false,
       errorCode: 3,
       description: '身份欄未填寫。',
     }
-  } else if (!checkUserName(loginState.username).valid) { // 判斷暱稱格式
-    return checkUserName(loginState.username)
-  } else if (checkUserName(loginState.username).valid) { // 判斷E-mail格式
-    return checkEmail(loginState.email, loginState.status)
+  } else if (!checkUserName(accountInfo.username).valid) { // 判斷暱稱格式
+    return checkUserName(accountInfo.username)
+  } else if (checkUserName(accountInfo.username).valid) { // 判斷E-mail格式
+    return checkEmail(accountInfo.email, accountInfo.status)
   }
   return { // 理論上用不到的return
     valid: false,

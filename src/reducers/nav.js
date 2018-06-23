@@ -1,7 +1,7 @@
 import { NavigationActions } from 'react-navigation'
 import RootNavigator from '../navigator/RootNavigator'
 
-const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('Login'))
+const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('Register'))
 
 const reducerMap = {
   openDrawer: state => ({

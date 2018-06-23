@@ -10,7 +10,7 @@ import PropTypes from 'prop-types'
 import Logo from '../components/Logo'
 import Button from '../components/Button'
 import TextFormInput from '../components/TextFormInput'
-import styles from './styles/Login.styles'
+import styles from './styles/Register.styles'
 import signUpValidation from '../util/signUpValidation'
 import accountAction from '../actions/account.action'
 
@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class Login extends Component {
+class Register extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -108,7 +108,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   accountAction: PropTypes.shape({
     save: PropTypes.func.isRequired,
   }).isRequired,
@@ -116,4 +116,4 @@ Login.propTypes = {
   initComplete: PropTypes.bool.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Register)
