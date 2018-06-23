@@ -4,7 +4,7 @@ import CourseHome from '../pages/CourseHome.page'
 import ClassMenu from '../pages/ClassMenu.page'
 import EditProfile from '../pages/EditProfile.page'
 import DrawerContainer from '../pages/DrawerContainer.page'
-import SearchPage from '../pages/Search.page'
+import CourseSearch from '../pages/CourseSearch.page'
 import AddNewCourse from '../pages/AddNewCourse.page'
 import OnlinePeerList from '../pages/OnlinePeerList.page'
 import CourseInfo from '../pages/CourseInfo.page'
@@ -29,8 +29,8 @@ export default SwitchNavigator({
   Register: {
     screen: Register,
   },
-  SearchPage: {
-    screen: SearchPage,
+  CourseSearch: {
+    screen: CourseSearch,
   },
   AddNewCourse: {
     screen: AddNewCourse, // Page for 新增課程

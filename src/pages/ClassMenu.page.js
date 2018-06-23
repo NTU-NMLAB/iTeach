@@ -24,8 +24,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
-    searchPage: () => {
-      dispatch(navAction.searchPage())
+    courseSearch: () => {
+      dispatch(navAction.courseSearch())
       dispatch(multiPeerAction.student.startSearch())
     },
     addNewCourse: () => { dispatch(navAction.addNewCourse()) },
@@ -53,7 +53,7 @@ class ClassMenu extends Component {
     this.cancelAllDelete = this.cancelAllDelete.bind(this)
     this.deleteClass = this.deleteClass.bind(this)
     this.onPress = this.onPress.bind(this)
-    this.onPressSearchPage = this.onPressSearchPage.bind(this)
+    this.onPressCourseSearch = this.onPressCourseSearch.bind(this)
     this.onPressAddPage = this.onPressAddPage.bind(this)
   }
 
@@ -88,8 +88,8 @@ class ClassMenu extends Component {
     this.props.navAction.addNewCourse()
   }
 
-  onPressSearchPage = () => {
-    this.props.navAction.searchPage()
+  onPressCourseSearch = () => {
+    this.props.navAction.courseSearch()
   }
 
 
@@ -98,7 +98,7 @@ class ClassMenu extends Component {
       <View style={styles.container}>
         <Appbar title='課程選單' withDrawer
           rightIcon={this.props.profile.isTeacher === true ? AddImage : SearchImage}
-          onRightPress={this.props.profile.isTeacher === true ? this.onPressAddPage : this.onPressSearchPage}/>
+          onRightPress={this.props.profile.isTeacher === true ? this.onPressAddPage : this.onPressCourseSearch}/>
         <View style={styles.listContainer}>
           <View style={[styles.welcomeMsgContainer, { display: this.props.classList.length === 0 ? 'flex' : 'none' }]}>
             <Text style={styles.welcomeMsg}>{`
@@ -133,7 +133,7 @@ class ClassMenu extends Component {
 ClassMenu.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
-    searchPage: PropTypes.func.isRequired,
+    courseSearch: PropTypes.func.isRequired,
     addNewCourse: PropTypes.func.isRequired,
   }).isRequired,
   classListAction: PropTypes.shape({

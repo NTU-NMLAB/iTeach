@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types'
 import styles from './styles/ClassItem.style'
 
-class SearchClassItem extends Component {
+class CourseSearchItem extends Component {
   render() {
     const {
       title,
@@ -35,10 +35,10 @@ class SearchClassItem extends Component {
   }
 }
 
-SearchClassItem.propTypes = {
+CourseSearchItem.propTypes = {
   title: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
 }
 
-export default SearchClassItem
+export default CourseSearchItem

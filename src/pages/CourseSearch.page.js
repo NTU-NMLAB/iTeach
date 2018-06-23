@@ -11,7 +11,7 @@ import CloseImage from '../../asset/close.png'
 import styles from './styles/ClassMenu.style'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
-import SearchClassItem from '../components/SearchClassItem.component'
+import CourseSearchItem from '../components/CourseSearchItem.component'
 import classMenuAction from '../actions/classMenu.action'
 import multiPeerAction from '../actions/multiPeer.action'
 // import mockNewClass from '../../asset/mockNewClass.json'
@@ -35,7 +35,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class SearchPage extends Component {
+class CourseSearch extends Component {
   constructor(props) {
     super(props)
     this.selectClass = this.selectClass.bind(this)
@@ -84,7 +84,7 @@ class SearchPage extends Component {
             data={ this.getCourseInfo() }
             keyExtractor={item => item.title}
             renderItem={({ item }) => (
-              <SearchClassItem
+              <CourseSearchItem
                 title={item.title}
                 teacher={item.teacher}
                 color={item.color}
@@ -101,7 +101,7 @@ class SearchPage extends Component {
   }
 }
 
-SearchPage.propTypes = {
+CourseSearch.propTypes = {
   navAction: PropTypes.shape({
     onExit: PropTypes.func.isRequired,
   }).isRequired,
@@ -112,4 +112,4 @@ SearchPage.propTypes = {
   peers: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseSearch)
