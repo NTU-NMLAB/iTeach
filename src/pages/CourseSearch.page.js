@@ -65,7 +65,8 @@ class CourseSearch extends Component {
     return Object.keys(this.props.peers).map((i) => {
       const { info } = this.props.peers[i]
       return {
-        title: info.course,
+        title: info.title,
+        courseId: info.currCourseId,
         teacher: info.username,
         color: info.color,
         isTeacher: info.isTeacher === 'true',
@@ -82,7 +83,7 @@ class CourseSearch extends Component {
           <FlatList
             style={styles.list}
             data={ this.getCourseInfo() }
-            keyExtractor={item => item.title}
+            keyExtractor={item => item.courseId}
             renderItem={({ item }) => (
               <CourseSearchItem
                 title={item.title}

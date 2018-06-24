@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Quiz.style'
 import navAction from '../../actions/nav.action'
-import quizItemAction from '../../actions/quizItem.action'
 import classMenuAction from '../../actions/classMenu.action'
 import QuizItem from '../../components/QuizItem.component'
 import QuizItemData from '../../components/QuizItemData.const'
@@ -14,8 +13,6 @@ import StudentHistoryItem from '../../components/StudentHistoryItem.component'
 
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
-  courseName: state.course.courseName,
-  classList: state.classMenu.classList,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -31,14 +28,9 @@ const mapDispatchToProps = dispatch => ({
     trueFalseAnswerPage: (quizData) => { dispatch(navAction.trueFalseAnswerPage(quizData)) },
     shortDescriptionAnswerPage: (quizData) => { dispatch(navAction.shortDescriptionAnswerPage(quizData)) },
   },
-  quizItemAction: {
-    setName: (id) => {
-      dispatch(quizItemAction.setName(id))
-    },
-  },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
+    modify: (courseData) => {
+      dispatch(classMenuAction.classList.modify(courseData))
     },
   },
 })
@@ -52,15 +44,12 @@ class Quiz extends Component {
   }
 
   iconOnPress(id) {
-    this.props.quizItemAction.setName(id)
     switch (id) {
     case 0: // TrueFalse
     case 1: // Single
     case 2: // Multi
     case 3: // ShortDescription
       this.props.navAction.enterQuestionCreate(id, {
-        courseName: this.props.courseName,
-        classList: this.props.classList,
         classListModify: this.props.classListAction.modify,
       })
       break
@@ -71,10 +60,9 @@ class Quiz extends Component {
   }
 
   historyOnPress = (questionID) => {
-    const courseData =
-      this.props.classList.find(item => item.title === this.props.courseName)
+    const { currCourseData } = this.props.navigation.state.params
     const quizData =
-      courseData.studentQuizHistory.find(item => item.questionID === questionID)
+      currCourseData.studentQuizHistory.find(item => item.questionID === questionID)
     switch (quizData.questionType) {
     case '單選題':
       this.props.navAction.singleAnswerPage(quizData)
@@ -93,8 +81,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const courseData =
-      this.props.classList.find(item => item.title === this.props.courseName)
+    const { currCourseData } = this.props.navigation.state.params
     return (
       <View style={styles.container}>
         <Appbar title={'隨堂測驗'} withDrawer
@@ -116,7 +103,7 @@ class Quiz extends Component {
           <View style={styles.listContainer}>
             <FlatList
               style={styles.list}
-              data={[...courseData.studentQuizHistory].reverse()}
+              data={[...currCourseData.studentQuizHistory].reverse()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <StudentHistoryItem
@@ -146,14 +133,15 @@ Quiz.propTypes = {
     trueFalseAnswerPage: PropTypes.func.isRequired,
     shortDescriptionAnswerPage: PropTypes.func.isRequired,
   }).isRequired,
-  quizItemAction: PropTypes.shape({
-    setName: PropTypes.func.isRequired,
-  }).isRequired,
-  quizItem: PropTypes.object,
-  isTeacher: PropTypes.bool.isRequired,
-  classList: PropTypes.array.isRequired,
-  courseName: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Quiz)

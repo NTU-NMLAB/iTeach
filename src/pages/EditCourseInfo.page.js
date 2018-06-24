@@ -18,27 +18,19 @@ import classMenuAction from '../actions/classMenu.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 
-const mapStateToProps = state => ({
-  isTeacher: state.profile.isTeacher,
-  classList: state.classMenu.classList,
-  courseName: state.course.courseName,
-  profile: state.profile,
-})
-
 const mapDispatchToProps = dispatch => ({
   nav: {
     courseHome: () => { dispatch(navAction.courseHome()) },
   },
   classMenuAction: {
-    modify: (info, courseName) => { dispatch(classMenuAction.classList.modify(info, courseName)) },
+    modify: (courseData) => { dispatch(classMenuAction.classList.modify(courseData)) },
   },
 })
 
 class EditCourseInfo extends Component {
   constructor(props) {
     super(props)
-    const { classList, courseName } = props
-    const courseInfo = classList.find(item => item.title === courseName)
+    const { currCourseData } = props.navigation.state.params
     // const {
     //   color,
     //   teacher,
@@ -49,11 +41,11 @@ class EditCourseInfo extends Component {
     //   time,
     //   website,
     // } = courseInfo
-    this.state = courseInfo
+    this.state = currCourseData
     // this.state = {
     //   color,
     //   teacher,
-    //   title: courseName,
+    //   title: courseInfo.title,
     //   year: new Date().getFullYear() - 1911,
     //   semester,
     //   classroom,
@@ -103,14 +95,14 @@ class EditCourseInfo extends Component {
         break
       default:
         this.setState({
-          course: '',
+          title: '',
           classroom: '',
           website: '',
         })
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.classMenuAction.modify(this.state, this.props.courseName)
+      this.props.classMenuAction.modify(this.state)
       this.props.nav.courseHome()
     }
   }
@@ -131,7 +123,7 @@ class EditCourseInfo extends Component {
                 style={styles.input}
                 defaultValue={this.state.title}
                 onChangeText={(title) => { this.setState({ title }) }}
-                value={this.state.course}
+                value={this.state.title}
                 autoCapitalize = 'none'
               />
             </View>
@@ -264,9 +256,13 @@ EditCourseInfo.propTypes = {
   nav: PropTypes.shape({
     courseHome: PropTypes.func.isRequired,
   }).isRequired,
-  profile: PropTypes.object.isRequired,
-  classList: PropTypes.array.isRequired,
-  courseName: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCourseInfo)
+export default connect(undefined, mapDispatchToProps)(EditCourseInfo)

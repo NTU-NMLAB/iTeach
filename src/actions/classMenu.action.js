@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 import { createActions } from 'redux-actions'
 import navAction from '../actions/nav.action'
-import courseAction from './course.action'
+import currCourseAction from './currCourse.action'
 
 const { classMenu } = createActions({
   classMenu: {
@@ -37,11 +37,11 @@ const { classMenu } = createActions({
           }
         }
       }),
-      modify: (classItem, title) => (async (dispatch, getState) => {
+      modify: courseData => (async (dispatch, getState) => {
         let success = false
         let { classList } = getState().classMenu
-        classList = classList.filter(item => item.title !== title)
-        classList.splice(0, 0, classItem)
+        classList = classList.filter(item => item.courseId !== courseData.courseId)
+        classList.splice(0, 0, courseData)
         await AsyncStorage.setItem('iTeachStore:Class', JSON.stringify(classList), (error) => {
           if (error) {
             Alert.alert(
@@ -53,14 +53,16 @@ const { classMenu } = createActions({
           }
         })
         if (success) {
-          dispatch(courseAction.setName(title))
           dispatch(classMenu.classList.set(classList))
+          if (getState().currCourse.courseId === courseData.courseId) {
+            dispatch(currCourseAction.setData(courseData))
+          }
         }
       }),
-      delete: title => (async (dispatch, getState) => {
+      delete: courseId => (async (dispatch, getState) => {
         let success = false
         let { classList } = getState().classMenu
-        classList = classList.filter(item => item.title !== title)
+        classList = classList.filter(item => item.courseId !== courseId)
         await AsyncStorage.setItem('iTeachStore:Class', JSON.stringify(classList), (error) => {
           if (error) {
             Alert.alert(

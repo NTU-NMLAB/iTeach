@@ -15,7 +15,6 @@ import Appbar from '../components/Appbar.component'
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
   multiPeerState: state.multiPeer,
-  courseState: state.course,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -37,8 +36,9 @@ class DrawLots extends Component {
     this.drawCore()
   }
   drawCore() {
-    const { drawLotsState, multiPeerState, courseState } = this.props
-    this.keysAfterShuffle = Object.keys(multiPeerState.courses[courseState.courseName])
+    const { drawLotsState, multiPeerState } = this.props
+    const { currCourseData } = this.props.navigation.state.params
+    this.keysAfterShuffle = Object.keys(multiPeerState.courses[currCourseData.courseId])
 
     for (let it = 0; it < drawLotsState.drawCount; it += 1) {
       const chosenID = Math.floor(Math.random() * this.keysAfterShuffle.length)
@@ -49,9 +49,10 @@ class DrawLots extends Component {
     this.keysAfterShuffle = this.keysAfterShuffle.slice(0, drawLotsState.drawCount)
   }
   checkOnlineForThisCourse(it) {
-    const { multiPeerState, courseState } = this.props
+    const { multiPeerState } = this.props
+    const { currCourseData } = this.props.navigation.state.params
     if (!multiPeerState.peers[it].online) return false
-    return multiPeerState.peers[it].info.course === courseState.courseName
+    return multiPeerState.peers[it].info.currCourseId === currCourseData.courseId
   }
   send() {
     const keys = this.keysAfterShuffle.filter(this.checkOnlineForThisCourse.bind(this))
@@ -110,9 +111,6 @@ DrawLots.propTypes = {
     courses: PropTypes.object.isRequired,
     peers: PropTypes.object.isRequired,
   }).isRequired,
-  courseState: PropTypes.shape({
-    courseName: PropTypes.string.isRequired,
-  }).isRequired,
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
@@ -121,6 +119,13 @@ DrawLots.propTypes = {
   multiPeerAction: PropTypes.shape({
     sendData: PropTypes.func.isRequired,
   }).isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawLots)

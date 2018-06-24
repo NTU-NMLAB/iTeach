@@ -7,12 +7,12 @@ import PropTypes from 'prop-types'
 import styles from './styles/Question.style'
 
 const ShortDescriptionCreate = (props) => {
-  const { courseName } = props
+  const { title } = props
   return (
     <View style={styles.textContainer}>
       <Text style={styles.text}>
         歡迎進入隨堂測驗{'\n'}
-        課程：{courseName}{'\n'}
+        課程：{title}{'\n'}
         題型：簡答題
       </Text>
     </View>
@@ -20,7 +20,7 @@ const ShortDescriptionCreate = (props) => {
 }
 
 ShortDescriptionCreate.propTypes = {
-  courseName: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default ShortDescriptionCreate

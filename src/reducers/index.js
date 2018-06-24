@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions'
 import nav from './nav.reducer'
-import course from './course.reducer'
+import currCourse from './currCourse.reducer'
 import courseItem from './courseItem.reducer'
 import classMenu from './classMenu.reducer'
 import profile from './profile.reducer'
@@ -15,7 +15,7 @@ import quiz from './quiz.reducer'
 const initialState = {
   nav: nav.initialState,
   classMenu: classMenu.initialState,
-  course: course.initialState,
+  currCourse: currCourse.initialState,
   courseItem: courseItem.initialState,
   profile: profile.initialState,
   onlinePeerList: onlinePeerList.initialState,
@@ -30,7 +30,7 @@ const initialState = {
 const reducerMap = {
   nav: nav.reducerMap,
   classMenu: classMenu.reducerMap,
-  course: course.reducerMap,
+  currCourse: currCourse.reducerMap,
   courseItem: courseItem.reducerMap,
   profile: profile.reducerMap,
   onlinePeerList: onlinePeerList.reducerMap,

@@ -2,7 +2,7 @@ import { createActions } from 'redux-actions'
 
 const { courseItem } = createActions({
   courseItem: {
-    setName: courseName => courseName,
+    setName: id => id,
   },
 })
 

@@ -18,6 +18,8 @@ import newCoursesValidation from '../util/newCoursesValidation'
 import classMenuAction from '../actions/classMenu.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
+import getHash from '../util/getHash'
+import getTime from '../util/getTime'
 
 const mapStateToProps = state => ({
   profile: state.profile,
@@ -90,14 +92,20 @@ class AddCourse extends Component {
         break
       default:
         this.setState({
-          course: '',
+          title: '',
           classroom: '',
           website: '',
         })
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.classMenuAction.add(this.state)
+      this.props.classMenuAction.add({
+        ...this.state,
+        courseId: getHash({
+          ...this.state,
+          timeStamp: getTime(),
+        }).toString(),
+      })
     }
   }
 
@@ -116,7 +124,7 @@ class AddCourse extends Component {
               <TextInput
                 style={styles.input}
                 onChangeText={(title) => { this.setState({ title }) }}
-                value={this.state.course}
+                value={this.state.title}
                 autoCapitalize = 'none'
               />
             </View>

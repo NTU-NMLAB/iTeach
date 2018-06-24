@@ -10,7 +10,7 @@ import SearchImage from '../../asset/search.png'
 import AddImage from '../../asset/add.png'
 import styles from './styles/ClassMenu.style'
 import navAction from '../actions/nav.action'
-import courseAction from '../actions/course.action'
+import currCourseAction from '../actions/currCourse.action'
 import classMenuAction from '../actions/classMenu.action'
 import ClassItem from '../components/ClassItem.component'
 import Appbar from '../components/Appbar.component'
@@ -35,15 +35,17 @@ const mapDispatchToProps = dispatch => ({
     get: () => {
       dispatch(classMenuAction.classList.get())
     },
-    modify: (classItem, title) => {
-      dispatch(classMenuAction.classList.modify(classItem, title))
+    modify: (courseData) => {
+      dispatch(classMenuAction.classList.modify(courseData))
     },
-    delete: (title) => {
-      dispatch(classMenuAction.classList.delete(title))
+    delete: (courseId) => {
+      dispatch(classMenuAction.classList.delete(courseId))
     },
   },
-  courseAction: {
-    setName: (title) => { dispatch(courseAction.setName(title)) },
+  currCourseAction: {
+    setData: (courseData) => { dispatch(currCourseAction.setData(courseData)) },
+  },
+  multiPeerAction: {
     openCourse: (isTeacher) => { dispatch(multiPeerAction[isTeacher ? 'teacher' : 'student'].openCourse()) },
   },
 })
@@ -74,15 +76,14 @@ class ClassMenu extends Component {
     this.props.classListAction.get()
   }
 
-  deleteClass(title) {
-    this.props.classListAction.delete(title)
-    delete this.classRef[title]
+  deleteClass(courseId) {
+    this.props.classListAction.delete(courseId)
+    delete this.classRef[courseId]
   }
 
-  onPress(classItem) {
-    this.props.courseAction.setName(classItem.title)
-    this.props.courseAction.openCourse(this.props.profile.isTeacher)
-    this.props.classListAction.modify(classItem, classItem.title)
+  onPress(courseData) {
+    this.props.currCourseAction.setData(courseData)
+    this.props.multiPeerAction.openCourse(this.props.profile.isTeacher)
     this.props.navAction.courseHome()
   }
 
@@ -113,7 +114,7 @@ class ClassMenu extends Component {
             style={[styles.list, { display: this.props.classList.length !== 0 ? 'flex' : 'none' }]}
             onScrollBeginDrag={this.cancelAllDelete}
             data={this.props.classList}
-            keyExtractor={item => item.title}
+            keyExtractor={item => item.courseId}
             renderItem={({ item }) => (
               <ClassItem
                 item={item}
@@ -123,7 +124,7 @@ class ClassMenu extends Component {
                 cancelAllDelete={this.cancelAllDelete}
                 onPress={this.onPress}
                 ref={(ref) => {
-                  this.classRef = { ...this.classRef, [item.title]: ref }
+                  this.classRef = { ...this.classRef, [item.courseId]: ref }
                 }}/>
             )} />
         </View>
@@ -144,8 +145,10 @@ ClassMenu.propTypes = {
     modify: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
   }).isRequired,
-  courseAction: PropTypes.shape({
-    setName: PropTypes.func.isRequired,
+  currCourseAction: PropTypes.shape({
+    setData: PropTypes.func.isRequired,
+  }).isRequired,
+  multiPeerAction: PropTypes.shape({
     openCourse: PropTypes.func.isRequired,
   }).isRequired,
   profile: PropTypes.object.isRequired,

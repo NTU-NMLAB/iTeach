@@ -8,7 +8,7 @@ const getStudentPeerInfo = state => ({
   service: appConstants.SERVICE_TYPE,
   isTeacher: 'false',
   username: state.profile.username,
-  course: state.course.courseName,
+  courseId: state.currCourse.courseId,
   color: getRandomColor(),
 })
 
@@ -16,7 +16,7 @@ const getTeacherPeerInfo = state => ({
   service: appConstants.SERVICE_TYPE,
   isTeacher: 'true',
   username: state.profile.username,
-  course: state.course.courseName,
+  courseId: state.currCourse.courseId,
   color: getRandomColor(),
 })
 

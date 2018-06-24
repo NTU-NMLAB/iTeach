@@ -24,9 +24,9 @@ const reducerMap = {
     },
   }),
   setDrawCount: (state, action) => {
-    const { multiPeer, drawLots, course } = state
+    const { multiPeer, drawLots, currCourseData } = state
     const { payload } = action
-    const countTooLarge = (payload > Object.keys(multiPeer.courses[course.courseName]).length)
+    const countTooLarge = (payload > Object.keys(multiPeer.courses[currCourseData.courseId]).length)
     const drawCount = ((countTooLarge) ? drawLots.drawCount : payload)
 
     return ({

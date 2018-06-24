@@ -25,8 +25,6 @@ const mapStateToProps = state => ({
   multiPeer: state.multiPeer,
   courseItem: state.courseItem,
   drawLots: state.drawLots,
-  courseName: state.course.courseName,
-  classMenu: state.classMenu,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -57,37 +55,33 @@ const mapDispatchToProps = dispatch => ({
     handleNoStudent: () => { dispatch(drawLotsAction.handleNoStudent()) },
   },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
+    modify: (courseData) => {
+      dispatch(classMenuAction.classList.modify(courseData))
     },
   },
 })
 
 class CourseHome extends Component {
-  getPeerInfo() {
-    return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
-  }
-
   componentWillMount() {
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    if (this.props.isTeacher === false && courseData.downloadData === undefined) {
-      courseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
-      courseData.showActivityIndicator = false
-      this.props.classListAction.modify(courseData)
+    const { currCourseData } = this.props.navigation.state.params
+    if (this.props.isTeacher === false && currCourseData.downloadData === undefined) {
+      currCourseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
+      currCourseData.showActivityIndicator = false
+      this.props.classListAction.modify(currCourseData)
     }
   }
 
-  iconOnPress(id) {
+  onCourseItemPressed(id) {
     const {
       isTeacher,
       multiPeer,
-      courseName,
       courseItem,
+      navigation,
     } = this.props
+    const { currCourseData } = navigation.state.params
     switch (id) {
     case 5:
-      if (typeof multiPeer.courses[courseName] === 'undefined') {
+      if (typeof multiPeer.courses[currCourseData.courseId] === 'undefined') {
         this.props.drawLotsAction.setNoStudent()
         return
       }
@@ -100,7 +94,7 @@ class CourseHome extends Component {
       isTeacher,
       courseItem.courseItem[1].onclick,
     )
-    this.props.navAction.enterFeature(id)
+    this.props.navAction.enterFeature(id, currCourseData)
   }
   alertForStudent(signalIn) {
     if (!signalIn) return null
@@ -115,10 +109,11 @@ class CourseHome extends Component {
     )
   }
   render() {
-    const { courseItem, drawLots } = this.props
+    const { courseItem, drawLots, navigation } = this.props
+    const { currCourseData } = navigation.state.params
     return (
       <View style={styles.container}>
-        <Appbar title={this.props.courseName} withDrawer
+        <Appbar title={currCourseData.title} withDrawer
           rightIcon={CloseImage}
           onRightPress={ () => {
             if (this.props.isTeacher === true && this.props.courseItem.courseItem[1].onclick) {
@@ -143,7 +138,7 @@ class CourseHome extends Component {
                   imgSrc={courseItem.courseItem[item.id].onclick
                     ? courseItem.courseItem[item.id].imgSrc[1]
                     : courseItem.courseItem[item.id].imgSrc[0]}
-                  onPress={this.iconOnPress.bind(this)}/>
+                  onPress={this.onCourseItemPressed.bind(this)}/>
               )) :
             CourseItemData.filter(item => item.user.includes('student'))
               .map(item => (
@@ -155,7 +150,7 @@ class CourseHome extends Component {
                   imgSrc={courseItem.courseItem[item.id].onclick
                     ? courseItem.courseItem[item.id].imgSrc[1]
                     : courseItem.courseItem[item.id].imgSrc[0]}
-                  onPress={this.iconOnPress.bind(this)}/>
+                  onPress={this.onCourseItemPressed.bind(this)}/>
               ))
           }
         </View>
@@ -195,9 +190,14 @@ CourseHome.propTypes = {
   courseItem: PropTypes.object.isRequired,
   isTeacher: PropTypes.bool.isRequired,
   peers: PropTypes.object.isRequired,
-  classMenu: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseHome)

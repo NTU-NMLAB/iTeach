@@ -14,20 +14,14 @@ import Appbar from '../components/Appbar.component'
 import FileItem from '../components/FileItem.component'
 import classMenuAction from '../actions/classMenu.action'
 
-
-const mapStateToProps = state => ({
-  courseName: state.course.courseName,
-  classMenu: state.classMenu,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.courseHome()) },
   },
   classListAction: {
-    modify: (classItem) => {
-      dispatch(classMenuAction.classList.modify(classItem, classItem.title))
+    modify: (courseData) => {
+      dispatch(classMenuAction.classList.modify(courseData))
     },
   },
 })
@@ -39,31 +33,29 @@ class FileDownload extends Component {
   }
 
   FileOnPress = (pressedItem) => {
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
-    const FileData = courseData.downloadData
-    const itemIndex = FileData.findIndex(item => item === pressedItem)
-    if (FileData[itemIndex].State === '未下載') {
-      courseData.showActivityIndicator = true
-      this.props.classListAction.modify(courseData)
+    const { currCourseData } = this.props.navigation.state.params
+    const fileData = currCourseData.downloadData
+    const itemIndex = fileData.findIndex(item => item === pressedItem)
+    if (fileData[itemIndex].state === '未下載') {
+      currCourseData.showActivityIndicator = true
+      this.props.classListAction.modify(currCourseData)
       setTimeout(() => {
-        FileData[itemIndex].State = '已下載'
-        courseData.showActivityIndicator = false
-        courseData.downloadData = FileData
-        this.props.classListAction.modify(courseData)
+        fileData[itemIndex].state = '已下載'
+        currCourseData.showActivityIndicator = false
+        currCourseData.downloadData = fileData
+        this.props.classListAction.modify(currCourseData)
       }, 3000)
     }
   }
 
   render() {
-    const courseData =
-      this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
+    const { currCourseData } = this.props.navigation.state.params
     return (
       <View style={styles.container}>
         <Appbar title='檔案下載' withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (courseData.downloadData === undefined) ? (
+        { (currCourseData.downloadData === undefined) ? (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
               目前已上傳檔案是空的QQ
@@ -73,7 +65,7 @@ class FileDownload extends Component {
           <View style={styles.listContainer}>
             <FlatList
               style={styles.list}
-              data={[...courseData.downloadData].reverse()}
+              data={[...currCourseData.downloadData].reverse()}
               keyExtractor={ (item, index) => index.toString()}
               renderItem={({ item }) => (
                 <FileItem
@@ -85,7 +77,7 @@ class FileDownload extends Component {
                 />
               )}
             />
-            {courseData.showActivityIndicator === true && (
+            {currCourseData.showActivityIndicator === true && (
               <View style={styles.OverlayContainer}>
                 <View style={styles.activityIndicatorContainer}>
                   <ActivityIndicator style={styles.activityIndicator} size="large" color="#3A8FB7" />
@@ -109,9 +101,14 @@ FileDownload.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  classMenu: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
   classListAction: PropTypes.object.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 //  connect react component & redux store
-export default connect(mapStateToProps, mapDispatchToProps)(FileDownload)
+export default connect(undefined, mapDispatchToProps)(FileDownload)

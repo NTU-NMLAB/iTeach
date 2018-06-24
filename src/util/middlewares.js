@@ -43,9 +43,9 @@ const messageMiddleware = ({ dispatch, getState }) => (
           break
         case 'QUESTION_DEBUT':
           dataToSave = { ...data, senderId, answerState: 'unAnswered' }
-          courseData = getState().classMenu.classList.find(item => item.title === data.courseName)
+          courseData = getState().classMenu.classList.find(item => item.courseId === data.courseId)
           courseData.studentQuizHistory.push(dataToSave)
-          dispatch(classMenuAction.classList.modify(courseData, data.courseName))
+          dispatch(classMenuAction.classList.modify(courseData))
           Alert.alert(
             data.releaseTime,
             data.questionType,
@@ -75,9 +75,9 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         case 'ANSWER_BACK':
-          dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID, courseName: data.courseName }
+          dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID, courseId: data.courseId }
           dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
-          dataToSave = getState().classMenu.classList.find(it => it.title === data.courseName)
+          dataToSave = getState().classMenu.classList.find(it => it.courseId === data.courseId)
           dataToSave = dataToSave.quizHistory.find(it => it.questionID === data.questionID)
           Alert.alert(
             dataToSave.questionType,
@@ -86,10 +86,10 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         case 'ACK_BACK':
-          courseData = getState().classMenu.classList.find(it => it.title === data.courseName)
+          courseData = getState().classMenu.classList.find(item => item.courseId === data.courseId)
           dataToSave = courseData.studentQuizHistory.findIndex(it => it.questionID === data.questionID)
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
-          dispatch(classMenuAction.classList.modify(courseData, data.courseName))
+          dispatch(classMenuAction.classList.modify(courseData))
           break
         default:
         }

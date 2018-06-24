@@ -1,6 +1,6 @@
 /* 確認課程名稱 */
-function checkCourseName(courseName) {
-  if (courseName === '' || courseName === null) {
+function checkCourseTitle(title) {
+  if (title === '' || title === null) {
     return {
       valid: false,
       errorCode: 1,
@@ -92,17 +92,17 @@ function checkWebsite(url, isOnline) {
   }
 }
 
-export default function newCoursesValidation(courseState, connectionInfo) {
-  if (!checkCourseName(courseState.course).valid) {
-    return checkCourseName(courseState.course)
-  } else if (!checkSemester(courseState.year, courseState.semester).valid) {
-    return checkSemester(courseState.year, courseState.semester)
-  } else if (!checkClassroom(courseState.classroom).valid) {
-    return checkClassroom(courseState.classroom)
-  } else if (!checkTime(courseState.weekday, courseState.time).valid) {
-    return checkTime(courseState.weekday, courseState.time)
-  } else if (!checkWebsite(courseState.website).valid) {
-    return checkWebsite(courseState.website, connectionInfo)
+export default function newCoursesValidation(courseData, connectionInfo) {
+  if (!checkCourseTitle(courseData.title).valid) {
+    return checkCourseTitle(courseData.title)
+  } else if (!checkSemester(courseData.year, courseData.semester).valid) {
+    return checkSemester(courseData.year, courseData.semester)
+  } else if (!checkClassroom(courseData.classroom).valid) {
+    return checkClassroom(courseData.classroom)
+  } else if (!checkTime(courseData.weekday, courseData.time).valid) {
+    return checkTime(courseData.weekday, courseData.time)
+  } else if (!checkWebsite(courseData.website).valid) {
+    return checkWebsite(courseData.website, connectionInfo)
   }
   return { // 理論上用不到的return
     valid: true,

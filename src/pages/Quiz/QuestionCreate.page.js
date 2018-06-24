@@ -52,32 +52,32 @@ class QuestionCreate extends Component {
     const {
       quizItemId,
       quizData,
+      currCourseData,
     } = { ...this.props.navigation.state.params }
     const timestampRightNow = getTime()
-    const courseData = quizData.classList.find(item => item.title === quizData.courseName)
     const hashID = getHash({
-      courseName: quizData.courseName,
+      title: currCourseData.title,
       timestampRightNow,
-      questionIndex: courseData.quizHistory.length,
+      questionIndex: currCourseData.quizHistory.length,
     }).toString()
-    courseData.quizHistory.push({
+    currCourseData.quizHistory.push({
       ...this.state,
       questionType: QuizItemData[quizItemId].title,
       questionID: hashID,
       releaseTime: timestampRightNow,
       correctRate: 0,
     })
-    quizData.classListModify(courseData)
+    quizData.classListModify(currCourseData)
 
     let keysInThisCourse = []
-    if (typeof multiPeer.courses[quizData.courseName] !== 'undefined') {
-      keysInThisCourse = Object.keys(multiPeer.courses[quizData.courseName])
+    if (typeof multiPeer.courses[currCourseData.courseId] !== 'undefined') {
+      keysInThisCourse = Object.keys(multiPeer.courses[currCourseData.courseId])
     }
     const keysOnline = keysInThisCourse.filter(it =>
-      multiPeer.peers[it].online && multiPeer.peers[it].info.course === quizData.courseName)
+      multiPeer.peers[it].online && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
     const data = {
       messageType: 'QUESTION_DEBUT',
-      courseName: quizData.courseName,
+      courseId: currCourseData.courseId,
       questionID: hashID,
       questionType: QuizItemData[quizItemId].title,
       questionState: this.state.questionState,
@@ -158,7 +158,7 @@ class QuestionCreate extends Component {
         questionState={this.state.questionState}
         answerOptions={this.state.multi}
         onChangeCallbacks={{
-          questionState: (questionState) => {this.setState({ questionState }) },
+          questionState: (questionState) => { this.setState({ questionState }) },
           ans1State: (ans1State) => {
             this.setState({ multi: { ...this.state.multi, ans1State } })
           },
@@ -197,7 +197,7 @@ class QuestionCreate extends Component {
     case 3: // ShortDescription
     default:
       return <ShortDescriptionCreate
-        courseName={this.props.navigation.state.params.quizData.courseName}
+        title={this.props.navigation.state.params.currCourseData.title}
       />
     }
   }
@@ -224,6 +224,7 @@ QuestionCreate.propTypes = {
       params: PropTypes.shape({
         quizItemId: PropTypes.number.isRequired,
         quizData: PropTypes.object.isRequired,
+        currCourseData: PropTypes.object.isRequired,
       }),
     }),
   }),

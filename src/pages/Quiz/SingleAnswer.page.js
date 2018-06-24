@@ -48,7 +48,7 @@ class SingleAnswerPage extends Component {
   }
   onPressSubmit = () => {
     const { quizData } = this.props.navigation.state.params
-    const dataToSave = { courseName: quizData.courseName, questionID: quizData.questionID }
+    const dataToSave = { courseId: quizData.courseId, questionID: quizData.questionID }
     switch (quizData.answerState) {
     case 'Checked':
       return

@@ -9,14 +9,6 @@ import Appbar from '../../components/Appbar.component'
 import HistoryItem from '../../components/HistoryItem.component'
 // import mockQuizHistory from '../../../asset/mockQuizHistory.json'
 
-const mapStateToProps = state => ({
-  isTeacher: state.profile.isTeacher,
-  courseName: state.course.courseName,
-  course: state.course,
-  classMenu: state.classMenu,
-  classList: state.classMenu.classList,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
@@ -31,14 +23,13 @@ class HistoryRecord extends Component {
   }
   render() {
     const questionType = '歷史紀錄'
-    const courseData =
-      this.props.classList.filter(item => item.title === this.props.courseName)[0]
+    const { currCourseData } = this.props.navigation.state.params
     return (
       <View style={styles.container}>
         <Appbar title={questionType} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (courseData.quizHistory.length === 0) ? (
+        { (currCourseData.quizHistory.length === 0) ? (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
               目前歷史紀錄是空的QQ
@@ -48,7 +39,7 @@ class HistoryRecord extends Component {
           <View style={styles.listContainer}>
             <FlatList
               style={styles.list}
-              data={[...courseData.quizHistory].reverse()}
+              data={[...currCourseData.quizHistory].reverse()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <HistoryItem
@@ -73,11 +64,13 @@ HistoryRecord.propTypes = {
     onExit: PropTypes.func.isRequired,
     getResult: PropTypes.func.isRequired,
   }).isRequired,
-  classMenu: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
-  classList: PropTypes.array.isRequired,
-  course: PropTypes.object.isRequired,
-  isTeacher: PropTypes.bool.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HistoryRecord)
+export default connect(undefined, mapDispatchToProps)(HistoryRecord)

@@ -22,7 +22,7 @@ const reducerMap = {
   }),
   courseHome: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseHome' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseHome', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   courseSearch: state => ({
     ...state,
@@ -34,23 +34,23 @@ const reducerMap = {
   }),
   editCourseInfo: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'EditCourseInfo' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'EditCourseInfo', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   onlinePeerList: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'OnlinePeerList' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'OnlinePeerList', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   quizMainPage: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Quiz' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Quiz', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   quizResultPage: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   historyRecord: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HistoryRecord' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HistoryRecord', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   singleAnswerPage: (state, action) => ({
     ...state,
@@ -58,19 +58,19 @@ const reducerMap = {
   }),
   multiAnswerPage: (state, action) => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'MultiAnswerPage', params: { quizData: action.payload } }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'MultiAnswerPage', params: { quizData: action.payload, currCourseData: state.currCourse } }), state.nav),
   }),
   trueFalseAnswerPage: (state, action) => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'TrueFalseAnswerPage', params: { quizData: action.payload } }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'TrueFalseAnswerPage', params: { quizData: action.payload, currCourseData: state.currCourse } }), state.nav),
   }),
   shortDescriptionAnswerPage: (state, action) => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ShortDescriptionAnswerPage', params: { quizData: action.payload } }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ShortDescriptionAnswerPage', params: { quizData: action.payload, currCourseData: state.currCourse } }), state.nav),
   }),
   enterFeature: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
-      NavigationActions.navigate({ routeName: action.payload }),
+      NavigationActions.navigate({ routeName: action.payload, params: { currCourseData: state.currCourse } }),
       state.nav,
     )
     return { ...state, nav }
@@ -80,7 +80,7 @@ const reducerMap = {
     const drawAction = ((actionAllSpace) ? state.drawLots.drawAction : action.payload)
     const nav = ((actionAllSpace)
       ? state.nav
-      : RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DrawFinish' }), state.nav)
+      : RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DrawFinish', params: { currCourseData: state.currCourse } }), state.nav)
     )
 
     return {
@@ -95,7 +95,7 @@ const reducerMap = {
   },
   backToDraw: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DrawLots' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'DrawLots', params: { currCourseData: state.currCourse } }), state.nav),
     drawLots: {
       ...state.drawLots,
       afterDraw: true,
@@ -108,6 +108,7 @@ const reducerMap = {
         params: {
           quizItemId: action.payload.quizItemId,
           quizData: action.payload.quizData,
+          currCourseData: state.currCourse,
         },
       }),
       state.nav,

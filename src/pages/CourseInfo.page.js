@@ -14,8 +14,6 @@ import closeImage from '../../asset/close.png'
 
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
-  classList: state.classMenu.classList,
-  courseName: state.course.courseName,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -36,9 +34,10 @@ class CourseInfo extends Component {
   }
 
   render() {
-    const { classList, courseName, isTeacher } = this.props
-    const courseInfo = classList.find(item => item.title === courseName)
+    const { isTeacher } = this.props
+    const { currCourseData } = this.props.navigation.state.params
     const {
+      title,
       color,
       teacher,
       year,
@@ -47,7 +46,7 @@ class CourseInfo extends Component {
       weekday,
       time,
       website,
-    } = courseInfo
+    } = currCourseData
 
     return (
       <View style={styles.container}>
@@ -58,7 +57,7 @@ class CourseInfo extends Component {
           <View style={styles.titleContainer}>
             <View style={[styles.colorBox, { backgroundColor: color }]} />
             <Text style={styles.courseName} numberOfLines={1}>
-              {courseName}
+              {title}
             </Text>
           </View>
           <View style={styles.infoContainer}>
@@ -114,8 +113,13 @@ CourseInfo.propTypes = {
     editCourseInfo: PropTypes.func.isRequired,
   }),
   isTeacher: PropTypes.bool.isRequired,
-  classList: PropTypes.array.isRequired,
-  courseName: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseInfo)

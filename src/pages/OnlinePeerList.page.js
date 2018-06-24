@@ -14,9 +14,7 @@ import navAction from '../actions/nav.action'
 import OnlineListItem from '../components/OnlineListItem.component'
 
 const mapStateToProps = state => ({
-  isTeacher: state.profile.isTeacher,
   multiPeer: state.multiPeer,
-  courseName: state.course.courseName,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -29,11 +27,24 @@ const mapDispatchToProps = dispatch => ({
 })
 
 class OnlinePeerList extends Component {
+  constructor() {
+    super()
+    this.getOnlinePeerList = this.getOnlinePeerList.bind(this)
+    this.getOfflinePeerList = this.getOfflinePeerList.bind(this)
+  }
   getOnlinePeerList() {
-    return Object.keys(this.props.multiPeer.peers).map(i => this.props.multiPeer.peers[i]).filter(peer => peer.online === true && peer.info.course === this.props.courseName)
+    const { currCourseData } = this.props.navigation.state.params
+    return Object.keys(this.props.multiPeer.peers)
+      .map(i => this.props.multiPeer.peers[i])
+      .filter(peer => peer.online === true && peer.info.currCourseId === currCourseData.courseId)
   }
   getOfflinePeerList() {
-    return Object.keys(this.props.multiPeer.peers).map(i => this.props.multiPeer.peers[i]).filter((peer => (peer.online === false || !(peer.info.course === this.props.courseName)) && (this.props.multiPeer.courses[this.props.courseName] && peer.id in this.props.multiPeer.courses[this.props.courseName])))
+    const { currCourseData } = this.props.navigation.state.params
+    return Object.keys(this.props.multiPeer.peers)
+      .map(i => this.props.multiPeer.peers[i])
+      .filter((peer => (peer.online === false || !(peer.info.currCourseId === currCourseData.courseId)) &&
+        (this.props.multiPeer.courses[currCourseData.courseId] &&
+          peer.id in this.props.multiPeer.courses[currCourseData.courseId])))
   }
   render() {
     return (
@@ -92,9 +103,14 @@ OnlinePeerList.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  isTeacher: PropTypes.bool.isRequired,
   multiPeer: PropTypes.object.isRequired,
-  courseName: PropTypes.string.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OnlinePeerList)
