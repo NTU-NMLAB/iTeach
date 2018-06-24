@@ -94,7 +94,7 @@ class Quiz extends Component {
                 <QuizItem
                   key={item.id} id={item.id}
                   title={item.title}
-                  imgSrc={item.imgSrc[0]}
+                  imgSrc={item.imgSrc}
                   onPress={this.iconOnPress.bind(this)}/>
               ))
             }
