@@ -65,7 +65,7 @@ class CourseSearch extends Component {
     return Object.keys(this.props.peers).map((i) => {
       const { info } = this.props.peers[i]
       return {
-        title: info.title,
+        title: info.currCourseTitle,
         courseId: info.currCourseId,
         teacher: info.username,
         color: info.color,
