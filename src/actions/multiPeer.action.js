@@ -130,10 +130,8 @@ const { multiPeer } = createActions({
       },
       sendData: (recipients, data, callback = () => {}) => {
         const recipientIds = recipients.map((recipient) => {
-          if (recipient instanceof Peer) {
-            return { recipient: recipient.id }
-          }
-          return { recipient }
+          if (recipient instanceof Peer) return recipient.id
+          return recipient
         })
         MultipeerConnectivity.sendData(recipientIds, data, callback)
       },
