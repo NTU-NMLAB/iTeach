@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
     course: () => { dispatch(navAction.course()) },
   },
   addCourseAction: {
-    update: (info, courseName) => { dispatch(addCourseAction.update(info, courseName)) },
+    update: (info) => { dispatch(addCourseAction.update(info)) },
   },
 })
 
@@ -111,7 +111,7 @@ class ChangeCourseInfo extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.update(this.state, this.props.courseName)
+      this.props.addCourseAction.update({ ...this.state, timestamp: new Date() })
       // this.props.nav.course()
     }
   }

@@ -36,10 +36,10 @@ const { classMenu } = createActions({
           }
         }
       }),
-      modify: (classItem, title) => (async (dispatch, getState) => {
+      modify: classItem => (async (dispatch, getState) => {
         let success = false
         let { classList } = getState().classMenu
-        classList = classList.filter(item => item.title !== title)
+        classList = classList.filter(item => item.id !== classItem.id)
         classList.splice(0, 0, classItem)
         await AsyncStorage.setItem('iTeachStore:Class', JSON.stringify(classList), (error) => {
           if (error) {

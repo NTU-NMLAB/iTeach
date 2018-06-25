@@ -31,8 +31,10 @@ const mapDispatchToProps = dispatch => ({
     },
   },
   classListAction: {
-    add: item =>
+    add: (item) => {
       dispatch(classMenuAction.classList.add(item))
+      dispatch(multiPeerAction.student.stopSearch())
+    }
     ,
   },
 })

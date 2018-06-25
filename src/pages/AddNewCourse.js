@@ -98,7 +98,7 @@ class AddNewCourse extends Component {
       }
     } else {
       // 符合規則，跳轉到ClassMenu
-      this.props.addCourseAction.save(this.state)
+      this.props.addCourseAction.save({ ...this.state, timestamp: new Date(), id: Math.floor(Math.random() * (10 ** 8)) })
     }
   }
 

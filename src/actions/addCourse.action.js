@@ -26,7 +26,7 @@ const { addCourse } = createActions({
         dispatch(classMenuAction.classList.add(courseData))
       }
     }),
-    update: (courseData, title) => (async (dispatch) => {
+    update: courseData => (async (dispatch) => {
       // title is the title before change
       // new title is courseData.title
       let success = false
@@ -43,7 +43,7 @@ const { addCourse } = createActions({
       if (success) {
         // dispatch(courseInfo.set(courseData))
         dispatch(courseAction.setName(courseData.title))
-        dispatch(classMenuAction.classList.modify(courseData, title))
+        dispatch(classMenuAction.classList.modify(courseData))
       }
     }),
   },
