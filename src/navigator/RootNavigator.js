@@ -39,12 +39,6 @@ export default SwitchNavigator({
   ChangeCourseInfo: {
     screen: ChangeCourseInfo,
   },
-  UploadFile: {
-    screen: UploadFile,
-  },
-  DownloadFile: {
-    screen: DownloadFile,
-  },
   Pages: DrawerNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料

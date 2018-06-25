@@ -12,10 +12,18 @@ import navAction from '../actions/nav.action'
 import CloseImage from '../../asset/close.png'
 import Button from '../components/Button'
 import Appbar from '../components/Appbar'
+import multiPeerAction from '../actions/multiPeer.action'
+import getTime from '../util/getTime'
+import getHash from '../util/getHash'
 
 
 const mapStateToProps = state => ({
-  ...state.fileDesc,
+  status: state.account.status,
+  courseName: state.course.courseName,
+  classMenu: state.classMenu,
+  course: state.course,
+  classList: state.classMenu.classList,
+  multiPeer: state.multiPeer,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -23,33 +31,65 @@ const mapDispatchToProps = dispatch => ({
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.course()) },
   },
+  multiPeerAction: {
+    sendData: (recipients, data) => {
+      dispatch(multiPeerAction.backend.sendData(recipients, data, () => {}))
+    },
+  },
 })
 
 class UploadFile extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      fileName: 'Test.jpg',
       fileDesc: '這是這次上課會用到的檔案 =)',
-      filepath: '',
+      filePath: '',
     }
     this.onPressUpload = this.onPressUpload.bind(this)
     this.onPressChoose = this.onPressChoose.bind(this)
   }
   onPressChoose = () => {
-    DocumentPicker.show({
+    /* DocumentPicker.show({
       filetype: ['public.content'],
     }, (error, url) => {
       this.setState({ filepath: url })
-    })
+    }) */
   }
   onPressUpload = () => {
-    if (this.state.filepath === '') {
+    /* if (this.state.filepath === '') {
       alert('尚未選擇檔案，無法上傳')
     } else {
       alert('上傳成功')
       this.setState({ filepath: '' })
+    } */
+    const {
+      courseName,
+      multiPeer,
+    } = this.props
+    const timestampRightNow = getTime()
+    const hashID = getHash({
+      courseName,
+      timestampRightNow,
+    }).toString()
+
+    let keysInThisCourse = []
+    if (typeof multiPeer.courses[courseName] !== 'undefined') {
+      keysInThisCourse = Object.keys(multiPeer.courses[courseName])
     }
+    const keysOnline = keysInThisCourse.filter(it =>
+      multiPeer.peers[it].online && multiPeer.peers[it].info.course === courseName)
+    const data = {
+      messageType: 'FILE_UPLOAD',
+      courseName,
+      fileID: hashID,
+      fileName: this.state.fileName,
+      fileDesc: this.state.fileDesc,
+      uploadTime: timestampRightNow,
+    }
+    this.props.multiPeerAction.sendData(keysOnline, data)
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -82,6 +122,18 @@ UploadFile.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
+  }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    sendData: PropTypes.func.isRequired,
+  }).isRequired,
+  classMenu: PropTypes.object.isRequired,
+  courseName: PropTypes.string.isRequired,
+  classList: PropTypes.array.isRequired,
+  course: PropTypes.object.isRequired,
+  status: PropTypes.string.isRequired,
+  multiPeer: PropTypes.shape({
+    courses: PropTypes.object.isRequired,
+    peers: PropTypes.object.isRequired,
   }).isRequired,
 }
 //  connect react component & redux store

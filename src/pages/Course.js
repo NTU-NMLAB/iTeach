@@ -18,7 +18,7 @@ import Button from '../components/Button'
 import multiPeerAction from '../actions/multiPeer.action'
 import drawLotsAction from '../actions/drawLots.action'
 import classMenuAction from '../actions/classMenu.action'
-import mockDownloadData from '../../asset/mockDownloadData.json'
+// import mockDownloadData from '../../asset/mockDownloadData.json'
 
 const mapStateToProps = state => ({
   peers: state.multiPeer.peers,
@@ -71,7 +71,7 @@ class Course extends Component {
     return Object.keys(this.props.peers).map(peerId => this.props.peers[peerId].info)
   }
 
-  componentWillMount() {
+  /* componentWillMount() {
     const courseData =
       this.props.classMenu.classList.filter(item => item.title === this.props.courseName)[0]
     if (this.props.status === 'student' && courseData.downloadData === undefined) {
@@ -79,7 +79,7 @@ class Course extends Component {
       courseData.showActivityIndicator = false
       this.props.classListAction.modify(courseData)
     }
-  }
+  } */
 
   iconOnPress(id) {
     const {

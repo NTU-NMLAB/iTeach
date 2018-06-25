@@ -91,6 +91,25 @@ const messageMiddleware = ({ dispatch, getState }) => (
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
           dispatch(classMenuAction.classList.modify(courseData, data.courseName))
           break
+        case 'FILE_UPLOAD':
+          dataToSave = { ...data, senderId, State: '未下載' }
+          courseData = getState().classMenu.classList.find(item => item.title === data.courseName)
+          courseData.downloadData.push(dataToSave)
+          dispatch(classMenuAction.classList.modify(courseData, data.courseName))
+          Alert.alert(
+            data.uploadTime,
+            data.fileName,
+            [
+              {
+                text: '前往下載',
+                onPress: () => {
+                  dispatch(navAction.downloadFile())
+                },
+              },
+              { text: '收到' },
+            ],
+          )
+          break
         default:
         }
       }

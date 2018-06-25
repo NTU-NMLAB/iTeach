@@ -59,6 +59,8 @@ class SearchPage extends Component {
   registerClass(classItem) {
     const classItemForStudent = { ...classItem }
     classItemForStudent.studentQuizHistory = []
+    classItemForStudent.downloadData = []
+    classItemForStudent.showActivityIndicator = false
     this.props.classListAction.add(classItemForStudent)
   }
 

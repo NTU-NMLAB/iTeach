@@ -63,7 +63,7 @@ class DownloadFile extends Component {
         <Appbar title='檔案下載' withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (courseData.downloadData === undefined) ? (
+        { (courseData.downloadData.length === 0) ? (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
               目前已上傳檔案是空的QQ
@@ -77,10 +77,10 @@ class DownloadFile extends Component {
               keyExtractor={ (item, index) => index.toString()}
               renderItem={({ item }) => (
                 <FileItem
-                  FileName={item.FileName}
-                  FileDescription={item.FileDescription}
+                  FileName={item.fileName}
+                  FileDescription={item.fileDesc}
                   State={item.State}
-                  UploadTime={item.UploadTime}
+                  UploadTime={item.uploadTime}
                   onPress={() => { this.FileOnPress(item) }}
                 />
               )}
