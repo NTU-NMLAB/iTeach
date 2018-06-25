@@ -26,14 +26,14 @@ const messageMiddleware = ({ dispatch, getState }) => (
       if (action.type === 'multiPeer/backend/onDataReceived') {
         const { data } = action.payload
         switch (data.messageType) {
-        case 'REQUEST_INFO':
-          dispatch(MultiPeerActions.backend.returnInfo(action.senderId, {
-            name: getState().multipeer.selfName,
-          }))
-          break
-        case 'RETURN_INFO':
-          dispatch(MultiPeerActions.backend.onInfoUpdate(action.senderId, action.data.info))
-          break
+        // case 'REQUEST_INFO':
+        //   dispatch(MultiPeerActions.backend.returnInfo(action.senderId, {
+        //     name: getState().multipeer.selfName,
+        //   }))
+        //   break
+        // case 'RETURN_INFO':
+        //   dispatch(MultiPeerActions.backend.onInfoUpdate(action.senderId, action.data.info))
+        //   break
         case 'CHOSEN_ONE':
           Alert.alert(
             '您被老師抽到要',
