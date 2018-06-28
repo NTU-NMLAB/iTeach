@@ -1,7 +1,7 @@
 import { DrawerNavigator, SwitchNavigator } from 'react-navigation'
 import Register from '../pages/Register.page'
 import CourseHome from '../pages/CourseHome.page'
-import ClassMenu from '../pages/ClassMenu.page'
+import CourseMenu from '../pages/CourseMenu.page'
 import EditProfile from '../pages/EditProfile.page'
 import DrawerContainer from '../pages/DrawerContainer.page'
 import CourseSearch from '../pages/CourseSearch.page'
@@ -45,8 +45,8 @@ export default SwitchNavigator({
     EditProfile: {
       screen: EditProfile, // Page for 修改個人資料
     },
-    ClassMenu: {
-      screen: ClassMenu,
+    CourseMenu: {
+      screen: CourseMenu,
     },
     CourseHome: {
       screen: CourseHome,

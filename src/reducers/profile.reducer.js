@@ -10,7 +10,7 @@ const initialState = {
 const reducerMap = {
   set: (state, action) => {
     if (action.payload) {
-      const nav = RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ClassMenu' }), state.nav)
+      const nav = RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseMenu' }), state.nav)
       return { ...state, nav, profile: action.payload }
     }
     return state

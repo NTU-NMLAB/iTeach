@@ -71,7 +71,7 @@ class Register extends Component {
         })
       }
     } else {
-      // 符合規則，跳轉到ClassMenu
+      // 符合規則，跳轉到 CourseMenu
       this.props.profileAction.save(this.state)
     }
   }

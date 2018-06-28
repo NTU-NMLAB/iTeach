@@ -8,17 +8,17 @@ import {
 import PropTypes from 'prop-types'
 import SearchImage from '../../asset/search.png'
 import AddImage from '../../asset/add.png'
-import styles from './styles/ClassMenu.style'
+import styles from './styles/CourseMenu.style'
 import navAction from '../actions/nav.action'
 import currCourseAction from '../actions/currCourse.action'
-import classMenuAction from '../actions/classMenu.action'
+import courseMenuAction from '../actions/courseMenu.action'
 import ClassItem from '../components/ClassItem.component'
 import Appbar from '../components/Appbar.component'
 import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  classList: state.classMenu.classList,
+  classList: state.courseMenu.classList,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -33,13 +33,13 @@ const mapDispatchToProps = dispatch => ({
   },
   classListAction: {
     get: () => {
-      dispatch(classMenuAction.classList.get())
+      dispatch(courseMenuAction.classList.get())
     },
     modify: (courseData) => {
-      dispatch(classMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.classList.modify(courseData))
     },
     delete: (courseId) => {
-      dispatch(classMenuAction.classList.delete(courseId))
+      dispatch(courseMenuAction.classList.delete(courseId))
     },
   },
   currCourseAction: {
@@ -50,7 +50,7 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-class ClassMenu extends Component {
+class CourseMenu extends Component {
   constructor(props) {
     super(props)
     this.cancelAllDelete = this.cancelAllDelete.bind(this)
@@ -133,7 +133,7 @@ class ClassMenu extends Component {
   }
 }
 
-ClassMenu.propTypes = {
+CourseMenu.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     courseSearch: PropTypes.func.isRequired,
@@ -155,4 +155,4 @@ ClassMenu.propTypes = {
   classList: PropTypes.array.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ClassMenu)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseMenu)

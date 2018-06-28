@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import reducer from './src/reducers'
 import RootNavigator from './src/navigator/RootNavigator'
 import profileAction from './src/actions/profile.action'
-import classMenu from './src/actions/classMenu.action'
+import courseMenu from './src/actions/courseMenu.action'
 import middlewares from './src/util/middlewares'
 // import mockData from './asset/mockData.json'
 
@@ -19,7 +19,7 @@ const initStore = async () => {
   // Load data from local storage
   // store.dispatch(mockData)
   store.dispatch(profileAction.get())
-  store.dispatch(classMenu.classList.get())
+  store.dispatch(courseMenu.classList.get())
 }
 
 initStore()

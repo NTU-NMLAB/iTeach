@@ -22,7 +22,7 @@ const mapDispatchToProps = dispatch => ({
     set: (info) => { dispatch(profileAction.save(info)) },
   },
   navAction: {
-    classMenu: () => { dispatch(navAction.classMenu()) },
+    courseMenu: () => { dispatch(navAction.courseMenu()) },
   },
 })
 
@@ -39,7 +39,7 @@ class EditProfile extends Component {
   }
 
   onPressCancel = () => {
-    this.props.navAction.classMenu()
+    this.props.navAction.courseMenu()
   }
 
   onPressConfirm = () => {
@@ -71,7 +71,7 @@ class EditProfile extends Component {
         })
       }
     } else {
-      // 符合規則，跳轉到ClassMenu
+      // 符合規則，跳轉到 CourseMenu
       this.props.profileAction.set(this.state)
     }
   }
@@ -103,7 +103,7 @@ EditProfile.propTypes = {
     set: PropTypes.func.isRequired,
   }).isRequired,
   navAction: PropTypes.shape({
-    classMenu: PropTypes.func.isRequired,
+    courseMenu: PropTypes.func.isRequired,
   }).isRequired,
   isTeacher: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,

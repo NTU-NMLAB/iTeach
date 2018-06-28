@@ -16,9 +16,9 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'EditProfile' }), state.nav),
   }),
-  classMenu: state => ({
+  courseMenu: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ClassMenu' }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseMenu' }), state.nav),
   }),
   courseHome: state => ({
     ...state,

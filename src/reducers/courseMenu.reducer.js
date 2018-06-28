@@ -8,8 +8,8 @@ const reducerMap = {
       if (action.payload) {
         return {
           ...state,
-          classMenu: {
-            ...state.classMenu,
+          courseMenu: {
+            ...state.courseMenu,
             classList: action.payload,
           },
         }

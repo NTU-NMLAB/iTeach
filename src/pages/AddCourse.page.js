@@ -15,7 +15,7 @@ import styles from './styles/AddCourse.style'
 import getSemester from '../util/getSemester'
 import getRandomColor from '../util/getRandomColor'
 import newCoursesValidation from '../util/newCoursesValidation'
-import classMenuAction from '../actions/classMenu.action'
+import courseMenuAction from '../actions/courseMenu.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 import getHash from '../util/getHash'
@@ -27,12 +27,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   nav: {
-    classMenu: () => {
-      dispatch(navAction.classMenu())
+    courseMenu: () => {
+      dispatch(navAction.courseMenu())
     },
   },
-  classMenuAction: {
-    add: (info) => { dispatch(classMenuAction.classList.add(info)) },
+  courseMenuAction: {
+    add: (info) => { dispatch(courseMenuAction.classList.add(info)) },
   },
 })
 
@@ -98,8 +98,8 @@ class AddCourse extends Component {
         })
       }
     } else {
-      // 符合規則，跳轉到ClassMenu
-      this.props.classMenuAction.add({
+      // 符合規則，跳轉到 CourseMenu
+      this.props.courseMenuAction.add({
         ...this.state,
         courseId: getHash({
           ...this.state,
@@ -110,7 +110,7 @@ class AddCourse extends Component {
   }
 
   onPressCancel = () => {
-    this.props.nav.classMenu()
+    this.props.nav.courseMenu()
   }
 
   render() {
@@ -251,11 +251,11 @@ class AddCourse extends Component {
 }
 
 AddCourse.propTypes = {
-  classMenuAction: PropTypes.shape({
+  courseMenuAction: PropTypes.shape({
     add: PropTypes.func.isRequired,
   }).isRequired,
   nav: PropTypes.shape({
-    classMenu: PropTypes.func.isRequired,
+    courseMenu: PropTypes.func.isRequired,
   }).isRequired,
   profile: PropTypes.object.isRequired,
 }

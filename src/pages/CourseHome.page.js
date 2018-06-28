@@ -16,7 +16,7 @@ import Appbar from '../components/Appbar.component'
 import Button from '../components/Button.component'
 import multiPeerAction from '../actions/multiPeer.action'
 import drawLotsAction from '../actions/drawLots.action'
-import classMenuAction from '../actions/classMenu.action'
+import courseMenuAction from '../actions/courseMenu.action'
 import mockDownloadData from '../../asset/mockDownloadData.json'
 
 const mapStateToProps = state => ({
@@ -31,7 +31,7 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: (isTeacher) => {
-      dispatch(navAction.classMenu())
+      dispatch(navAction.courseMenu())
       dispatch(multiPeerAction[isTeacher ? 'teacher' : 'student'].exitCourse())
     },
     enterFeature: (id) => { dispatch(navAction.enterFeature(id)) },
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
   },
   classListAction: {
     modify: (courseData) => {
-      dispatch(classMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.classList.modify(courseData))
     },
   },
 })

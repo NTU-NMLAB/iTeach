@@ -1,5 +1,5 @@
 {
-  "type": "classMenu/classList/set",
+  "type": "courseMenu/classList/set",
   "payload": [
     {
       "teacher": "林宗男",

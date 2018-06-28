@@ -2,7 +2,7 @@ import { Alert } from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
 // import drawLotsAction from '../actions/drawLots.action'
 // import Background fro../components/Background.componentund'
-import classMenuAction from '../actions/classMenu.action'
+import courseMenuAction from '../actions/courseMenu.action'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
 // import quizAction from '../actions/quiz.action'
@@ -43,9 +43,9 @@ const messageMiddleware = ({ dispatch, getState }) => (
           break
         case 'QUESTION_DEBUT':
           dataToSave = { ...data, senderId, answerState: 'unAnswered' }
-          courseData = getState().classMenu.classList.find(item => item.courseId === data.courseId)
+          courseData = getState().courseMenu.classList.find(item => item.courseId === data.courseId)
           courseData.studentQuizHistory.push(dataToSave)
-          dispatch(classMenuAction.classList.modify(courseData))
+          dispatch(courseMenuAction.classList.modify(courseData))
           Alert.alert(
             data.releaseTime,
             data.questionType,
@@ -77,7 +77,7 @@ const messageMiddleware = ({ dispatch, getState }) => (
         case 'ANSWER_BACK':
           dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID, courseId: data.courseId }
           dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
-          dataToSave = getState().classMenu.classList.find(it => it.courseId === data.courseId)
+          dataToSave = getState().courseMenu.classList.find(it => it.courseId === data.courseId)
           dataToSave = dataToSave.quizHistory.find(it => it.questionID === data.questionID)
           Alert.alert(
             dataToSave.questionType,
@@ -86,10 +86,10 @@ const messageMiddleware = ({ dispatch, getState }) => (
           )
           break
         case 'ACK_BACK':
-          courseData = getState().classMenu.classList.find(item => item.courseId === data.courseId)
+          courseData = getState().courseMenu.classList.find(item => item.courseId === data.courseId)
           dataToSave = courseData.studentQuizHistory.findIndex(it => it.questionID === data.questionID)
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
-          dispatch(classMenuAction.classList.modify(courseData))
+          dispatch(courseMenuAction.classList.modify(courseData))
           break
         default:
         }

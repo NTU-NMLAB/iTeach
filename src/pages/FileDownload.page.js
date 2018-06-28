@@ -12,7 +12,7 @@ import navAction from '../actions/nav.action'
 import CloseImage from '../../asset/close.png'
 import Appbar from '../components/Appbar.component'
 import FileItem from '../components/FileItem.component'
-import classMenuAction from '../actions/classMenu.action'
+import courseMenuAction from '../actions/courseMenu.action'
 
 const mapDispatchToProps = dispatch => ({
   navAction: {
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => ({
   },
   classListAction: {
     modify: (courseData) => {
-      dispatch(classMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.classList.modify(courseData))
     },
   },
 })

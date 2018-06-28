@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Quiz.style'
 import navAction from '../../actions/nav.action'
-import classMenuAction from '../../actions/classMenu.action'
+import courseMenuAction from '../../actions/courseMenu.action'
 import QuizItem from '../../components/QuizItem.component'
 import QuizItemData from '../../components/QuizItemData.const'
 import Appbar from '../../components/Appbar.component'
@@ -30,7 +30,7 @@ const mapDispatchToProps = dispatch => ({
   },
   classListAction: {
     modify: (courseData) => {
-      dispatch(classMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.classList.modify(courseData))
     },
   },
 })

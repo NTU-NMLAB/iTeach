@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   nav: {
-    classMenu: () => { dispatch(navAction.classMenu()) },
+    courseMenu: () => { dispatch(navAction.courseMenu()) },
     editProfile: () => { dispatch(navAction.editProfile()) },
     closeDrawer: () => { dispatch(navAction.closeDrawer()) },
   },
@@ -27,7 +27,7 @@ class DrawerContainer extends Component {
             {this.props.username}
           </Text>
           <Text
-            onPress={this.props.nav.classMenu}
+            onPress={this.props.nav.courseMenu}
             style={styles.drawerItem}>
             課程選單
           </Text>
@@ -51,7 +51,7 @@ class DrawerContainer extends Component {
 
 DrawerContainer.propTypes = {
   nav: PropTypes.shape({
-    classMenu: PropTypes.func.isRequired,
+    courseMenu: PropTypes.func.isRequired,
     editProfile: PropTypes.func.isRequired,
     closeDrawer: PropTypes.func.isRequired,
   }).isRequired,

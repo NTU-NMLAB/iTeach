@@ -8,11 +8,11 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
-import styles from './styles/ClassMenu.style'
+import styles from './styles/CourseMenu.style'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 import CourseSearchItem from '../components/CourseSearchItem.component'
-import classMenuAction from '../actions/classMenu.action'
+import courseMenuAction from '../actions/courseMenu.action'
 import multiPeerAction from '../actions/multiPeer.action'
 // import mockNewClass from '../../asset/mockNewClass.json'
 
@@ -24,13 +24,13 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   navAction: {
     onExit: () => {
-      dispatch(navAction.classMenu())
+      dispatch(navAction.courseMenu())
       dispatch(multiPeerAction.student.stopSearch())
     },
   },
   classListAction: {
     add: item =>
-      dispatch(classMenuAction.classList.add(item))
+      dispatch(courseMenuAction.classList.add(item))
     ,
   },
 })

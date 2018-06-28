@@ -1,12 +1,12 @@
 import { Alert } from 'react-native'
 import { createActions } from 'redux-actions'
-import classMenuAction from './classMenu.action'
+import courseMenuAction from './courseMenu.action'
 import multiPeerAction from './multiPeer.action'
 
 const { quizItem } = createActions({
   quizItem: {
     update: reply => ((dispatch, getState) => {
-      const classItem = getState().classMenu.classList
+      const classItem = getState().courseMenu.classList
         .find(item => item.courseId === reply.courseId)
       const target = classItem.studentQuizHistory
         .findIndex(item => item.questionID === reply.questionID)
@@ -14,7 +14,7 @@ const { quizItem } = createActions({
         ...classItem.studentQuizHistory[target],
         ...reply,
       }
-      dispatch(classMenuAction.classList.modify(classItem))
+      dispatch(courseMenuAction.classList.modify(classItem))
     }),
     answer: (reply, toWhom) => ((dispatch, getState) => {
       const { peers } = getState().multiPeer
@@ -28,7 +28,7 @@ const { quizItem } = createActions({
         return
       }
 
-      const classItem = getState().classMenu.classList
+      const classItem = getState().courseMenu.classList
         .find(item => item.courseId === reply.courseId)
       const targetContent = classItem.studentQuizHistory
         .find(item => item.questionID === reply.questionID)
@@ -39,7 +39,7 @@ const { quizItem } = createActions({
       dispatch(multiPeerAction.backend.sendData([toWhom], replyToSend))
 
       setTimeout(() => {
-        const courseData = getState().classMenu.classList
+        const courseData = getState().courseMenu.classList
           .find(item => item.courseId === reply.courseId)
         const targetToCheck = courseData.studentQuizHistory
           .find(item => item.questionID === reply.questionID)

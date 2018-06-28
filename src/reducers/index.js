@@ -2,7 +2,7 @@ import { handleActions } from 'redux-actions'
 import nav from './nav.reducer'
 import currCourse from './currCourse.reducer'
 import courseItem from './courseItem.reducer'
-import classMenu from './classMenu.reducer'
+import courseMenu from './courseMenu.reducer'
 import profile from './profile.reducer'
 import RootNavigator from '../navigator/RootNavigator'
 import onlinePeerList from './onlinePeerList.reducer'
@@ -14,7 +14,7 @@ import quiz from './quiz.reducer'
 // define states
 const initialState = {
   nav: nav.initialState,
-  classMenu: classMenu.initialState,
+  courseMenu: courseMenu.initialState,
   currCourse: currCourse.initialState,
   courseItem: courseItem.initialState,
   profile: profile.initialState,
@@ -29,7 +29,7 @@ const initialState = {
 // define reducers
 const reducerMap = {
   nav: nav.reducerMap,
-  classMenu: classMenu.reducerMap,
+  courseMenu: courseMenu.reducerMap,
   currCourse: currCourse.reducerMap,
   courseItem: courseItem.reducerMap,
   profile: profile.reducerMap,
