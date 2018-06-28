@@ -27,6 +27,7 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "semi": ["error", "never"],
     "indent": ["error", 2],
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "max-len": ["error", { "code": 120 }]
   }
 }
