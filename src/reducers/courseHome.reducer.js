@@ -3,13 +3,13 @@ import CourseItemData from '../components/CourseItemData.component'
 // import RootNavigator from '../navigator/RootNavigator'
 
 const initialState = {
-  courseItem: CourseItemData,
+  items: CourseItemData,
 }
 
 const reducerMap = {
   setName: (state, action) => {
     const menu = CourseItemData.filter(item => item.id === action.payload)[0]
-    const { onclick } = state.courseItem.courseItem[menu.id]
+    const { onclick } = state.courseHome.items[menu.id]
     const menuState = menu.id === 1 ? [{
       id: menu.id,
       title: menu.title,
@@ -22,10 +22,10 @@ const reducerMap = {
       imgSrc: menu.imgSrc,
       user: menu.user,
     }]
-    const newState = state.courseItem.courseItem.slice(0, action.payload)
+    const newState = state.courseHome.items.slice(0, action.payload)
       .concat(
         menuState,
-        state.courseItem.courseItem.slice(action.payload + 1),
+        state.courseHome.items.slice(action.payload + 1),
       )
 
     // if (menu.id === 0) {
@@ -34,16 +34,16 @@ const reducerMap = {
     //   return {
     //     ...state,
     //     nav,
-    //     courseItem: {
-    //       courseItem: newState,
+    //     courseHome: {
+    //       items: newState,
     //     },
     //   }
     // }
 
     return {
       ...state,
-      courseItem: {
-        courseItem: newState,
+      courseHome: {
+        items: newState,
       },
     }
   },

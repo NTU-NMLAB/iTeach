@@ -8,94 +8,33 @@ import {
 import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
 import styles from './styles/Course.style'
-import navAction from '../actions/nav.action'
-import courseItemAction from '../actions/courseItem.action'
+import courseHomeAction from '../actions/courseHome.action'
 import CourseItem from '../components/CourseItem.component'
 import CourseItemData from '../components/CourseItemData.component'
 import Appbar from '../components/Appbar.component'
 import Button from '../components/Button.component'
-import multiPeerAction from '../actions/multiPeer.action'
-import drawLotsAction from '../actions/drawLots.action'
-import courseMenuAction from '../actions/courseMenu.action'
-import mockDownloadData from '../../asset/mockDownloadData.json'
 
 const mapStateToProps = state => ({
-  peers: state.multiPeer.peers,
   isTeacher: state.profile.isTeacher,
-  multiPeer: state.multiPeer,
-  courseItem: state.courseItem,
+  items: state.courseHome.items,
   drawLots: state.drawLots,
 })
 
 const mapDispatchToProps = dispatch => ({
-  navAction: {
-    openDrawer: () => { dispatch(navAction.openDrawer()) },
-    onExit: (isTeacher) => {
-      dispatch(navAction.courseMenu())
-      dispatch(multiPeerAction[isTeacher ? 'teacher' : 'student'].exitCourse())
-    },
-    enterFeature: (id) => { dispatch(navAction.enterFeature(id)) },
-  },
-  courseItemAction: {
-    setName: (id) => {
-      dispatch(courseItemAction.setName(id))
-    },
-    multiPeer: (id, isTeacher = false, onclick = false) => {
-      if (id === 1 && isTeacher === true) {
-        if (onclick === false) {
-          dispatch(multiPeerAction.teacher.startRelease())
-        } else {
-          dispatch(multiPeerAction.teacher.stopRelease())
-        }
-      }
-    },
-  },
-  drawLotsAction: {
-    setNoStudent: () => { dispatch(drawLotsAction.setNoStudent()) },
-    handleNoStudent: () => { dispatch(drawLotsAction.handleNoStudent()) },
-  },
-  courseMenuAction: {
-    modify: (courseData) => {
-      dispatch(courseMenuAction.courseList.modify(courseData))
-    },
-  },
+  exit: () => { dispatch(courseHomeAction.exit()) },
+  clickItem: (id) => { dispatch(courseHomeAction.clickItem(id)) },
+  handleNoStudent: () => { dispatch(courseHomeAction.handleNoStudent()) }
 })
 
 class CourseHome extends Component {
-  componentWillMount() {
-    const { currCourseData } = this.props.navigation.state.params
-    if (this.props.isTeacher === false && currCourseData.downloadData === undefined) {
-      currCourseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
-      currCourseData.showActivityIndicator = false
-      this.props.courseMenuAction.modify(currCourseData)
-    }
-  }
-
-  onCourseItemPressed(id) {
-    const {
-      isTeacher,
-      multiPeer,
-      courseItem,
-      navigation,
-    } = this.props
-    const { currCourseData } = navigation.state.params
-    switch (id) {
-    case 5:
-      if (typeof multiPeer.courses[currCourseData.courseId] === 'undefined') {
-        this.props.drawLotsAction.setNoStudent()
-        return
-      }
-      break
-    default:
-    }
-    this.props.courseItemAction.setName(id)
-    this.props.courseItemAction.multiPeer(
-      id,
-      isTeacher,
-      courseItem.courseItem[1].onclick,
-    )
-    this.props.navAction.enterFeature(id, currCourseData)
-  }
+  // componentWillMount() {
+  //   const { currCourseData } = this.props.navigation.state.params
+  //   if (this.props.isTeacher === false && currCourseData.downloadData === undefined) {
+  //     currCourseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
+  //     currCourseData.showActivityIndicator = false
+  //     this.props.courseMenuAction.modify(currCourseData)
+  //   }
+  // }
   alertForStudent(signalIn) {
     if (!signalIn) return null
     return (
@@ -103,54 +42,44 @@ class CourseHome extends Component {
         <Text style={styles.alertTitle}>警告</Text>
         <Text style={styles.alertText}>在線名單沒有任何同學</Text>
         <View style={styles.alertButton}>
-          <Button label="OK" onPress={this.props.drawLotsAction.handleNoStudent}/>
+          <Button label="OK" onPress={this.props.handleNoStudent}/>
         </View>
       </View>
     )
   }
   render() {
-    const { courseItem, drawLots, navigation } = this.props
+    const { items, drawLots, navigation } = this.props
     const { currCourseData } = navigation.state.params
     return (
       <View style={styles.container}>
         <Appbar title={currCourseData.title} withDrawer
           rightIcon={CloseImage}
-          onRightPress={ () => {
-            if (this.props.isTeacher === true && this.props.courseItem.courseItem[1].onclick) {
-              this.props.courseItemAction.setName(1)
-              this.props.courseItemAction.multiPeer(
-                1,
-                this.props.isTeacher,
-                this.props.courseItem.courseItem[1].onclick,
-              )
-            }
-            this.props.navAction.onExit(this.props.isTeacher)
-          } }/>
+          onRightPress={ this.props.exit }/>
         <View style={styles.itemContainer}>
           {this.props.isTeacher === true ?
             CourseItemData.filter(item => item.user.includes('teacher'))
               .map(item => (
                 <CourseItem
                   key={item.id} id={item.id}
-                  title={courseItem.courseItem[item.id].onclick
-                    ? courseItem.courseItem[item.id].title[1]
-                    : courseItem.courseItem[item.id].title[0]}
-                  imgSrc={courseItem.courseItem[item.id].onclick
-                    ? courseItem.courseItem[item.id].imgSrc[1]
-                    : courseItem.courseItem[item.id].imgSrc[0]}
-                  onPress={this.onCourseItemPressed.bind(this)}/>
+                  title={items[item.id].onclick
+                    ? items[item.id].title[1]
+                    : items[item.id].title[0]}
+                  imgSrc={items[item.id].onclick
+                    ? items[item.id].imgSrc[1]
+                    : items[item.id].imgSrc[0]}
+                  onPress={this.props.clickItem}/>
               )) :
             CourseItemData.filter(item => item.user.includes('student'))
               .map(item => (
                 <CourseItem
                   key={item.id} id={item.id}
-                  title={courseItem.courseItem[item.id].onclick
-                    ? courseItem.courseItem[item.id].title[1]
-                    : courseItem.courseItem[item.id].title[0]}
-                  imgSrc={courseItem.courseItem[item.id].onclick
-                    ? courseItem.courseItem[item.id].imgSrc[1]
-                    : courseItem.courseItem[item.id].imgSrc[0]}
-                  onPress={this.onCourseItemPressed.bind(this)}/>
+                  title={items[item.id].onclick
+                    ? items[item.id].title[1]
+                    : items[item.id].title[0]}
+                  imgSrc={items[item.id].onclick
+                    ? items[item.id].imgSrc[1]
+                    : items[item.id].imgSrc[0]}
+                  onPress={this.props.clickItem}/>
               ))
           }
         </View>
@@ -168,29 +97,14 @@ class CourseHome extends Component {
 }
 
 CourseHome.propTypes = {
-  navAction: PropTypes.shape({
-    openDrawer: PropTypes.func.isRequired,
-    onExit: PropTypes.func.isRequired,
-    enterFeature: PropTypes.func.isRequired,
-  }).isRequired,
-  courseItemAction: PropTypes.shape({
-    setName: PropTypes.func.isRequired,
-    multiPeer: PropTypes.func.isRequired,
-  }).isRequired,
-  drawLotsAction: PropTypes.shape({
-    setNoStudent: PropTypes.func.isRequired,
-    handleNoStudent: PropTypes.func.isRequired,
-  }).isRequired,
+  isTeacher: PropTypes.bool.isRequired,
+  items: PropTypes.arrayOf(PropTypes.object),
   drawLots: PropTypes.shape({
     noStudent: PropTypes.bool.isRequired,
   }).isRequired,
-  multiPeer: PropTypes.shape({
-    peers: PropTypes.object.isRequired,
-  }).isRequired,
-  courseItem: PropTypes.object.isRequired,
-  isTeacher: PropTypes.bool.isRequired,
-  peers: PropTypes.object.isRequired,
-  courseMenuAction: PropTypes.object.isRequired,
+  exit: PropTypes.func,
+  clickItem: PropTypes.func,
+  handleNoStudent: PropTypes.func,
   navigation: PropTypes.shape({
     state: PropTypes.shape({
       params: PropTypes.shape({

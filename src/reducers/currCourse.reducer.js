@@ -1,5 +1,5 @@
 const initialState = {
-  courseData: null,
+  currCourse: null,
 }
 
 const reducerMap = {
