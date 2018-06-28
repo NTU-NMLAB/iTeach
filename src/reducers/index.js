@@ -23,7 +23,6 @@ const initialState = {
   drawLots: drawLots.initialState,
   quizItem: quizItem.initialState,
   quiz: quiz.initialState,
-  initComplete: false,
 }
 
 // define reducers
@@ -39,7 +38,6 @@ const reducerMap = {
   quizItem: quizItem.reducerMap,
   quiz: quiz.reducerMap,
   editCourseInfo: state => state,
-  initComplete: state => ({ ...state, initComplete: true }),
 }
 
 export default (state, action) => {

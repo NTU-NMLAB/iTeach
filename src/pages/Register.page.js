@@ -16,7 +16,6 @@ import profileAction from '../actions/profile.action'
 
 const mapStateToProps = state => ({
   ...state.profile,
-  initComplete: state.initComplete,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -77,7 +76,7 @@ class Register extends Component {
   }
 
   render() {
-    return <View style={[styles.container, { display: this.props.initComplete ? 'flex' : 'none' }]}>
+    return <View style={styles.container}>
       <View style={styles.statusbar}/>
       <Logo />
       <View style={styles.form}>
@@ -113,7 +112,6 @@ Register.propTypes = {
     save: PropTypes.func.isRequired,
   }).isRequired,
   username: PropTypes.string.isRequired,
-  initComplete: PropTypes.bool.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

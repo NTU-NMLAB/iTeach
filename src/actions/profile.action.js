@@ -3,7 +3,6 @@ import {
   Alert,
 } from 'react-native'
 import { createActions } from 'redux-actions'
-import initCompleteAction from './initComplete.action'
 
 /*  In order to create an action with createActions
     you may call profile.set(data)
@@ -44,7 +43,6 @@ const { profile } = createActions({
       if (profileData) {
         dispatch(profile.set(profileData))
       }
-      dispatch(initCompleteAction())
     }),
   },
 })
