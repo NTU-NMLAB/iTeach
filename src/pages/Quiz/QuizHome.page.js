@@ -36,7 +36,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 
-class Quiz extends Component {
+class QuizHome extends Component {
   constructor() {
     super()
     this.iconOnPress = this.iconOnPress.bind(this)
@@ -122,7 +122,7 @@ class Quiz extends Component {
   }
 }
 
-Quiz.propTypes = {
+QuizHome.propTypes = {
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
@@ -144,4 +144,4 @@ Quiz.propTypes = {
   }),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Quiz)
+export default connect(mapStateToProps, mapDispatchToProps)(QuizHome)

@@ -42,7 +42,7 @@ const reducerMap = {
   }),
   quizMainPage: state => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Quiz', params: { currCourseData: state.currCourse } }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuizHome', params: { currCourseData: state.currCourse } }), state.nav),
   }),
   quizResultPage: state => ({
     ...state,

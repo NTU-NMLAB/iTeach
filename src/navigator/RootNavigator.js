@@ -12,7 +12,7 @@ import DrawLots from '../pages/DrawLots.page'
 import DrawFinish from '../pages/DrawLotsFinish.page'
 import FileUpload from '../pages/FileUpload.page'
 import FileDownload from '../pages/FileDownload.page'
-import Quiz from '../pages/Quiz/QuizHome.page'
+import QuizHome from '../pages/Quiz/QuizHome.page'
 import QuestionResult from '../pages/Quiz/QuestionResult.page'
 import QuestionCreate from '../pages/Quiz/QuestionCreate.page'
 import HistoryRecord from '../pages/Quiz/HistoryRecord.page'
@@ -51,8 +51,8 @@ export default SwitchNavigator({
     CourseHome: {
       screen: CourseHome,
     },
-    Quiz: {
-      screen: Quiz,
+    QuizHome: {
+      screen: QuizHome,
     },
     QuestionCreate: {
       screen: QuestionCreate,

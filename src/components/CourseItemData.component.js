@@ -38,7 +38,7 @@ const CourseItemData = [
     title: ['隨堂測驗'],
     imgSrc: [test],
     user: 'teacher student',
-    routeName: 'Quiz',
+    routeName: 'QuizHome',
   },
   {
     id: 4,
