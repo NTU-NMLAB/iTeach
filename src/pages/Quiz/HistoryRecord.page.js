@@ -6,7 +6,7 @@ import CloseImage from '../../../asset/close.png'
 import styles from '../styles/HistoryRecord.style'
 import navAction from '../../actions/nav.action'
 import Appbar from '../../components/Appbar.component'
-import HistoryItem from '../../components/HistoryItem.component'
+import TeacherHistoryItem from '../../components/QuizTeacherHistoryItem.component'
 // import mockQuizHistory from '../../../asset/mockQuizHistory.json'
 
 const mapDispatchToProps = dispatch => ({
@@ -42,7 +42,7 @@ class HistoryRecord extends Component {
               data={[...currCourseData.quizHistory].reverse()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
-                <HistoryItem
+                <TeacherHistoryItem
                   type={item.questionType}
                   description={item.questionState}
                   time={item.releaseTime}

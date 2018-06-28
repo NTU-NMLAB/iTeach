@@ -9,7 +9,7 @@ import courseMenuAction from '../../actions/courseMenu.action'
 import QuizItem from '../../components/QuizItem.component'
 import QuizItemData from '../../components/QuizItemData.const'
 import Appbar from '../../components/Appbar.component'
-import StudentHistoryItem from '../../components/StudentHistoryItem.component'
+import StudentHistoryItem from '../../components/QuizStudentHistoryItem.component'
 
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,

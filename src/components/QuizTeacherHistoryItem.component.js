@@ -5,9 +5,9 @@ import {
   TouchableHighlight,
 } from 'react-native'
 import PropTypes from 'prop-types'
-import styles from './styles/HistoryItem.style'
+import styles from './styles/QuizTeacherHistoryItem.style'
 
-class HistoryItem extends Component {
+class TeacherHistoryItem extends Component {
   render() {
     const {
       type,
@@ -47,7 +47,7 @@ class HistoryItem extends Component {
   }
 }
 
-HistoryItem.propTypes = {
+TeacherHistoryItem.propTypes = {
   type: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
@@ -55,4 +55,4 @@ HistoryItem.propTypes = {
   onPress: PropTypes.func.isRequired,
 }
 
-export default HistoryItem
+export default TeacherHistoryItem

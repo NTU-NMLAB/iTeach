@@ -6,7 +6,7 @@ import {
   TouchableHighlight,
 } from 'react-native'
 import PropTypes from 'prop-types'
-import styles from './styles/StudentHistoryItem.style'
+import styles from './styles/QuizStudentHistoryItem.style'
 import unAnswered from '../../asset/icon/unAnswered.png'
 import Answered from '../../asset/icon/Answered.png'
 import Checked from '../../asset/icon/Checked.png'

@@ -9,11 +9,11 @@ import Appbar from '../../components/Appbar.component'
 import getTime from '../../util/getTime'
 import multiPeerAction from '../../actions/multiPeer.action'
 import getHash from '../../util/getHash'
-import TrueFalseCreate from '../../components/TrueFalseCreate.component'
-import SingleCreate from '../../components/SingleCreate.component'
-import MultiCreate from '../../components/MultiCreate.component'
+import TrueFalseCreate from '../../components/QuizTrueFalseCreate.component'
+import SingleCreate from '../../components/QuizSingleCreate.component'
+import MultiCreate from '../../components/QuizMultiCreate.component'
+import ShortDescriptionCreate from '../../components/QuizShortDescriptionCreate.component'
 import QuizItemData from '../../components/QuizItemData.const'
-import ShortDescriptionCreate from '../../components/ShortDescriptionCreate.component'
 
 const mapStateToProps = state => ({
   multiPeer: state.multiPeer, // will be removed soon
