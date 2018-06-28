@@ -67,7 +67,7 @@ class QuestionCreate extends Component {
       releaseTime: timestampRightNow,
       correctRate: 0,
     })
-    quizData.classListModify(currCourseData)
+    quizData.courseListModify(currCourseData)
 
     let keysInThisCourse = []
     if (typeof multiPeer.courses[currCourseData.courseId] !== 'undefined') {

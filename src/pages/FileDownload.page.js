@@ -19,9 +19,9 @@ const mapDispatchToProps = dispatch => ({
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.courseHome()) },
   },
-  classListAction: {
+  courseMenuAction: {
     modify: (courseData) => {
-      dispatch(courseMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.courseList.modify(courseData))
     },
   },
 })
@@ -38,12 +38,12 @@ class FileDownload extends Component {
     const itemIndex = fileData.findIndex(item => item === pressedItem)
     if (fileData[itemIndex].state === '未下載') {
       currCourseData.showActivityIndicator = true
-      this.props.classListAction.modify(currCourseData)
+      this.props.courseMenuAction.modify(currCourseData)
       setTimeout(() => {
         fileData[itemIndex].state = '已下載'
         currCourseData.showActivityIndicator = false
         currCourseData.downloadData = fileData
-        this.props.classListAction.modify(currCourseData)
+        this.props.courseMenuAction.modify(currCourseData)
       }, 3000)
     }
   }
@@ -101,7 +101,7 @@ FileDownload.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  classListAction: PropTypes.object.isRequired,
+  courseMenuAction: PropTypes.object.isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({
       params: PropTypes.shape({

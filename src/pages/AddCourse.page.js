@@ -32,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
     },
   },
   courseMenuAction: {
-    add: (info) => { dispatch(courseMenuAction.classList.add(info)) },
+    add: (info) => { dispatch(courseMenuAction.courseList.add(info)) },
   },
 })
 

@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => ({
     courseHome: () => { dispatch(navAction.courseHome()) },
   },
   courseMenuAction: {
-    modify: (courseData) => { dispatch(courseMenuAction.classList.modify(courseData)) },
+    modify: (courseData) => { dispatch(courseMenuAction.courseList.modify(courseData)) },
   },
 })
 

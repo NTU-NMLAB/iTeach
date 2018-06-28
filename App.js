@@ -19,7 +19,7 @@ const initStore = async () => {
   // Load data from local storage
   // store.dispatch(mockData)
   store.dispatch(profileAction.get())
-  store.dispatch(courseMenu.classList.get())
+  store.dispatch(courseMenu.courseList.get())
 }
 
 initStore()

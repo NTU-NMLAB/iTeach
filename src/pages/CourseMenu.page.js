@@ -18,7 +18,7 @@ import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   profile: state.profile,
-  classList: state.courseMenu.classList,
+  courseList: state.courseMenu.courseList,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -31,15 +31,15 @@ const mapDispatchToProps = dispatch => ({
     addCourse: () => { dispatch(navAction.addCourse()) },
     courseHome: () => { dispatch(navAction.courseHome()) },
   },
-  classListAction: {
+  courseMenuAction: {
     get: () => {
-      dispatch(courseMenuAction.classList.get())
+      dispatch(courseMenuAction.courseList.get())
     },
     modify: (courseData) => {
-      dispatch(courseMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.courseList.modify(courseData))
     },
     delete: (courseId) => {
-      dispatch(courseMenuAction.classList.delete(courseId))
+      dispatch(courseMenuAction.courseList.delete(courseId))
     },
   },
   currCourseAction: {
@@ -73,11 +73,11 @@ class CourseMenu extends Component {
     })
   }
   componentWillMount() {
-    this.props.classListAction.get()
+    this.props.courseMenuAction.get()
   }
 
   deleteClass(courseId) {
-    this.props.classListAction.delete(courseId)
+    this.props.courseMenuAction.delete(courseId)
     delete this.classRef[courseId]
   }
 
@@ -103,7 +103,7 @@ class CourseMenu extends Component {
           rightIcon={this.props.profile.isTeacher === true ? AddImage : SearchImage}
           onRightPress={this.props.profile.isTeacher === true ? this.onPressAddPage : this.onPressCourseSearch}/>
         <View style={styles.listContainer}>
-          <View style={[styles.welcomeMsgContainer, { display: this.props.classList.length === 0 ? 'flex' : 'none' }]}>
+          <View style={[styles.welcomeMsgContainer, { display: this.props.courseList.length === 0 ? 'flex' : 'none' }]}>
             <Text style={styles.welcomeMsg}>{`
               (歡迎訊息)
               歡迎使用 iTeach
@@ -111,9 +111,9 @@ class CourseMenu extends Component {
             </Text>
           </View>
           <FlatList
-            style={[styles.list, { display: this.props.classList.length !== 0 ? 'flex' : 'none' }]}
+            style={[styles.list, { display: this.props.courseList.length !== 0 ? 'flex' : 'none' }]}
             onScrollBeginDrag={this.cancelAllDelete}
-            data={this.props.classList}
+            data={this.props.courseList}
             keyExtractor={item => item.courseId}
             renderItem={({ item }) => (
               <ClassItem
@@ -140,7 +140,7 @@ CourseMenu.propTypes = {
     addCourse: PropTypes.func.isRequired,
     courseHome: PropTypes.func.isRequired,
   }).isRequired,
-  classListAction: PropTypes.shape({
+  courseMenuAction: PropTypes.shape({
     get: PropTypes.func.isRequired,
     modify: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
@@ -152,7 +152,7 @@ CourseMenu.propTypes = {
     openCourse: PropTypes.func.isRequired,
   }).isRequired,
   profile: PropTypes.object.isRequired,
-  classList: PropTypes.array.isRequired,
+  courseList: PropTypes.array.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseMenu)

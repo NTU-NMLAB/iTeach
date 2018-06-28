@@ -54,9 +54,9 @@ const mapDispatchToProps = dispatch => ({
     setNoStudent: () => { dispatch(drawLotsAction.setNoStudent()) },
     handleNoStudent: () => { dispatch(drawLotsAction.handleNoStudent()) },
   },
-  classListAction: {
+  courseMenuAction: {
     modify: (courseData) => {
-      dispatch(courseMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.courseList.modify(courseData))
     },
   },
 })
@@ -67,7 +67,7 @@ class CourseHome extends Component {
     if (this.props.isTeacher === false && currCourseData.downloadData === undefined) {
       currCourseData.downloadData = JSON.parse(JSON.stringify(mockDownloadData.Files))
       currCourseData.showActivityIndicator = false
-      this.props.classListAction.modify(currCourseData)
+      this.props.courseMenuAction.modify(currCourseData)
     }
   }
 
@@ -190,7 +190,7 @@ CourseHome.propTypes = {
   courseItem: PropTypes.object.isRequired,
   isTeacher: PropTypes.bool.isRequired,
   peers: PropTypes.object.isRequired,
-  classListAction: PropTypes.object.isRequired,
+  courseMenuAction: PropTypes.object.isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({
       params: PropTypes.shape({

@@ -28,9 +28,9 @@ const mapDispatchToProps = dispatch => ({
       dispatch(multiPeerAction.student.stopSearch())
     },
   },
-  classListAction: {
+  courseMenuAction: {
     add: item =>
-      dispatch(courseMenuAction.classList.add(item))
+      dispatch(courseMenuAction.courseList.add(item))
     ,
   },
 })
@@ -57,7 +57,7 @@ class CourseSearch extends Component {
   registerClass(classItem) {
     const classItemForStudent = { ...classItem }
     classItemForStudent.studentQuizHistory = []
-    this.props.classListAction.add(classItemForStudent)
+    this.props.courseMenuAction.add(classItemForStudent)
   }
 
   getCourseInfo() {
@@ -106,7 +106,7 @@ CourseSearch.propTypes = {
   navAction: PropTypes.shape({
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  classListAction: PropTypes.shape({
+  courseMenuAction: PropTypes.shape({
     add: PropTypes.func.isRequired,
   }).isRequired,
   isTeacher: PropTypes.bool.isRequired,

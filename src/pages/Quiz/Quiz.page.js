@@ -28,9 +28,9 @@ const mapDispatchToProps = dispatch => ({
     trueFalseAnswerPage: (quizData) => { dispatch(navAction.trueFalseAnswerPage(quizData)) },
     shortDescriptionAnswerPage: (quizData) => { dispatch(navAction.shortDescriptionAnswerPage(quizData)) },
   },
-  classListAction: {
+  courseMenuAction: {
     modify: (courseData) => {
-      dispatch(courseMenuAction.classList.modify(courseData))
+      dispatch(courseMenuAction.courseList.modify(courseData))
     },
   },
 })
@@ -50,7 +50,7 @@ class Quiz extends Component {
     case 2: // Multi
     case 3: // ShortDescription
       this.props.navAction.enterQuestionCreate(id, {
-        classListModify: this.props.classListAction.modify,
+        courseListModify: this.props.courseMenuAction.modify,
       })
       break
     case 4: // HistoryRecord
@@ -133,7 +133,7 @@ Quiz.propTypes = {
     trueFalseAnswerPage: PropTypes.func.isRequired,
     shortDescriptionAnswerPage: PropTypes.func.isRequired,
   }).isRequired,
-  classListAction: PropTypes.object.isRequired,
+  courseMenuAction: PropTypes.object.isRequired,
   isTeacher: PropTypes.bool.isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({

@@ -1,16 +1,16 @@
 const initialState = {
-  classList: [],
+  courseList: [],
 }
 
 const reducerMap = {
-  classList: {
+  courseList: {
     set: (state, action) => {
       if (action.payload) {
         return {
           ...state,
           courseMenu: {
             ...state.courseMenu,
-            classList: action.payload,
+            courseList: action.payload,
           },
         }
       }
