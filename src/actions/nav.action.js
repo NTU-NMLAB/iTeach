@@ -21,7 +21,7 @@ const { nav } = createActions({
     addCourse: () => null,
     onlinePeerList: () => null,
     quizMainPage: () => null,
-    quizResultPage: () => null,
+    quizResultPage: questionItem => questionItem,
     enterFeature: id => CourseItemData[id].routeName,
     draw: (actionIn) => {
       if (actionIn === '') return '回答問題'

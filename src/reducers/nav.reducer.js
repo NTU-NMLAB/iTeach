@@ -44,9 +44,9 @@ const reducerMap = {
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuizHome', params: { currCourseData: state.currCourse } }), state.nav),
   }),
-  quizResultPage: state => ({
+  quizResultPage: (state, action) => ({
     ...state,
-    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult', params: { currCourseData: state.currCourse } }), state.nav),
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult', params: { currQuestion: action.payload } }), state.nav),
   }),
   historyRecord: state => ({
     ...state,

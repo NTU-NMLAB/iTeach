@@ -13,13 +13,13 @@ const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
     onExit: () => { dispatch(navAction.quizMainPage()) },
-    getResult: () => { dispatch(navAction.quizResultPage()) },
+    getResult: (questionItem) => { dispatch(navAction.quizResultPage(questionItem)) },
   },
 })
 
 class HistoryRecord extends Component {
-  HistoryOnPress() {
-    this.props.navAction.getResult()
+  HistoryOnPress(item) {
+    this.props.navAction.getResult(item)
   }
   render() {
     const questionType = '歷史紀錄'
@@ -47,7 +47,7 @@ class HistoryRecord extends Component {
                   description={item.questionState}
                   time={item.releaseTime}
                   correctRate={item.correctRate.toString()}
-                  onPress={this.HistoryOnPress.bind(this) }
+                  onPress={this.HistoryOnPress.bind(this, item) }
                 />
               )}
             />
