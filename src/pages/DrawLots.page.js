@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => ({
   },
   drawLots: {
     initialize: () => { dispatch(drawLots.initialize()) },
-    setDrawCount: (countIn) => { dispatch(drawLots.setDrawCount(countIn)) },
+    setDrawCount: (countIn, courseId) => { dispatch(drawLots.setDrawCount(countIn, courseId)) },
     setDrawAction: (actionIn) => { dispatch(drawLots.setDrawAction(actionIn)) },
     handleActionAllSpace: () => { dispatch(drawLots.handleActionAllSpace()) },
     handleCountTooLarge: () => { dispatch(drawLots.handleCountTooLarge()) },
@@ -41,10 +41,11 @@ class DrawLots extends Component {
     const fromDrawLotsFinish = this.props.drawLotsState.afterDraw
     const originalCount = this.props.drawLotsState.drawCount
     const originalAction = this.props.drawLotsState.drawAction
+    const { currCourseData } = { ...this.props.navigation.state.params }
 
     this.props.drawLots.initialize()
     if (fromDrawLotsFinish) {
-      this.props.drawLots.setDrawCount(originalCount)
+      this.props.drawLots.setDrawCount(originalCount, currCourseData.courseId)
       this.props.drawLots.setDrawAction(originalAction)
     }
   }
@@ -72,6 +73,9 @@ class DrawLots extends Component {
       </View>
     )
   }
+  drawCountOnChange(countIn) {
+    this.props.drawLots.setDrawCount(countIn, this.props.navigation.state.params.currCourseData.courseId)
+  }
   render() {
     const { drawLotsState } = this.props
     return (
@@ -86,7 +90,7 @@ class DrawLots extends Component {
               style={styles.picker}
               textStyle={styles.pickerText}
               selectedValue={drawLotsState.drawCount}
-              onValueChange={this.props.drawLots.setDrawCount}>
+              onValueChange={this.drawCountOnChange.bind(this)}>
               {['1', '2', '3', '4', '5', '6'].map(it => (
                 <Picker.Item key={it} value={it} label={it} />
               ))}
@@ -141,6 +145,13 @@ DrawLots.propTypes = {
     handleActionAllSpace: PropTypes.func.isRequired,
     handleCountTooLarge: PropTypes.func.isRequired,
   }).isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 //  connect react component & redux store
 export default connect(mapStateToProps, mapDispatchToProps)(DrawLots)
