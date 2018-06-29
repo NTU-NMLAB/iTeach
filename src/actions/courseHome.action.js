@@ -4,14 +4,14 @@ import multiPeerAction from './multiPeer.action'
 
 const { courseHome } = createActions({
   courseHome: {
-    setName: id => id,
+    toggleItem: id => id,
     alert: info => info,
     cancelAlert: () => null,
     exit: () => (dispatch, getState) => {
       const { profile } = getState()
       const { items } = getState().courseHome
       if (profile.isTeacher && items[1].onclick) {
-        dispatch(courseHome.setName(1))
+        dispatch(courseHome.toggleItem(1))
         dispatch(multiPeerAction.teacher.stopRelease())
       }
       dispatch(multiPeerAction[profile.isTeacher ? 'teacher' : 'student'].exitCourse())
@@ -46,7 +46,7 @@ const { courseHome } = createActions({
         break
       default:
       }
-      dispatch(courseHome.setName(id))
+      dispatch(courseHome.toggleItem(id))
       dispatch(navAction.enterFeature(id))
     },
   },

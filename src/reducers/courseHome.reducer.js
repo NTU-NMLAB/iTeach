@@ -1,51 +1,43 @@
-import CourseItemData from '../components/CourseItemData.component'
+import CourseItemData from '../components/CourseItemData.const'
 
 const initialState = {
-  items: CourseItemData,
+  items: CourseItemData.map(item => (
+    Array.isArray(item.title) ?
+      {
+        ...item,
+        title: item.title[0],
+        imgSrc: item.imgSrc[0],
+        isOn: false,
+      } :
+      item
+  )),
   alertInfo: null,
 }
 
 const reducerMap = {
-  setName: (state, action) => {
-    const menu = CourseItemData.filter(item => item.id === action.payload)[0]
-    const { onclick } = state.courseHome.items[menu.id]
-    const menuState = menu.id === 1 ? [{
-      id: menu.id,
-      title: menu.title,
-      imgSrc: menu.imgSrc,
-      user: menu.user,
-      onclick: !onclick,
-    }] : [{
-      id: action.payload,
-      title: menu.title,
-      imgSrc: menu.imgSrc,
-      user: menu.user,
-    }]
-    const newState = state.courseHome.items.slice(0, action.payload)
-      .concat(
-        menuState,
-        state.courseHome.items.slice(action.payload + 1),
-      )
-
-    // if (menu.id === 0) {
-    //   const nav = RootNavigator.router.getStateForAction
-    // (NavigationActions.navigate({ routeName: 'OnlinePeerList' }), state.nav)
-    //   return {
-    //     ...state,
-    //     nav,
-    //     courseHome: {
-    //       items: newState,
-    //     },
-    //   }
-    // }
-
-    return {
-      ...state,
-      courseHome: {
-        ...state.courseHome,
-        items: newState,
-      },
+  toggleItem: (state, action) => {
+    const oriItem = CourseItemData[action.payload]
+    const stateItem = state.courseHome.items[action.payload]
+    if (Array.isArray(oriItem.title)) {
+      const newStateItem = {
+        ...stateItem,
+        title: stateItem.isOn ? oriItem.title[0] : oriItem.title[1],
+        imgSrc: stateItem.isOn ? oriItem.imgSrc[0] : oriItem.imgSrc[1],
+        isOn: !stateItem.isOn,
+      }
+      return {
+        ...state,
+        courseHome: {
+          ...state.courseHome,
+          items: [
+            ...state.courseHome.items.slice(0, action.payload),
+            newStateItem,
+            ...state.courseHome.items.slice(action.payload + 1),
+          ],
+        },
+      }
     }
+    return state
   },
   alert: (state, action) => ({
     ...state,

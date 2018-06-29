@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
   View,
   Text,
   Modal,
 } from 'react-native'
-import PropTypes from 'prop-types'
-import CloseImage from '../../asset/close.png'
-import styles from './styles/Course.style'
-import courseHomeAction from '../actions/courseHome.action'
 import CourseItem from '../components/CourseItem.component'
-import CourseItemData from '../components/CourseItemData.component'
 import Appbar from '../components/Appbar.component'
 import Button from '../components/Button.component'
+import styles from './styles/Course.style'
+import CloseImage from '../../asset/close.png'
+import courseHomeAction from '../actions/courseHome.action'
+
 
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
@@ -43,29 +43,14 @@ class CourseHome extends Component {
           rightIcon={CloseImage}
           onRightPress={ this.props.exit }/>
         <View style={styles.itemContainer}>
-          {this.props.isTeacher === true ?
-            CourseItemData.filter(item => item.user.includes('teacher'))
+          {
+            items.filter(item => item.user.includes(this.props.isTeacher ? 'teacher' : 'student'))
               .map(item => (
                 <CourseItem
-                  key={item.id} id={item.id}
-                  title={items[item.id].onclick
-                    ? items[item.id].title[1]
-                    : items[item.id].title[0]}
-                  imgSrc={items[item.id].onclick
-                    ? items[item.id].imgSrc[1]
-                    : items[item.id].imgSrc[0]}
-                  onPress={this.props.clickItem}/>
-              )) :
-            CourseItemData.filter(item => item.user.includes('student'))
-              .map(item => (
-                <CourseItem
-                  key={item.id} id={item.id}
-                  title={items[item.id].onclick
-                    ? items[item.id].title[1]
-                    : items[item.id].title[0]}
-                  imgSrc={items[item.id].onclick
-                    ? items[item.id].imgSrc[1]
-                    : items[item.id].imgSrc[0]}
+                  key={item.id}
+                  id={item.id}
+                  title={item.title}
+                  imgSrc={item.imgSrc}
                   onPress={this.props.clickItem}/>
               ))
           }

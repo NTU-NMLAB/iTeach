@@ -1,5 +1,5 @@
 import { createActions } from 'redux-actions'
-import CourseItemData from '../components/CourseItemData.component'
+import CourseItemData from '../components/CourseItemData.const'
 
 /*  if you call nav.openDrawer()
     the returned action will be
