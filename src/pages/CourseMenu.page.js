@@ -72,9 +72,11 @@ class CourseMenu extends Component {
       }
     })
   }
+  /*
   componentWillMount() {
     this.props.courseMenuAction.get()
   }
+  */
 
   deleteClass(courseId) {
     this.props.courseMenuAction.delete(courseId)
@@ -83,6 +85,7 @@ class CourseMenu extends Component {
 
   onPress(courseData) {
     this.props.currCourseAction.setData(courseData)
+    this.props.courseMenuAction.modify(courseData)
     this.props.multiPeerAction.openCourse(this.props.profile.isTeacher)
     this.props.navAction.courseHome()
   }
