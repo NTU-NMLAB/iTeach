@@ -1,9 +1,8 @@
-// import { NavigationActions } from 'react-navigation'
 import CourseItemData from '../components/CourseItemData.component'
-// import RootNavigator from '../navigator/RootNavigator'
 
 const initialState = {
   items: CourseItemData,
+  alertInfo: null,
 }
 
 const reducerMap = {
@@ -43,10 +42,25 @@ const reducerMap = {
     return {
       ...state,
       courseHome: {
+        ...state.courseHome,
         items: newState,
       },
     }
   },
+  alert: (state, action) => ({
+    ...state,
+    courseHome: {
+      ...state.courseHome,
+      alertInfo: action.payload,
+    },
+  }),
+  cancelAlert: state => ({
+    ...state,
+    courseHome: {
+      ...state.courseHome,
+      alertInfo: null,
+    },
+  }),
 }
 
 export default { reducerMap, initialState }

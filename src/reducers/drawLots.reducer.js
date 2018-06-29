@@ -45,13 +45,6 @@ const reducerMap = {
       drawAction: action.payload,
     },
   }),
-  setNoStudent: state => ({
-    ...state,
-    drawLots: {
-      ...state.drawLots,
-      noStudent: true,
-    },
-  }),
   setChosen: (state, action) => ({
     ...state,
     drawLots: {
@@ -72,13 +65,6 @@ const reducerMap = {
     drawLots: {
       ...state.drawLots,
       actionAllSpace: false,
-    },
-  }),
-  handleNoStudent: state => ({
-    ...state,
-    drawLots: {
-      ...state.drawLots,
-      noStudent: false,
     },
   }),
   handleChosen: state => ({

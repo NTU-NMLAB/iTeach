@@ -16,14 +16,13 @@ import Button from '../components/Button.component'
 
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
+  alertInfo: state.courseHome.alertInfo,
   items: state.courseHome.items,
-  drawLots: state.drawLots,
 })
 
 const mapDispatchToProps = dispatch => ({
   exit: () => { dispatch(courseHomeAction.exit()) },
   clickItem: (id) => { dispatch(courseHomeAction.clickItem(id)) },
-  handleNoStudent: () => { dispatch(courseHomeAction.handleNoStudent()) }
 })
 
 class CourseHome extends Component {
@@ -35,20 +34,8 @@ class CourseHome extends Component {
   //     this.props.courseMenuAction.modify(currCourseData)
   //   }
   // }
-  alertForStudent(signalIn) {
-    if (!signalIn) return null
-    return (
-      <View style={styles.insideAlert}>
-        <Text style={styles.alertTitle}>警告</Text>
-        <Text style={styles.alertText}>在線名單沒有任何同學</Text>
-        <View style={styles.alertButton}>
-          <Button label="OK" onPress={this.props.handleNoStudent}/>
-        </View>
-      </View>
-    )
-  }
   render() {
-    const { items, drawLots, navigation } = this.props
+    const { items, alertInfo, navigation } = this.props
     const { currCourseData } = navigation.state.params
     return (
       <View style={styles.container}>
@@ -83,14 +70,23 @@ class CourseHome extends Component {
               ))
           }
         </View>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={drawLots.noStudent}>
-          <View style={styles.outsideAlert}>
-            {this.alertForStudent(drawLots.noStudent)}
-          </View>
-        </Modal>
+        {
+          alertInfo === null ?
+            null :
+            <Modal
+              animationType="slide"
+              transparent={true}>
+              <View style={styles.outsideAlert}>
+                <View style={styles.insideAlert}>
+                  <Text style={styles.alertTitle}>{alertInfo.title}</Text>
+                  <Text style={styles.alertText}>{alertInfo.message}</Text>
+                  <View style={styles.alertButton}>
+                    <Button label="OK" onPress={alertInfo.okCallback}/>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+        }
       </View>
     )
   }
@@ -98,13 +94,14 @@ class CourseHome extends Component {
 
 CourseHome.propTypes = {
   isTeacher: PropTypes.bool.isRequired,
+  alertInfo: PropTypes.shape({
+    title: PropTypes.string,
+    message: PropTypes.string,
+    okCallback: PropTypes.func,
+  }),
   items: PropTypes.arrayOf(PropTypes.object),
-  drawLots: PropTypes.shape({
-    noStudent: PropTypes.bool.isRequired,
-  }).isRequired,
   exit: PropTypes.func,
   clickItem: PropTypes.func,
-  handleNoStudent: PropTypes.func,
   navigation: PropTypes.shape({
     state: PropTypes.shape({
       params: PropTypes.shape({

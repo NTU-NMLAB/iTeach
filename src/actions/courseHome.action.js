@@ -1,11 +1,12 @@
 import { createActions } from 'redux-actions'
 import navAction from './nav.action'
 import multiPeerAction from './multiPeer.action'
-import drawLotsAction from './drawLots.action'
 
 const { courseHome } = createActions({
   courseHome: {
     setName: id => id,
+    alert: info => info,
+    cancelAlert: () => null,
     exit: () => (dispatch, getState) => {
       const { profile } = getState()
       const { items } = getState().courseHome
@@ -35,7 +36,11 @@ const { courseHome } = createActions({
         break
       case 5:
         if (typeof multiPeer.courses[currCourse.courseId] === 'undefined') {
-          dispatch(drawLotsAction.setNoStudent())
+          dispatch(courseHome.alert({
+            title: '警告',
+            message: '在線名單沒有任何同學',
+            okCallback: () => { dispatch(courseHome.cancelAlert()) },
+          }))
           return
         }
         break
@@ -43,9 +48,6 @@ const { courseHome } = createActions({
       }
       dispatch(courseHome.setName(id))
       dispatch(navAction.enterFeature(id))
-    },
-    handleNoStudent: () => (dispatch) => {
-      dispatch(drawLotsAction.handleNoStudent())
     },
   },
 })
