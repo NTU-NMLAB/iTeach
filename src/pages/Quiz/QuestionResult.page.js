@@ -20,9 +20,11 @@ class QuestionResult extends Component {
   renderStats(currQuestion) {
     if (typeof currQuestion.studentAnswers === 'undefined'
     || currQuestion.studentAnswers.length === 0) {
-      return <Text style={styles.text}>
-      目前沒有學生作答
-      </Text>
+      return <View style={styles.statsContainer}>
+        <Text style={styles.text}>
+          目前沒有學生作答
+        </Text>
+      </View>
     }
     let trueStudents
     let falseStudents
