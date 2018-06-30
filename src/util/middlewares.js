@@ -1,5 +1,6 @@
 import { Alert } from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
+import MultiPeerActions from '../actions/multiPeer.action'
 // import drawLotsAction from '../actions/drawLots.action'
 // import Background fro../components/Background.componentund'
 import courseMenuAction from '../actions/courseMenu.action'

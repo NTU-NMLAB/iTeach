@@ -17,6 +17,7 @@ import newCoursesValidation from '../util/newCoursesValidation'
 import courseMenuAction from '../actions/courseMenu.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
+import getTime from '../util/getTime'
 
 const mapDispatchToProps = dispatch => ({
   nav: {
@@ -102,7 +103,7 @@ class EditCourseInfo extends Component {
       }
     } else {
       // 符合規則，跳轉到 CourseMenu
-      this.props.courseMenuAction.modify(this.state)
+      this.props.courseMenuAction.modify({ ...this.state, timestamp: getTime() })
       this.props.nav.courseHome()
     }
   }

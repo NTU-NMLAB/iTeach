@@ -46,13 +46,11 @@ const { multiPeer } = createActions({
     },
     teacher: {
       startRelease: () => (dispatch) => {
-        dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.common.setStatus(PeerStatus.RELEASING))
       },
       stopRelease: () => (dispatch) => {
         // TODO: students shouldn't see the course after release stopped
-        dispatch(multiPeer.teacher.sendStopRelease())
-        dispatch(multiPeer.backend.stopBrowse())
+        // dispatch(multiPeer.teacher.sendStopRelease())
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
       openCourse: () => (dispatch, getState) => {

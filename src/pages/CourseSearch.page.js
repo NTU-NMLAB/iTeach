@@ -29,9 +29,10 @@ const mapDispatchToProps = dispatch => ({
     },
   },
   courseMenuAction: {
-    add: item =>
+    add: (item) => {
       dispatch(courseMenuAction.courseList.add(item))
-    ,
+      dispatch(multiPeerAction.student.stopSearch())
+    },
   },
 })
 

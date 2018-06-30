@@ -101,6 +101,7 @@ class AddCourse extends Component {
       // 符合規則，跳轉到 CourseMenu
       this.props.courseMenuAction.add({
         ...this.state,
+        timestamp: getTime(),
         courseId: getHash({
           ...this.state,
           timeStamp: getTime(),
