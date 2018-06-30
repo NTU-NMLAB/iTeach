@@ -66,6 +66,8 @@ class CourseSearch extends Component {
       weekday: classItem.weekday,
       time: classItem.time,
       website: classItem.website,
+      courseId: classItem.courseId,
+      timestamp: classItem.timestamp,
     }
     classItemForStudent.studentQuizHistory = []
     this.props.courseMenuAction.add(classItemForStudent)

@@ -43,6 +43,7 @@ const { multiPeer } = createActions({
       },
       exitCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.hide())
+        dispatch(multiPeer.backend.disconnect())
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
     },
