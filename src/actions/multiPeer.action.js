@@ -34,12 +34,10 @@ const { multiPeer } = createActions({
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
       openCourse: () => (dispatch, getState) => {
-        dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
       exitCourse: () => (dispatch) => {
-        dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.backend.hide())
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
@@ -50,22 +48,16 @@ const { multiPeer } = createActions({
       },
       stopRelease: () => (dispatch) => {
         // TODO: students shouldn't see the course after release stopped
-        // dispatch(multiPeer.teacher.sendStopRelease())
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
-      openCourse: () => (dispatch, getState) => {
+      openCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.browse())
-        dispatch(multiPeer.backend.advertise(getTeacherPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
       exitCourse: () => (dispatch) => {
-        dispatch(multiPeer.backend.stopBrowse())
-        dispatch(multiPeer.backend.hide())
-        dispatch(multiPeer.teacher.stopRelease())
-        dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
-      },
-      sendStopRelease: () => (dispatch) => {
         dispatch(multiPeer.backend.disconnect())
+        dispatch(multiPeer.backend.stopBrowse())
+        dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
     },
     common: {
@@ -74,8 +66,8 @@ const { multiPeer } = createActions({
         // change: found, lost
         const state = getState()
         if (state.profile.isTeacher) {
-          if (change === 'found' && state.multiPeer.status === PeerStatus.RELEASING
-            && peer.info.service === appConstants.SERVICE_TYPE) {
+          if (change === 'found' && peer.info.service === appConstants.SERVICE_TYPE
+            && (state.multiPeer.status === PeerStatus.RELEASING || peer.info.currCourseId === state.currCourse.courseId)) {
             const info = getTeacherPeerInfo(state)
             info.releasing = true
             dispatch(multiPeer.backend.invite(peer.id, info))
