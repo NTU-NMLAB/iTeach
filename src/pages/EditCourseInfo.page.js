@@ -15,9 +15,14 @@ import styles from './styles/AddCourse.style'
 import getSemester from '../util/getSemester'
 import newCoursesValidation from '../util/newCoursesValidation'
 import courseMenuAction from '../actions/courseMenu.action'
+import multiPeerAction from '../actions/multiPeer.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 import getTime from '../util/getTime'
+
+const mapStateToProps = state => ({
+  multiPeer: state.multiPeer, // will be removed soon
+}) // will be removed soon
 
 const mapDispatchToProps = dispatch => ({
   nav: {
@@ -25,6 +30,11 @@ const mapDispatchToProps = dispatch => ({
   },
   courseMenuAction: {
     modify: (courseData) => { dispatch(courseMenuAction.courseList.modify(courseData)) },
+  },
+  multiPeerAction: {
+    sendData: (recipients, data) => {
+      dispatch(multiPeerAction.backend.sendData(recipients, data, () => {}))
+    },
   },
 })
 
@@ -102,8 +112,35 @@ class EditCourseInfo extends Component {
         })
       }
     } else {
+      const { multiPeer } = this.props
+      const { currCourseData } = { ...this.props.navigation.state.params }
+      let keysInThisCourse = []
+      if (typeof multiPeer.courses[currCourseData.courseId] !== 'undefined') {
+        keysInThisCourse = Object.keys(multiPeer.courses[currCourseData.courseId])
+      }
+      const keysOnline = keysInThisCourse.filter(it =>
+        multiPeer.peers[it].online && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
+      const newCourseInfo = {
+        ...this.state,
+        timestamp: getTime(),
+      }
+      const data = {
+        messageType: 'COURSE_INFO_UPDATE',
+        courseId: currCourseData.courseId,
+        newCourseInfo: {
+          title: newCourseInfo.title,
+          classroom: newCourseInfo.classroom,
+          website: newCourseInfo.website,
+          year: newCourseInfo.year,
+          semester: newCourseInfo.semester,
+          weekday: newCourseInfo.weekday,
+          time: newCourseInfo.time,
+          timestamp: newCourseInfo.timestamp,
+        },
+      }
       // 符合規則，跳轉到 CourseMenu
-      this.props.courseMenuAction.modify({ ...this.state, timestamp: getTime() })
+      this.props.courseMenuAction.modify(newCourseInfo)
+      this.props.multiPeerAction.sendData(keysOnline, data)
       this.props.nav.courseHome()
     }
   }
@@ -264,6 +301,13 @@ EditCourseInfo.propTypes = {
       }),
     }),
   }),
+  multiPeer: PropTypes.shape({
+    courses: PropTypes.object.isRequired,
+    peers: PropTypes.object.isRequired,
+  }).isRequired,
+  multiPeerAction: PropTypes.shape({
+    sendData: PropTypes.func.isRequired,
+  }).isRequired,
 }
 
-export default connect(undefined, mapDispatchToProps)(EditCourseInfo)
+export default connect(mapStateToProps, mapDispatchToProps)(EditCourseInfo)

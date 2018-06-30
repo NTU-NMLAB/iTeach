@@ -1,6 +1,5 @@
 import { Alert } from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
-import MultiPeerActions from '../actions/multiPeer.action'
 // import drawLotsAction from '../actions/drawLots.action'
 // import Background fro../components/Background.componentund'
 import courseMenuAction from '../actions/courseMenu.action'
@@ -30,6 +29,7 @@ const messageMiddleware = ({ dispatch, getState }) => (
       console.log('action: ', action)
       if (action.type === 'multiPeer/backend/onDataReceived') {
         let courseData
+        let newCourseData
         let dataToSave
         let dataToSend
         const { data, senderId } = action.payload
@@ -92,6 +92,30 @@ const messageMiddleware = ({ dispatch, getState }) => (
           dataToSave = courseData.studentQuizHistory.findIndex(it => it.questionID === data.questionID)
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
           dispatch(courseMenuAction.courseList.modify(courseData))
+          break
+        case 'COURSE_INFO_UPDATE':
+          courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
+          newCourseData = Object.assign({}, courseData, data.newCourseInfo)
+          dispatch(courseMenuAction.courseList.modify(newCourseData))
+          break
+        case 'REQUEST_COURSE_INFO':
+          if (data.timestamp < getState().currCourse.timestamp) {
+            dataToSend = {
+              messageType: 'COURSE_INFO_UPDATE',
+              courseId: getState().currCourse.courseId,
+              newCourseInfo: {
+                title: getState().currCourse.title,
+                classroom: getState().currCourse.classroom,
+                website: getState().currCourse.website,
+                year: getState().currCourse.year,
+                semester: getState().currCourse.semester,
+                weekday: getState().currCourse.weekday,
+                time: getState().currCourse.time,
+                timestamp: getState().currCourse.timestamp,
+              },
+            }
+            dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
+          }
           break
         default:
         }

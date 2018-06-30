@@ -88,6 +88,7 @@ class CourseSearch extends Component {
         weekday: info.currCourseWeekday,
         time: info.currCourseTime,
         website: info.currCourseWebsite,
+        timestamp: info.currCourseTimestamp,
         isTeacher: info.isTeacher,
       }
     }).filter(item => item.isTeacher)

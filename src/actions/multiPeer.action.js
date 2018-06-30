@@ -20,13 +20,14 @@ const getTeacherPeerInfo = state => ({
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
   currCourseColor: state.currCourse.color,
-  currCourseYear: state.currCourse.year,
+  currCourseYear: state.currCourse.year.toString(),
   currCourseSemester: state.currCourse.semester,
   currCourseClassroom: state.currCourse.classroom,
   currCourseWeekday: state.currCourse.weekday,
   currCourseTime: state.currCourse.time,
   currCourseWebsite: state.currCourse.website,
   selfName: state.multiPeer.selfName,
+  currCourseTimestamp: state.currCourse.timestamp,
 })
 
 const { multiPeer } = createActions({
@@ -48,6 +49,12 @@ const { multiPeer } = createActions({
         dispatch(multiPeer.backend.hide())
         dispatch(multiPeer.backend.disconnect())
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
+      },
+      requestCourseInfo: () => (dispatch, getState) => {
+        dispatch(multiPeer.backend.broadcastData({
+          messageType: 'REQUEST_COURSE_INFO',
+          timestamp: getState().currCourse.timestamp,
+        }))
       },
     },
     teacher: {
