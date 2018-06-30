@@ -1,7 +1,6 @@
 import { createActions } from 'redux-actions'
 import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer.class'
 import MultipeerConnectivity from '../submodule/react-native-multipeer'
-import getRandomColor from '../util/getRandomColor'
 import appConstants from '../submodule/react-native-multipeer/constants/App.constant'
 
 const getStudentPeerInfo = state => ({
@@ -10,7 +9,6 @@ const getStudentPeerInfo = state => ({
   username: state.profile.username,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
-  color: getRandomColor(),
 })
 
 const getTeacherPeerInfo = state => ({
@@ -19,7 +17,13 @@ const getTeacherPeerInfo = state => ({
   username: state.profile.username,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
-  color: getRandomColor(),
+  currCourseColor: state.currCourse.color,
+  currCourseYear: state.currCourse.year,
+  currCourseSemester: state.currCourse.semester,
+  currCourseClassroom: state.currCourse.classroom,
+  currCourseWeekday: state.currCourse.weekday,
+  currCourseTime: state.currCourse.time,
+  currCourseWebsite: state.currCourse.website,
 })
 
 const { multiPeer } = createActions({
