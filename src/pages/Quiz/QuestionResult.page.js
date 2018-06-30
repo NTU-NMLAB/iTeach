@@ -44,7 +44,7 @@ class QuestionResult extends Component {
         <QuizStatItem
           label='是'
           ratio={trueStudents.length / currQuestion.studentAnswers.length}
-          correct={currQuestion.trueFalse.answer}
+          correct={currQuestion.trueFalse.value}
           userList={trueStudents}
           unrolled={this.state.unrolled[0]}
           onPress={() => this.setState({ unrolled: [!this.state.unrolled[0], false] })}
@@ -52,7 +52,7 @@ class QuestionResult extends Component {
         <QuizStatItem
           label='否'
           ratio={falseStudents.length / currQuestion.studentAnswers.length}
-          correct={!currQuestion.trueFalse.answer}
+          correct={!currQuestion.trueFalse.value}
           userList={falseStudents}
           unrolled={this.state.unrolled[1]}
           onPress={() => this.setState({ unrolled: [false, !this.state.unrolled[1]] })}

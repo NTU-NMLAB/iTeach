@@ -34,8 +34,11 @@ const { quizItem } = createActions({
         .find(item => item.questionID === reply.questionID)
       const replyToSend = { messageType: 'ANSWER_BACK', ...reply }
       if (reply.answerState !== 'Answered') replyToSend.answer = targetContent.answer
-      if (targetContent.questionType === '是非題') replyToSend.answer.map(item => item.toString())
-      else replyToSend.answer = replyToSend.answer.map(item => targetContent.options[item])
+      if (targetContent.questionType === '是非題') {
+        [replyToSend.answer] = replyToSend.answer
+      } else if (targetContent.questionType === '單選題') {
+        replyToSend.answer = targetContent.options[replyToSend.answer[0]]
+      }
       dispatch(multiPeerAction.backend.sendData([toWhom], replyToSend))
 
       setTimeout(() => {

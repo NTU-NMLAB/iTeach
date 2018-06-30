@@ -65,22 +65,7 @@ class QuestionCreate extends Component {
       questionType: QuizItemData[quizItemId].title,
       questionID: hashID,
       releaseTime: timestampRightNow,
-      studentAnswers: [
-        /*
-        {
-          studentName: 'cbbbbbbbbbbbb',
-          answer: false, // for trueFalse
-        },
-        {
-          studentName: 'cata',
-          answer: 'A', // for single
-        },
-        {
-          studentName: 'c',
-          answer: [0, 1, 3], // for multi
-        },
-        */
-      ],
+      studentAnswers: [],
       quizItemId,
     })
     quizData.courseListModify(currCourseData)

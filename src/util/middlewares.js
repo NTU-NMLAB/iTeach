@@ -78,13 +78,19 @@ const messageMiddleware = ({ dispatch, getState }) => (
         case 'ANSWER_BACK':
           dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID, courseId: data.courseId }
           dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
-          dataToSave = getState().courseMenu.courseList.find(it => it.courseId === data.courseId)
-          dataToSave = dataToSave.quizHistory.find(it => it.questionID === data.questionID)
+          courseData = getState().courseMenu.courseList.find(it => it.courseId === data.courseId)
+          dataToSave = courseData.quizHistory.find(it => it.questionID === data.questionID)
           Alert.alert(
             dataToSave.questionType,
             `Quiz: ${dataToSave.questionState}\n\nAns: ${JSON.stringify(data.answer)}`,
             [{ text: `from: ${getState().multiPeer.peers[senderId].info.username}` }],
           )
+          dataToSave.studentAnswers.push({
+            studentName: getState().multiPeer.peers[senderId].info.username,
+            answer: data.answer,
+          })
+          courseData.quizHistory[courseData.quizHistory.findIndex(it => it.questionID === data.questionID)] = dataToSave
+          dispatch(courseMenuAction.courseList.modify(courseData))
           break
         case 'ACK_BACK':
           courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
