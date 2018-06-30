@@ -56,7 +56,17 @@ class CourseSearch extends Component {
   }
 
   registerClass(classItem) {
-    const classItemForStudent = { ...classItem }
+    const classItemForStudent = {
+      title: classItem.title,
+      color: classItem.color,
+      teacher: classItem.teacher,
+      year: classItem.year,
+      semester: classItem.semester,
+      classroom: classItem.classroom,
+      weekday: classItem.weekday,
+      time: classItem.time,
+      website: classItem.website,
+    }
     classItemForStudent.studentQuizHistory = []
     this.props.courseMenuAction.add(classItemForStudent)
   }
@@ -69,7 +79,13 @@ class CourseSearch extends Component {
         title: info.currCourseTitle,
         courseId: info.currCourseId,
         teacher: info.username,
-        color: info.color,
+        color: info.currCourseColor,
+        year: info.currCourseYear,
+        semester: info.currCourseSemester,
+        classroom: info.currCourseClassroom,
+        weekday: info.currCourseWeekday,
+        time: info.currCourseTime,
+        website: info.currCourseWebsite,
         isTeacher: info.isTeacher === 'true',
         connected: this.props.peers[i].connected,
       }
