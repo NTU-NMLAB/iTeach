@@ -41,15 +41,17 @@ const { multiPeer } = createActions({
       openCourse: () => (dispatch, getState) => {
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
-        dispatch(multiPeer.backend.broadcastData({
-          messageType: 'REQUEST_COURSE_INFO',
-          timestamp: getState().currCourse.timestamp,
-        }))
       },
       exitCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.hide())
         dispatch(multiPeer.backend.disconnect())
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
+      },
+      requestCourseInfo: () => (dispatch, getState) => {
+        dispatch(multiPeer.backend.broadcastData({
+          messageType: 'REQUEST_COURSE_INFO',
+          timestamp: getState().currCourse.timestamp,
+        }))
       },
     },
     teacher: {

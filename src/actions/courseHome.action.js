@@ -26,12 +26,15 @@ const { courseHome } = createActions({
       const { items } = getState().courseHome
       switch (id) {
       case 1:
-        if (profile.isTeacher) {
-          if (items[1].onclick) {
-            dispatch(multiPeerAction.teacher.stopRelease())
-          } else {
-            dispatch(multiPeerAction.teacher.startRelease())
-          }
+        if (items[1].onclick) {
+          dispatch(multiPeerAction.teacher.stopRelease())
+        } else {
+          dispatch(multiPeerAction.teacher.startRelease())
+        }
+        break
+      case 2:
+        if (!profile.isTeacher) {
+          dispatch(multiPeerAction.student.requestCourseInfo())
         }
         break
       case 5:
