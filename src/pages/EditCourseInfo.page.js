@@ -119,7 +119,9 @@ class EditCourseInfo extends Component {
         keysInThisCourse = Object.keys(multiPeer.courses[currCourseData.courseId])
       }
       const keysOnline = keysInThisCourse.filter(it =>
-        multiPeer.peers[it].online && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
+        Object.keys(multiPeer.peers).includes(it)
+        && multiPeer.peers[it].online
+        && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
       const newCourseInfo = {
         ...this.state,
         timestamp: getTime(),

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
+import { View, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Quiz.style'
@@ -90,7 +90,9 @@ class QuestionCreate extends Component {
       keysInThisCourse = Object.keys(multiPeer.courses[currCourseData.courseId])
     }
     const keysOnline = keysInThisCourse.filter(it =>
-      multiPeer.peers[it].online && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
+      Object.keys(multiPeer.peers).includes(it)
+      && multiPeer.peers[it].online
+      && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
     const data = {
       messageType: 'QUESTION_DEBUT',
       courseId: currCourseData.courseId,
