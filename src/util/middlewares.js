@@ -26,7 +26,6 @@ const asyncFunctionMiddleware = ({ dispatch, getState }) => (
 const messageMiddleware = ({ dispatch, getState }) => (
   next => (
     (action) => {
-      console.log('action: ', action)
       if (action.type === 'multiPeer/backend/onDataReceived') {
         let courseData
         let newCourseData
