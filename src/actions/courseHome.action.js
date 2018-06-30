@@ -10,7 +10,7 @@ const { courseHome } = createActions({
     exit: () => (dispatch, getState) => {
       const { profile } = getState()
       const { items } = getState().courseHome
-      if (profile.isTeacher && items[1].onclick) {
+      if (profile.isTeacher && items[1].isOn) {
         dispatch(courseHome.toggleItem(1))
         dispatch(multiPeerAction.teacher.stopRelease())
       }
