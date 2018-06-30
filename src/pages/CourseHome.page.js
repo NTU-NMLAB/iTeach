@@ -22,9 +22,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  exit: () => { 
+  exit: () => {
     dispatch(currCourseAction.setData(null))
-    dispatch(courseHomeAction.exit()) },
+    dispatch(courseHomeAction.exit())
+  },
   clickItem: (id) => { dispatch(courseHomeAction.clickItem(id)) },
 })
 
