@@ -40,7 +40,7 @@ class ClassItem extends Component {
               {title}
             </Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.deleteContainer} onPress={() => { deleteClass(title) }} underlayColor='#C20C02'>
+          <TouchableHighlight style={styles.deleteContainer} onPress={() => { deleteClass(item.courseId) }} underlayColor='#C20C02'>
             <Image style={styles.delete} source={DeleteImage}/>
           </TouchableHighlight>
         </ScrollView>
