@@ -18,7 +18,7 @@ const getTeacherPeerInfo = state => ({
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
   currCourseColor: state.currCourse.color,
-  currCourseYear: state.currCourse.year,
+  currCourseYear: state.currCourse.year.toString(),
   currCourseSemester: state.currCourse.semester,
   currCourseClassroom: state.currCourse.classroom,
   currCourseWeekday: state.currCourse.weekday,
@@ -41,6 +41,10 @@ const { multiPeer } = createActions({
         dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
+        dispatch(multiPeer.backend.broadcastData({
+          messageType: 'REQUEST_COURSE_INFO',
+          timestamp: getState().currCourse.timestamp,
+        }))
       },
       exitCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.stopBrowse())
