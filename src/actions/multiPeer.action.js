@@ -1,7 +1,7 @@
 import { createActions } from 'redux-actions'
+import { AsyncStorage } from 'react-native'
 import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer.class'
 import MultipeerConnectivity from '../submodule/react-native-multipeer'
-import getRandomColor from '../util/getRandomColor'
 import appConstants from '../submodule/react-native-multipeer/constants/App.constant'
 
 const getStudentPeerInfo = state => ({
@@ -10,7 +10,7 @@ const getStudentPeerInfo = state => ({
   username: state.profile.username,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
-  color: getRandomColor(),
+  selfName: state.multiPeer.selfName,
 })
 
 const getTeacherPeerInfo = state => ({
@@ -19,7 +19,15 @@ const getTeacherPeerInfo = state => ({
   username: state.profile.username,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
-  color: getRandomColor(),
+  currCourseColor: state.currCourse.color,
+  currCourseYear: state.currCourse.year.toString(),
+  currCourseSemester: state.currCourse.semester,
+  currCourseClassroom: state.currCourse.classroom,
+  currCourseWeekday: state.currCourse.weekday,
+  currCourseTime: state.currCourse.time,
+  currCourseWebsite: state.currCourse.website,
+  selfName: state.multiPeer.selfName,
+  currCourseTimestamp: state.currCourse.timestamp,
 })
 
 const { multiPeer } = createActions({
@@ -34,40 +42,37 @@ const { multiPeer } = createActions({
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
       openCourse: () => (dispatch, getState) => {
-        dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
       exitCourse: () => (dispatch) => {
-        dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.backend.hide())
+        dispatch(multiPeer.backend.disconnect())
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
+      },
+      requestCourseInfo: () => (dispatch, getState) => {
+        dispatch(multiPeer.backend.broadcastData({
+          messageType: 'REQUEST_COURSE_INFO',
+          timestamp: getState().currCourse.timestamp,
+        }))
       },
     },
     teacher: {
       startRelease: () => (dispatch) => {
-        dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.common.setStatus(PeerStatus.RELEASING))
       },
       stopRelease: () => (dispatch) => {
         // TODO: students shouldn't see the course after release stopped
-        dispatch(multiPeer.teacher.sendStopRelease())
-        dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
-      openCourse: () => (dispatch, getState) => {
+      openCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.browse())
-        dispatch(multiPeer.backend.advertise(getTeacherPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
       exitCourse: () => (dispatch) => {
-        dispatch(multiPeer.backend.stopBrowse())
-        dispatch(multiPeer.backend.hide())
-        dispatch(multiPeer.teacher.stopRelease())
-        dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
-      },
-      sendStopRelease: () => (dispatch) => {
         dispatch(multiPeer.backend.disconnect())
+        dispatch(multiPeer.backend.stopBrowse())
+        dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
     },
     common: {
@@ -75,10 +80,10 @@ const { multiPeer } = createActions({
       onPeerStateChange: (peer, change) => (dispatch, getState) => {
         // change: found, lost
         const state = getState()
+        const info = getTeacherPeerInfo(state)
         if (state.profile.isTeacher) {
-          if (change === 'found' && state.multiPeer.status === PeerStatus.RELEASING
-            && peer.info.service === appConstants.SERVICE_TYPE) {
-            const info = getTeacherPeerInfo(state)
+          if (change === 'found' && peer.info.service === appConstants.SERVICE_TYPE
+            && (state.multiPeer.status === PeerStatus.RELEASING || peer.info.currCourseId === info.currCourseId)) {
             info.releasing = true
             dispatch(multiPeer.backend.invite(peer.id, info))
           }
@@ -90,9 +95,23 @@ const { multiPeer } = createActions({
       },
     },
     backend: {
-      init: (selfName) => {
-        return { selfName }
-      },
+      init: () => (async (dispatch) => {
+        let selfName = JSON.parse(await AsyncStorage.getItem('iTeachStore:selfName'))
+        if (!selfName) {
+          selfName = `User-${Math.round(1e6 * Math.random())}`
+          await AsyncStorage.setItem('iTeachStore:selfName', JSON.stringify(selfName))
+        } else {
+          const peers = JSON.parse(await AsyncStorage.getItem('iTeachStore:peers'))
+          let courses = JSON.parse(await AsyncStorage.getItem('iTeachStore:peersInCourses'))
+          if (!courses) {
+            courses = {}
+          }
+          dispatch(multiPeer.backend.loadPeerFromStorage(peers, courses))
+        }
+        dispatch(multiPeer.backend.setSelfName(selfName))
+      }),
+      setSelfName: selfName => ({ selfName }),
+      loadPeerFromStorage: (peers, courses) => ({ peers, courses }),
       browse: () => {
         MultipeerConnectivity.browse()
       },
@@ -139,12 +158,26 @@ const { multiPeer } = createActions({
       broadcastData: (data, callback = () => {}) => {
         MultipeerConnectivity.broadcastData(data, callback)
       },
-      onPeerFoundSet: peer => ({ peer }),
-      onPeerFound: (peerId, peerInfo) => (dispatch) => {
+      onPeerFoundSet: (peers, courses) => ({ peers, courses }),
+      // when a teacher found students, add the students into Peers
+      onPeerFound: (peerId, peerInfo) => async (dispatch, getState) => {
         const peer = new Peer(peerId, peerInfo)
+        const state = getState()
         peer.online = true
+        const { courses } = state.multiPeer
+        if (!(peer.info.currCourseId in courses)) {
+          courses[peer.info.currCourseId] = {}
+        }
+        courses[peer.info.currCourseId][peer.id] = true
+        const peers = {}
+        Object.values(state.multiPeer.peers)
+          .filter(p => p.info.selfName !== peer.info.selfName)
+          .forEach((p) => { peers[p.id] = p })
+        peers[peer.id] = peer
+        await AsyncStorage.setItem('iTeachStore:peers', JSON.stringify(peers))
+        await AsyncStorage.setItem('iTeachStore:peersInCourses', JSON.stringify(courses))
         dispatch(multiPeer.common.onPeerStateChange(peer, 'found'))
-        dispatch(multiPeer.backend.onPeerFoundSet(peer))
+        dispatch(multiPeer.backend.onPeerFoundSet(peers, courses))
       },
       onPeerLostSet: peer => ({ peer }),
       onPeerLost: peerId => (dispatch, getState) => {
@@ -166,8 +199,11 @@ const { multiPeer } = createActions({
         return { peerId }
       },
       onStreamOpened: () => null,
-      onInviteReceivedSet: peer => ({ peer }),
-      onInviteReceived: invitation => (dispatch) => {
+      onInviteReceivedSet: peers => ({ peers }),
+      // when students being invited by a teacher, add teacher to Peers
+      onInviteReceived: invitation => async (dispatch, getState) => {
+        const state = getState()
+        const info = getStudentPeerInfo(state)
         const peer = new Peer(
           invitation.sender.id,
           invitation.sender.info,
@@ -176,8 +212,17 @@ const { multiPeer } = createActions({
           invitation.id,
           true,
         )
-        dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
-        dispatch(multiPeer.backend.onInviteReceivedSet(peer))
+        if (invitation.sender.info.currCourseId === info.currCourseId) {
+          dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
+        }
+
+        const peers = {}
+        Object.values(state.multiPeer.peers)
+          .filter(p => p.info.selfName !== peer.info.selfName)
+          .forEach((p) => { peers[p.id] = p })
+        peers[peer.id] = peer
+        await AsyncStorage.setItem('iTeachStore:peers', JSON.stringify(peers))
+        dispatch(multiPeer.backend.onInviteReceivedSet(peers))
       },
       onDataReceived: (senderId, data) => {
         return {

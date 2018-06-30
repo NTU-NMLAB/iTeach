@@ -29,9 +29,10 @@ const mapDispatchToProps = dispatch => ({
     },
   },
   courseMenuAction: {
-    add: item =>
+    add: (item) => {
       dispatch(courseMenuAction.courseList.add(item))
-    ,
+      dispatch(multiPeerAction.student.stopSearch())
+    },
   },
 })
 
@@ -55,7 +56,19 @@ class CourseSearch extends Component {
   }
 
   registerClass(classItem) {
-    const classItemForStudent = { ...classItem }
+    const classItemForStudent = {
+      title: classItem.title,
+      color: classItem.color,
+      teacher: classItem.teacher,
+      year: classItem.year,
+      semester: classItem.semester,
+      classroom: classItem.classroom,
+      weekday: classItem.weekday,
+      time: classItem.time,
+      website: classItem.website,
+      courseId: classItem.courseId,
+      timestamp: classItem.timestamp,
+    }
     classItemForStudent.studentQuizHistory = []
     this.props.courseMenuAction.add(classItemForStudent)
   }
@@ -68,11 +81,17 @@ class CourseSearch extends Component {
         title: info.currCourseTitle,
         courseId: info.currCourseId,
         teacher: info.username,
-        color: info.color,
-        isTeacher: info.isTeacher === 'true',
-        connected: this.props.peers[i].connected,
+        color: info.currCourseColor,
+        year: info.currCourseYear,
+        semester: info.currCourseSemester,
+        classroom: info.currCourseClassroom,
+        weekday: info.currCourseWeekday,
+        time: info.currCourseTime,
+        website: info.currCourseWebsite,
+        timestamp: info.currCourseTimestamp,
+        isTeacher: info.isTeacher,
       }
-    }).filter(item => (item.isTeacher && item.connected === true))
+    }).filter(item => item.isTeacher)
   }
 
   render() {

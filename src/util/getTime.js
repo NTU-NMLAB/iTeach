@@ -5,6 +5,7 @@ export default function getTime() {
   let day = date.getDate()
   let hour = date.getHours()
   let minutes = date.getMinutes()
+  let seconds = date.getSeconds()
   if (month < 10) {
     month = `0${month.toString()}`
   }
@@ -17,7 +18,10 @@ export default function getTime() {
   if (minutes < 10) {
     minutes = `0${minutes.toString()}`
   }
+  if (seconds < 10) {
+    seconds = `0${seconds.toString()}`
+  }
 
-  const fullTime = `${year.toString()}/${month.toString()}/${day.toString()} ${hour.toString()}:${minutes.toString()}`
+  const fullTime = `${year.toString()}/${month.toString()}/${day.toString()} ${hour.toString()}:${minutes.toString()}:${seconds.toString()}`
   return fullTime
 }
