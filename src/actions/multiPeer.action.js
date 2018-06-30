@@ -70,10 +70,10 @@ const { multiPeer } = createActions({
       onPeerStateChange: (peer, change) => (dispatch, getState) => {
         // change: found, lost
         const state = getState()
+        const info = getTeacherPeerInfo(state)
         if (state.profile.isTeacher) {
           if (change === 'found' && peer.info.service === appConstants.SERVICE_TYPE
-            && (state.multiPeer.status === PeerStatus.RELEASING || peer.info.currCourseId === state.currCourse.courseId)) {
-            const info = getTeacherPeerInfo(state)
+            && (state.multiPeer.status === PeerStatus.RELEASING || peer.info.currCourseId === info.currCourseId)) {
             info.releasing = true
             dispatch(multiPeer.backend.invite(peer.id, info))
           }
@@ -162,7 +162,9 @@ const { multiPeer } = createActions({
       },
       onStreamOpened: () => null,
       onInviteReceivedSet: peer => ({ peer }),
-      onInviteReceived: invitation => (dispatch) => {
+      onInviteReceived: invitation => (dispatch, getState) => {
+        const state = getState()
+        const info = getStudentPeerInfo(state)
         const peer = new Peer(
           invitation.sender.id,
           invitation.sender.info,
@@ -171,7 +173,9 @@ const { multiPeer } = createActions({
           invitation.id,
           true,
         )
-        dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
+        if (invitation.sender.info.currCourseId === info.currCourseId) {
+          dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
+        }
         dispatch(multiPeer.backend.onInviteReceivedSet(peer))
       },
       onDataReceived: (senderId, data) => {

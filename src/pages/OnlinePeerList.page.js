@@ -41,6 +41,7 @@ class OnlinePeerList extends Component {
   }
   getOfflinePeerList() {
     const { currCourseData } = this.props.navigation.state.params
+    console.log(this.props)
     return Object.keys(this.props.multiPeer.peers)
       .map(i => this.props.multiPeer.peers[i])
       .filter((peer => (peer.connected === false || !(peer.info.currCourseId === currCourseData.courseId)) &&
