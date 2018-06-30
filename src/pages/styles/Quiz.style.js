@@ -74,4 +74,63 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
   },
+  singleAnswer: {
+    height: 40,
+    marginTop: 5,
+    marginBottom: 5,
+    paddingLeft: 20,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+  },
+  truefalseAnswer: {
+    height: 40,
+    marginTop: 5,
+    marginBottom: 5,
+    paddingLeft: 20,
+    backgroundColor: '#FFFFFF',
+  },
+  multiAnswer: {
+    height: 40,
+    marginTop: 5,
+    marginBottom: 5,
+    paddingLeft: 20,
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'row',
+  },
+  singlesubmitCon: {
+    flex: 0.3,
+  },
+  truefalsesubmitCon: {
+    flex: 0.5,
+  },
+  multisubmitCon: {
+    flex: 0.1,
+  },
+  switch: {
+    paddingTop: 3,
+    left: 30,
+  },
+  singleInput: {
+    height: 44,
+    width: 240,
+    marginBottom: 25,
+    paddingBottom: 10,
+    color: '#3A8FB7',
+    fontFamily: 'Avenir',
+    fontSize: 22,
+  },
+  cbContainer: {
+    color: '#3A8FB7',
+    fontFamily: 'Avenir',
+    fontSize: 22,
+    right: 50,
+  },
+  textmulti: {
+    color: '#3A8FB7',
+    fontFamily: 'Avenir',
+    fontSize: 22,
+    marginLeft: 13,
+    paddingBottom: 5,
+    top: -3,
+  },
 })
