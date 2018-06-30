@@ -24,6 +24,7 @@ const getTeacherPeerInfo = state => ({
   currCourseWeekday: state.currCourse.weekday,
   currCourseTime: state.currCourse.time,
   currCourseWebsite: state.currCourse.website,
+  currCourseTimestamp: state.currCourse.timestamp,
 })
 
 const { multiPeer } = createActions({

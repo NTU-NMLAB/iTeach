@@ -126,6 +126,7 @@ class EditCourseInfo extends Component {
       }
       const data = {
         messageType: 'COURSE_INFO_UPDATE',
+        courseId: currCourseData.courseId,
         newCourseInfo: {
           title: newCourseInfo.title,
           classroom: newCourseInfo.classroom,
