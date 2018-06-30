@@ -1,4 +1,5 @@
 import { createActions } from 'redux-actions'
+import { AsyncStorage } from 'react-native'
 import Peer, { PeerStatus } from '../submodule/react-native-multipeer/classes/Peer.class'
 import MultipeerConnectivity from '../submodule/react-native-multipeer'
 import appConstants from '../submodule/react-native-multipeer/constants/App.constant'
@@ -9,6 +10,7 @@ const getStudentPeerInfo = state => ({
   username: state.profile.username,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
+  selfName: state.multiPeer.selfName,
 })
 
 const getTeacherPeerInfo = state => ({
@@ -24,6 +26,7 @@ const getTeacherPeerInfo = state => ({
   currCourseWeekday: state.currCourse.weekday,
   currCourseTime: state.currCourse.time,
   currCourseWebsite: state.currCourse.website,
+  selfName: state.multiPeer.selfName,
 })
 
 const { multiPeer } = createActions({
@@ -85,9 +88,15 @@ const { multiPeer } = createActions({
       },
     },
     backend: {
-      init: (selfName) => {
-        return { selfName }
-      },
+      init: () => (async (dispatch) => {
+        let selfName = JSON.parse(await AsyncStorage.getItem('iTeachStore:selfName'))
+        if (!selfName) {
+          selfName = `User-${Math.round(1e6 * Math.random())}`
+          await AsyncStorage.setItem('iTeachStore:selfName', JSON.stringify(selfName))
+        }
+        dispatch(multiPeer.backend.setSelfName(selfName))
+      }),
+      setSelfName: selfName => ({ selfName }),
       browse: () => {
         MultipeerConnectivity.browse()
       },
@@ -136,6 +145,7 @@ const { multiPeer } = createActions({
       },
       onPeerFoundSet: peer => ({ peer }),
       onPeerFound: (peerId, peerInfo) => (dispatch) => {
+        console.log('PeerId: ', peerId, '   peerInfo: ', peerInfo)
         const peer = new Peer(peerId, peerInfo)
         peer.online = true
         dispatch(multiPeer.common.onPeerStateChange(peer, 'found'))
