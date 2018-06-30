@@ -68,16 +68,16 @@ class QuestionCreate extends Component {
       studentAnswers: [
         /*
         {
-          studentId: 'test1',
-          studentName: 'dog',
-          answer: [1, 4],
-          correct: true,
+          studentName: 'cbbbbbbbbbbbb',
+          answer: false, // for trueFalse
         },
         {
-          studentId: 'test2',
-          studentName: 'cat',
-          answer: [0, 1, 2],
-          correct: false,
+          studentName: 'cata',
+          answer: 'A', // for single
+        },
+        {
+          studentName: 'c',
+          answer: [0, 1, 3], // for multi
         },
         */
       ],

@@ -2,10 +2,17 @@ import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
   statItemContainer: {
+    backgroundColor: '#FFFFFF',
+    flexDirection: 'column',
+  },
+  statBarContainer: {
     paddingTop: 5,
     paddingBottom: 5,
     backgroundColor: '#FFFFFF',
     flexDirection: 'row',
+  },
+  statListContainer: {
+    backgroundColor: '#FFFFFF',
   },
   labelContainer: {
     backgroundColor: '#FFFFFF',
@@ -23,6 +30,11 @@ export default StyleSheet.create({
   buttonContainer: {
     backgroundColor: '#FFFFFF',
     flex: 0.15,
+  },
+  studentItemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
   correctBar: {
     borderRadius: 5,
@@ -46,5 +58,13 @@ export default StyleSheet.create({
     color: '#666666',
     fontFamily: 'Avenir',
     fontSize: 15,
+  },
+  studentList: {
+    flex: 1,
+  },
+  studentText: {
+    fontFamily: 'Avenir',
+    fontSize: 18,
+    textAlign: 'left',
   },
 })

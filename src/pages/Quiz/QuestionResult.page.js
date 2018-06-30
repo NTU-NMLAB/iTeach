@@ -17,6 +17,12 @@ const mapDispatchToProps = dispatch => ({
 
 
 class QuestionResult extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      unrolled: [false, false, false, false, false],
+    }
+  }
   renderStats(currQuestion) {
     if (typeof currQuestion.studentAnswers === 'undefined'
     || currQuestion.studentAnswers.length === 0) {
@@ -40,12 +46,16 @@ class QuestionResult extends Component {
           ratio={trueStudents.length / currQuestion.studentAnswers.length}
           correct={currQuestion.trueFalse.answer}
           userList={trueStudents}
+          unrolled={this.state.unrolled[0]}
+          onPress={() => this.setState({ unrolled: [!this.state.unrolled[0], false] })}
         />
         <QuizStatItem
           label='否'
           ratio={falseStudents.length / currQuestion.studentAnswers.length}
           correct={!currQuestion.trueFalse.answer}
           userList={falseStudents}
+          unrolled={this.state.unrolled[1]}
+          onPress={() => this.setState({ unrolled: [false, !this.state.unrolled[1]] })}
         />
       </View>
     case 1: // Single
@@ -59,24 +69,32 @@ class QuestionResult extends Component {
           ratio={singleStudents[0].length / currQuestion.studentAnswers.length}
           correct={true}
           userList={singleStudents[0]}
+          unrolled={this.state.unrolled[0]}
+          onPress={() => this.setState({ unrolled: [!this.state.unrolled[0], false, false, false] })}
         />
         <QuizStatItem
           label={currQuestion.single.wrongAns1}
           ratio={singleStudents[1].length / currQuestion.studentAnswers.length}
           correct={false}
           userList={singleStudents[1]}
+          unrolled={this.state.unrolled[1]}
+          onPress={() => this.setState({ unrolled: [false, !this.state.unrolled[1], false, false] })}
         />
         <QuizStatItem
           label={currQuestion.single.wrongAns2}
           ratio={singleStudents[2].length / currQuestion.studentAnswers.length}
           correct={false}
           userList={singleStudents[2]}
+          unrolled={this.state.unrolled[2]}
+          onPress={() => this.setState({ unrolled: [false, false, !this.state.unrolled[2], false] })}
         />
         <QuizStatItem
           label={currQuestion.single.wrongAns3}
           ratio={singleStudents[3].length / currQuestion.studentAnswers.length}
           correct={false}
           userList={singleStudents[3]}
+          unrolled={this.state.unrolled[3]}
+          onPress={() => this.setState({ unrolled: [false, false, false, !this.state.unrolled[3]] })}
         />
       </View>
     case 2: // Multi
@@ -89,30 +107,40 @@ class QuestionResult extends Component {
           ratio={multiStudents[0].length / currQuestion.studentAnswers.length}
           correct={currQuestion.multi.check1}
           userList={multiStudents[0]}
+          unrolled={this.state.unrolled[0]}
+          onPress={() => this.setState({ unrolled: [!this.state.unrolled[0], false, false, false, false] })}
         />
         <QuizStatItem
           label={currQuestion.multi.ans2State}
           ratio={multiStudents[1].length / currQuestion.studentAnswers.length}
           correct={currQuestion.multi.check2}
           userList={multiStudents[1]}
+          unrolled={this.state.unrolled[1]}
+          onPress={() => this.setState({ unrolled: [false, !this.state.unrolled[1], false, false, false] })}
         />
         <QuizStatItem
           label={currQuestion.multi.ans3State}
           ratio={multiStudents[2].length / currQuestion.studentAnswers.length}
           correct={currQuestion.multi.check3}
           userList={multiStudents[2]}
+          unrolled={this.state.unrolled[2]}
+          onPress={() => this.setState({ unrolled: [false, false, !this.state.unrolled[2], false, false] })}
         />
         <QuizStatItem
           label={currQuestion.multi.ans4State}
           ratio={multiStudents[3].length / currQuestion.studentAnswers.length}
           correct={currQuestion.multi.check4}
           userList={multiStudents[3]}
+          unrolled={this.state.unrolled[3]}
+          onPress={() => this.setState({ unrolled: [false, false, false, !this.state.unrolled[3], false] })}
         />
         <QuizStatItem
           label={currQuestion.multi.ans5State}
           ratio={multiStudents[4].length / currQuestion.studentAnswers.length}
           correct={currQuestion.multi.check5}
           userList={multiStudents[4]}
+          unrolled={this.state.unrolled[4]}
+          onPress={() => this.setState({ unrolled: [false, false, false, false, !this.state.unrolled[4]] })}
         />
       </View>
     default:
