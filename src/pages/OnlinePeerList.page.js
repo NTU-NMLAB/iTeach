@@ -15,6 +15,7 @@ import OnlineListItem from '../components/OnlineListItem.component'
 
 const mapStateToProps = state => ({
   multiPeer: state.multiPeer,
+  isTeacher: state.profile.isTeacher,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -36,15 +37,16 @@ class OnlinePeerList extends Component {
     const { currCourseData } = this.props.navigation.state.params
     return Object.keys(this.props.multiPeer.peers)
       .map(i => this.props.multiPeer.peers[i])
-      .filter(peer => peer.online === true && peer.info.currCourseId === currCourseData.courseId)
+      .filter(peer => peer.connected === true && peer.info.currCourseId === currCourseData.courseId)
   }
   getOfflinePeerList() {
     const { currCourseData } = this.props.navigation.state.params
+    console.log(this.props)
     return Object.keys(this.props.multiPeer.peers)
       .map(i => this.props.multiPeer.peers[i])
-      .filter((peer => (peer.online === false || !(peer.info.currCourseId === currCourseData.courseId)) &&
-        (this.props.multiPeer.courses[currCourseData.courseId] &&
-          peer.id in this.props.multiPeer.courses[currCourseData.courseId])))
+      .filter((peer => (peer.connected === false || !(peer.info.currCourseId === currCourseData.courseId)) &&
+        (!this.props.isTeacher || (this.props.multiPeer.courses[currCourseData.courseId] &&
+          peer.id in this.props.multiPeer.courses[currCourseData.courseId]))))
   }
   render() {
     return (
@@ -104,6 +106,7 @@ OnlinePeerList.propTypes = {
     onExit: PropTypes.func.isRequired,
   }).isRequired,
   multiPeer: PropTypes.object.isRequired,
+  isTeacher: PropTypes.bool.isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({
       params: PropTypes.shape({

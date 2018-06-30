@@ -66,6 +66,8 @@ class CourseSearch extends Component {
       weekday: classItem.weekday,
       time: classItem.time,
       website: classItem.website,
+      courseId: classItem.courseId,
+      timestamp: classItem.timestamp,
     }
     classItemForStudent.studentQuizHistory = []
     this.props.courseMenuAction.add(classItemForStudent)
@@ -86,10 +88,9 @@ class CourseSearch extends Component {
         weekday: info.currCourseWeekday,
         time: info.currCourseTime,
         website: info.currCourseWebsite,
-        isTeacher: info.isTeacher === 'true',
-        connected: this.props.peers[i].connected,
+        isTeacher: info.isTeacher,
       }
-    }).filter(item => (item.isTeacher && item.connected === true))
+    }).filter(item => item.isTeacher)
   }
 
   render() {

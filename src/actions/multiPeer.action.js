@@ -38,7 +38,6 @@ const { multiPeer } = createActions({
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
       openCourse: () => (dispatch, getState) => {
-        dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
         dispatch(multiPeer.backend.broadcastData({
@@ -47,8 +46,8 @@ const { multiPeer } = createActions({
         }))
       },
       exitCourse: () => (dispatch) => {
-        dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.backend.hide())
+        dispatch(multiPeer.backend.disconnect())
         dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
     },
@@ -58,22 +57,16 @@ const { multiPeer } = createActions({
       },
       stopRelease: () => (dispatch) => {
         // TODO: students shouldn't see the course after release stopped
-        // dispatch(multiPeer.teacher.sendStopRelease())
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
-      openCourse: () => (dispatch, getState) => {
+      openCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.browse())
-        dispatch(multiPeer.backend.advertise(getTeacherPeerInfo(getState())))
         dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
       },
       exitCourse: () => (dispatch) => {
-        dispatch(multiPeer.backend.stopBrowse())
-        dispatch(multiPeer.backend.hide())
-        dispatch(multiPeer.teacher.stopRelease())
-        dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
-      },
-      sendStopRelease: () => (dispatch) => {
         dispatch(multiPeer.backend.disconnect())
+        dispatch(multiPeer.backend.stopBrowse())
+        dispatch(multiPeer.common.setStatus(PeerStatus.IDLE))
       },
     },
     common: {
@@ -81,10 +74,10 @@ const { multiPeer } = createActions({
       onPeerStateChange: (peer, change) => (dispatch, getState) => {
         // change: found, lost
         const state = getState()
+        const info = getTeacherPeerInfo(state)
         if (state.profile.isTeacher) {
-          if (change === 'found' && state.multiPeer.status === PeerStatus.RELEASING
-            && peer.info.service === appConstants.SERVICE_TYPE) {
-            const info = getTeacherPeerInfo(state)
+          if (change === 'found' && peer.info.service === appConstants.SERVICE_TYPE
+            && (state.multiPeer.status === PeerStatus.RELEASING || peer.info.currCourseId === info.currCourseId)) {
             info.releasing = true
             dispatch(multiPeer.backend.invite(peer.id, info))
           }
@@ -173,7 +166,9 @@ const { multiPeer } = createActions({
       },
       onStreamOpened: () => null,
       onInviteReceivedSet: peer => ({ peer }),
-      onInviteReceived: invitation => (dispatch) => {
+      onInviteReceived: invitation => (dispatch, getState) => {
+        const state = getState()
+        const info = getStudentPeerInfo(state)
         const peer = new Peer(
           invitation.sender.id,
           invitation.sender.info,
@@ -182,7 +177,9 @@ const { multiPeer } = createActions({
           invitation.id,
           true,
         )
-        dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
+        if (invitation.sender.info.currCourseId === info.currCourseId) {
+          dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
+        }
         dispatch(multiPeer.backend.onInviteReceivedSet(peer))
       },
       onDataReceived: (senderId, data) => {
