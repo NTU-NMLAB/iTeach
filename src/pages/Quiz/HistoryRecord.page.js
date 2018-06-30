@@ -21,6 +21,31 @@ class HistoryRecord extends Component {
   HistoryOnPress(item) {
     this.props.navAction.getResult(item)
   }
+  getCorrectRate(item) {
+    if (item.studentAnswers.length === 0) {
+      return 0
+    }
+    let checkMulti
+    switch (item.quizItemId) {
+    case 0:
+      return item.studentAnswers.filter(student => student.answer === item.trueFalse.value).length * (100 / item.studentAnswers.length)
+    case 1:
+      return item.studentAnswers.filter(student => student.answer === item.single.rightAns).length * (100 / item.studentAnswers.length)
+    case 2:
+      checkMulti = (student) => {
+        return (
+          item.multi.check1 === student.answer.includes(0)
+          && item.multi.check2 === student.answer.includes(1)
+          && item.multi.check3 === student.answer.includes(2)
+          && item.multi.check4 === student.answer.includes(3)
+          && item.multi.check5 === student.answer.includes(4)
+        )
+      }
+      return item.studentAnswers.filter(checkMulti).length * (100 / item.studentAnswers.length)
+    default:
+      return 0
+    }
+  }
   render() {
     const questionType = '歷史紀錄'
     const { currCourseData } = this.props.navigation.state.params
@@ -46,7 +71,7 @@ class HistoryRecord extends Component {
                   type={item.questionType}
                   description={item.questionState}
                   time={item.releaseTime}
-                  correctRate={item.correctRate.toString()}
+                  correctRate={ this.getCorrectRate(item) }
                   onPress={this.HistoryOnPress.bind(this, item) }
                 />
               )}

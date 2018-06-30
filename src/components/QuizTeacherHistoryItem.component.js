@@ -51,7 +51,7 @@ TeacherHistoryItem.propTypes = {
   type: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
-  correctRate: PropTypes.string.isRequired,
+  correctRate: PropTypes.number.isRequired,
   onPress: PropTypes.func.isRequired,
 }
 

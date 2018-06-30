@@ -18,7 +18,7 @@ const QuizStatItem = (props) => {
     <View style={styles.statItemContainer}>
       <View style={styles.labelContainer}>
         <Text style={correct ? styles.correctText : styles.normalText}>
-          { label }
+          { label.length > 4 ? `${label.substring(0, 4)}..` : label }
         </Text>
       </View>
       <TouchableOpacity style={styles.ratioContainer}

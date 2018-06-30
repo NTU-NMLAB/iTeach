@@ -18,6 +18,7 @@ export default StyleSheet.create({
     backgroundColor: '#FFFFFF',
     flex: 0.70,
     flexDirection: 'row',
+    alignItems: 'center',
   },
   buttonContainer: {
     backgroundColor: '#FFFFFF',
@@ -39,11 +40,11 @@ export default StyleSheet.create({
     color: '#3A8FB7',
     fontWeight: 'bold',
     fontFamily: 'Avenir',
-    fontSize: 20,
+    fontSize: 15,
   },
   normalText: {
     color: '#666666',
     fontFamily: 'Avenir',
-    fontSize: 20,
+    fontSize: 15,
   },
 })

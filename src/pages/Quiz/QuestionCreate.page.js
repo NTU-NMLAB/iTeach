@@ -65,7 +65,6 @@ class QuestionCreate extends Component {
       questionType: QuizItemData[quizItemId].title,
       questionID: hashID,
       releaseTime: timestampRightNow,
-      correctRate: 0,
       studentAnswers: [
         /*
         {
