@@ -101,8 +101,11 @@ const { multiPeer } = createActions({
           selfName = `User-${Math.round(1e6 * Math.random())}`
           await AsyncStorage.setItem('iTeachStore:selfName', JSON.stringify(selfName))
         } else {
-          const peers = JSON.parse(await AsyncStorage.getItem('iTeachStore:peers'))
+          let peers = JSON.parse(await AsyncStorage.getItem('iTeachStore:peers'))
           let courses = JSON.parse(await AsyncStorage.getItem('iTeachStore:peersInCourses'))
+          if (!peers) {
+            peers = {}
+          }
           if (!courses) {
             courses = {}
           }
