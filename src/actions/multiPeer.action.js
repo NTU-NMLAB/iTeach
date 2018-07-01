@@ -100,6 +100,7 @@ const { multiPeer } = createActions({
         if (!selfName) {
           selfName = `User-${Math.round(1e6 * Math.random())}`
           await AsyncStorage.setItem('iTeachStore:selfName', JSON.stringify(selfName))
+          dispatch(multiPeer.backend.initPeers({}, {}))
         } else {
           let peers = JSON.parse(await AsyncStorage.getItem('iTeachStore:peers'))
           let courses = JSON.parse(await AsyncStorage.getItem('iTeachStore:peersInCourses'))
@@ -109,12 +110,12 @@ const { multiPeer } = createActions({
           if (!courses) {
             courses = {}
           }
-          dispatch(multiPeer.backend.loadPeerFromStorage(peers, courses))
+          dispatch(multiPeer.backend.initPeers(peers, courses))
         }
         dispatch(multiPeer.backend.setSelfName(selfName))
       }),
       setSelfName: selfName => ({ selfName }),
-      loadPeerFromStorage: (peers, courses) => ({ peers, courses }),
+      initPeers: (peers, courses) => ({ peers, courses }),
       browse: () => {
         MultipeerConnectivity.browse()
       },
