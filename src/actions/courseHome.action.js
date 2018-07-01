@@ -1,6 +1,7 @@
 import { createActions } from 'redux-actions'
 import navAction from './nav.action'
 import multiPeerAction from './multiPeer.action'
+import currCourseAction from './currCourse.action'
 
 const { courseHome } = createActions({
   courseHome: {
@@ -16,6 +17,7 @@ const { courseHome } = createActions({
       }
       dispatch(multiPeerAction[profile.isTeacher ? 'teacher' : 'student'].exitCourse())
       dispatch(navAction.courseMenu())
+      dispatch(currCourseAction.setData(null))
     },
     clickItem: id => (dispatch, getState) => {
       const {
@@ -47,7 +49,17 @@ const { courseHome } = createActions({
           return
         }
         break
+      case 4:
+      case 6:
+      case 9:
+        dispatch(courseHome.alert({
+          title: '提示',
+          message: '此功能開發中，敬請期待！',
+          okCallback: () => { dispatch(courseHome.cancelAlert()) },
+        }))
+        return
       default:
+        break
       }
       dispatch(courseHome.toggleItem(id))
       dispatch(navAction.enterFeature(id))

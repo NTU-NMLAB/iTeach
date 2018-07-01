@@ -12,7 +12,6 @@ import Button from '../components/Button.component'
 import styles from './styles/Course.style'
 import CloseImage from '../../asset/close.png'
 import courseHomeAction from '../actions/courseHome.action'
-import currCourseAction from '../actions/currCourse.action'
 
 
 const mapStateToProps = state => ({
@@ -22,10 +21,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  exit: () => {
-    dispatch(currCourseAction.setData(null))
-    dispatch(courseHomeAction.exit())
-  },
+  exit: () => { dispatch(courseHomeAction.exit()) },
   clickItem: (id) => { dispatch(courseHomeAction.clickItem(id)) },
 })
 
