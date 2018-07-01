@@ -5,6 +5,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import courseMenuAction from '../actions/courseMenu.action'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
+import currCourseAction from '../actions/currCourse.action'
 // import quizAction from '../actions/quiz.action'
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
@@ -91,6 +92,7 @@ const messageMiddleware = ({ dispatch, getState }) => (
           })
           courseData.quizHistory[courseData.quizHistory.findIndex(it => it.questionID === data.questionID)] = dataToSave
           dispatch(courseMenuAction.courseList.modify(courseData))
+          dispatch(currCourseAction.setQuizHistory(courseData.quizHistory))
           break
         case 'ACK_BACK':
           courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)

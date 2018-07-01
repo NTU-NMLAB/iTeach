@@ -4,6 +4,12 @@ const initialState = {
 
 const reducerMap = {
   setData: (state, action) => ({ ...state, currCourse: { ...action.payload } }),
+  setQuizHistory: (state, action) => ({
+    ...state,
+    currCourse: {
+      quizHistory: action.payload,
+    },
+  }),
 }
 
 export default { reducerMap, initialState }

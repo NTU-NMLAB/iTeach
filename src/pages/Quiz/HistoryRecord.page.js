@@ -9,6 +9,10 @@ import Appbar from '../../components/Appbar.component'
 import TeacherHistoryItem from '../../components/QuizTeacherHistoryItem.component'
 // import mockQuizHistory from '../../../asset/mockQuizHistory.json'
 
+const mapStateToProps = state => ({
+  quizHistory: state.currCourse.quizHistory,
+})
+
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
@@ -32,15 +36,13 @@ class HistoryRecord extends Component {
     case 1:
       return item.studentAnswers.filter(student => student.answer === item.single.rightAns).length * (100 / item.studentAnswers.length)
     case 2:
-      checkMulti = (student) => {
-        return (
-          item.multi.check1 === student.answer.includes(0)
-          && item.multi.check2 === student.answer.includes(1)
-          && item.multi.check3 === student.answer.includes(2)
-          && item.multi.check4 === student.answer.includes(3)
-          && item.multi.check5 === student.answer.includes(4)
-        )
-      }
+      checkMulti = student => (
+        item.multi.check1 === student.answer.includes(0)
+        && item.multi.check2 === student.answer.includes(1)
+        && item.multi.check3 === student.answer.includes(2)
+        && item.multi.check4 === student.answer.includes(3)
+        && item.multi.check5 === student.answer.includes(4)
+      )
       return item.studentAnswers.filter(checkMulti).length * (100 / item.studentAnswers.length)
     default:
       return 0
@@ -48,13 +50,13 @@ class HistoryRecord extends Component {
   }
   render() {
     const questionType = '歷史紀錄'
-    const { currCourseData } = this.props.navigation.state.params
+    const { quizHistory } = this.props
     return (
       <View style={styles.container}>
         <Appbar title={questionType} withDrawer
           rightIcon={CloseImage}
           onRightPress={this.props.navAction.onExit}/>
-        { (currCourseData.quizHistory.length === 0) ? (
+        { (quizHistory.length === 0) ? (
           <View style={styles.textContainer}>
             <Text style={styles.text}>
               目前歷史紀錄是空的QQ
@@ -64,7 +66,7 @@ class HistoryRecord extends Component {
           <View style={styles.listContainer}>
             <FlatList
               style={styles.list}
-              data={[...currCourseData.quizHistory].reverse()}
+              data={[...quizHistory].reverse()}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <TeacherHistoryItem
@@ -89,13 +91,7 @@ HistoryRecord.propTypes = {
     onExit: PropTypes.func.isRequired,
     getResult: PropTypes.func.isRequired,
   }).isRequired,
-  navigation: PropTypes.shape({
-    state: PropTypes.shape({
-      params: PropTypes.shape({
-        currCourseData: PropTypes.object.isRequired,
-      }),
-    }),
-  }),
+  quizHistory: PropTypes.array.isRequired,
 }
 
-export default connect(undefined, mapDispatchToProps)(HistoryRecord)
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryRecord)
