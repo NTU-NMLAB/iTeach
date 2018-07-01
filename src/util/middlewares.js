@@ -183,16 +183,16 @@ const messageMiddleware = ({ dispatch, getState }) => (
           if (data.timestamp < currCourseData.timestamp) {
             dataToSend = {
               messageType: 'COURSE_INFO_UPDATE',
-              courseId: currCourseData.courseId,
+              courseId: state.currCourse.courseId,
               newCourseInfo: {
-                title: currCourseData.title,
-                classroom: currCourseData.classroom,
-                website: currCourseData.website,
-                year: currCourseData.year,
-                semester: currCourseData.semester,
-                weekday: currCourseData.weekday,
-                time: currCourseData.time,
-                timestamp: currCourseData.timestamp,
+                title: state.currCourse.title,
+                classroom: state.currCourse.classroom,
+                website: state.currCourse.website,
+                year: state.currCourse.year,
+                semester: state.currCourse.semester,
+                weekday: state.currCourse.weekday,
+                time: state.currCourse.time,
+                timestamp: state.currCourse.timestamp,
               },
             }
             dispatch(multiPeerAction.backend.sendData([senderPeerId], dataToSend))

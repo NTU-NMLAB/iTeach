@@ -70,7 +70,10 @@ class QuestionCreate extends Component {
     })
     quizData.courseListModify(currCourseData)
 
+<<<<<<< 9d3ca3a0a6c54cf8d0cb2124152cb1f98d3cc2cd
 
+=======
+>>>>>>> refactor: multipeer state, action, reducer
     const peerIdsOnline = currCourseData.userIds
       .filter(userId => (userId in multiPeer.peersStatus) && multiPeer.peersStatus[userId].connected)
       .map(userId => multiPeer.peersStatus[userId].currPeerId)

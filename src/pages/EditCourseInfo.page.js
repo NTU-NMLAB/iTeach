@@ -115,7 +115,6 @@ class EditCourseInfo extends Component {
     } else {
       const { multiPeer } = this.props
       const { currCourseData } = { ...this.props.navigation.state.params }
-
       const peerIdsOnline = currCourseData.userIds
         .filter(userId => (userId in multiPeer.peersStatus) && multiPeer.peersStatus[userId].connected)
         .map(userId => multiPeer.peersStatus[userId].currPeerId)
