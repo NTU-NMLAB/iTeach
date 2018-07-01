@@ -10,15 +10,19 @@ const { multiPeer } = createActions({
   multiPeer: {
     student: {
       startSearch: () => (dispatch, getState) => {
+        dispatch(multiPeer.common.updateOwnStatus('ADVERTISE'))
         dispatch(multiPeer.backend.advertise(getSelfInfo(getState())))
       },
       stopSearch: () => (dispatch) => {
+        dispatch(multiPeer.common.updateOwnStatus('STOP_ADVERTISE'))
         dispatch(multiPeer.backend.hide())
       },
       openCourse: () => (dispatch, getState) => {
+        dispatch(multiPeer.common.updateOwnStatus('ADVERTISE'))
         dispatch(multiPeer.backend.advertise(getSelfInfo(getState())))
       },
       exitCourse: () => (dispatch) => {
+        dispatch(multiPeer.common.updateOwnStatus('STOP_ADVERTISE'))
         dispatch(multiPeer.backend.hide())
         dispatch(multiPeer.backend.disconnect())
       },
@@ -37,17 +41,19 @@ const { multiPeer } = createActions({
       },
     },
     teacher: {
-      startRelease: () => null,
-      stopRelease: () => null,
       openCourse: () => (dispatch) => {
+        dispatch(multiPeer.common.updateOwnStatus('BROWSE'))
         dispatch(multiPeer.backend.browse())
       },
       exitCourse: () => (dispatch) => {
+        dispatch(multiPeer.common.updateOwnStatus('STOP_BROWSE'))
+        dispatch(multiPeer.common.updateOwnStatus('STOP_RELEASE'))
         dispatch(multiPeer.backend.stopBrowse())
         dispatch(multiPeer.backend.disconnect())
       },
     },
     common: {
+      updateOwnStatus: newStatus => newStatus, // typeof newStatus === string
       updatePeerInfo: peerInfo => peerInfo,
       updatePeerStatus: (userId, peerStatus, change = '') => ({ userId, peerStatus, change }),
       savePeerInfo: peerInfo => (async (dispatch, getState) => {
@@ -128,13 +134,16 @@ const { multiPeer } = createActions({
       },
       onPeerFound: (peerId, info) => async (dispatch, getState) => {
         const peerInfo = new PeerInfo(info)
+        // { userId(str), username(str), isTeacher(bool) }
         const peerStatus = new PeerStatus(peerId, info)
-        if (info.currCourseId !== undefined) {
-          const { courseList } = getState().courseMenu
+        // { currPeerId(str), currCourse(obj), connected(bool), invited(bool), invitationId(str) }
+        const state = getState()
+        if (info.currCourseId !== undefined) { // is not a course-searching student (already in course)
+          const { courseList } = state.courseMenu
           const courseData = courseList.find(c => c.courseId === info.currCourseId)
-          if (courseData) {
+          if (courseData && !courseData.userIds.includes(peerInfo.userId)) {
             courseData.userIds.push(peerInfo.userId)
-            dispatch(courseMenuAction.modify(courseData))
+            dispatch(courseMenuAction.courseList.modify(courseData))
           }
         }
         dispatch(multiPeer.common.savePeerInfo(peerInfo))
@@ -153,12 +162,12 @@ const { multiPeer } = createActions({
           invitation.sender.id,
           invitation.sender.info,
           false,
-          false,
+          invitation.sender.info.inviting,
           invitation.id,
         )
         if (
           peerStatus.currCourse.courseId !== undefined &&
-          peerStatus.currCourse.courseId === currCourse.courseId
+          peerStatus.currCourse.courseId === currCourse.courseId // not course-searching
         ) {
           dispatch(multiPeer.backend.responseInvite({ invitationId: invitation.id }, true))
         }
@@ -173,7 +182,7 @@ const { multiPeer } = createActions({
           const courseData = courseList.find(c => c.courseId === info.currCourseId)
           if (courseData) {
             courseData.userIds.push(peerInfo.userId)
-            dispatch(courseMenuAction.modify(courseData))
+            dispatch(courseMenuAction.courseList.modify(courseData))
           }
         }
         dispatch(multiPeer.common.savePeerInfo(peerInfo))

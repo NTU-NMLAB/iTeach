@@ -13,7 +13,14 @@ const { courseHome } = createActions({
       const { items } = getState().courseHome
       if (profile.isTeacher && items[1].isOn) {
         dispatch(courseHome.toggleItem(1))
-        dispatch(multiPeerAction.teacher.stopRelease())
+        dispatch(multiPeerAction.common.updateOwnStatus('STOP_RELEASE'))
+
+        const multiPeerState = getState().multiPeer
+        Object.keys(multiPeerState.peersStatus)
+          .filter(userId => !multiPeerState.peersStatus[userId].connected)
+          .forEach((userId) => {
+            dispatch(multiPeerAction.backend.invite(multiPeerState.peersStatus[userId].currPeerId, { inviting: false }))
+          })
       }
       dispatch(multiPeerAction[profile.isTeacher ? 'teacher' : 'student'].exitCourse())
       dispatch(navAction.courseMenu())
@@ -22,16 +29,22 @@ const { courseHome } = createActions({
     clickItem: id => (dispatch, getState) => {
       const {
         multiPeer,
-        currCourse,
         profile,
       } = getState()
       const { items } = getState().courseHome
       switch (id) {
       case 1:
-        if (items[1].onclick) {
-          dispatch(multiPeerAction.teacher.stopRelease())
+        if (items[1].isOn) {
+          dispatch(multiPeerAction.common.updateOwnStatus('STOP_RELEASE'))
+
+          const multiPeerState = getState().multiPeer
+          Object.keys(multiPeerState.peersStatus)
+            .filter(userId => !multiPeerState.peersStatus[userId].connected)
+            .forEach((userId) => {
+              dispatch(multiPeerAction.backend.invite(multiPeerState.peersStatus[userId].currPeerId, { inviting: false }))
+            })
         } else {
-          dispatch(multiPeerAction.teacher.startRelease())
+          dispatch(multiPeerAction.common.updateOwnStatus('START_RELEASE'))
         }
         break
       case 2:
@@ -49,6 +62,7 @@ const { courseHome } = createActions({
           dispatch(courseHome.alert({
             title: '警告',
             message: '在線名單沒有任何同學',
+            okLabel: 'OK',
             okCallback: () => { dispatch(courseHome.cancelAlert()) },
           }))
           return
@@ -60,6 +74,7 @@ const { courseHome } = createActions({
         dispatch(courseHome.alert({
           title: '提示',
           message: '此功能開發中，敬請期待！',
+          okLabel: 'OK',
           okCallback: () => { dispatch(courseHome.cancelAlert()) },
         }))
         return

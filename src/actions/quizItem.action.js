@@ -17,9 +17,12 @@ const { quizItem } = createActions({
       dispatch(courseMenuAction.courseList.modify(classItem))
     }),
     answer: (reply, toWhom) => ((dispatch, getState) => {
-      const { peers } = getState().multiPeer
+      const { peersStatus } = getState().multiPeer
       const timeOut = (reply.answerState === 'Answered') ? 1000 : 5000
-      if ((!peers[toWhom].connected) || (peers[toWhom].info.currCourseId !== reply.courseId)) {
+      if (peersStatus[toWhom] === undefined ||
+        !peersStatus[toWhom].connected ||
+        peersStatus[toWhom].currCourse.courseId !== reply.courseId
+      ) {
         Alert.alert(
           '教師離線',
           '請於教師上線時提交！',
@@ -39,7 +42,7 @@ const { quizItem } = createActions({
       } else if (targetContent.questionType === '單選題') {
         replyToSend.answer = targetContent.options[replyToSend.answer[0]]
       }
-      dispatch(multiPeerAction.backend.sendData([toWhom], replyToSend))
+      dispatch(multiPeerAction.backend.sendData([peersStatus[toWhom].currPeerId], replyToSend))
 
       setTimeout(() => {
         const courseData = getState().courseMenu.courseList

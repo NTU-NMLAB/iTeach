@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import CloseImage from '../../asset/close.png'
 import styles from './styles/CourseMenu.style'
 import navAction from '../actions/nav.action'
+import currCourseAction from '../actions/currCourse.action'
 import Appbar from '../components/Appbar.component'
 import CourseSearchItem from '../components/CourseSearchItem.component'
 import courseMenuAction from '../actions/courseMenu.action'
@@ -19,6 +20,7 @@ import multiPeerAction from '../actions/multiPeer.action'
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
   multiPeer: state.multiPeer,
+  courseIdList: state.courseMenu.courseList.map(course => course.courseId),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -33,6 +35,9 @@ const mapDispatchToProps = dispatch => ({
       dispatch(courseMenuAction.courseList.add(item))
       dispatch(multiPeerAction.student.stopSearch())
     },
+  },
+  currCourseAction: {
+    setData: (courseData) => { dispatch(currCourseAction.setData(courseData)) },
   },
 })
 
@@ -68,19 +73,23 @@ class CourseSearch extends Component {
       website: classItem.website,
       courseId: classItem.courseId,
       timestamp: classItem.timestamp,
+      studentQuizHistory: [],
+      userIds: [],
     }
-    classItemForStudent.studentQuizHistory = []
     this.props.courseMenuAction.add(classItemForStudent)
   }
 
   getCourseInfo() {
     return Object.keys(this.props.multiPeer.peersStatus)
-      .filter(userId => this.props.multiPeer.peersInfo[userId].isTeacher)
+      .filter(userId =>
+        this.props.multiPeer.peersInfo[userId].isTeacher &&
+        this.props.multiPeer.peersStatus[userId].invited &&
+        !this.props.courseIdList.includes(this.props.multiPeer.peersStatus[userId].currCourse.courseId))
       .map((userId) => {
         const { currCourse } = this.props.multiPeer.peersStatus[userId]
         return {
           ...currCourse,
-          teacher: this.props.multiPeer.peersInfo[userId].username,
+          teacherPeerId: this.props.multiPeer.peersStatus[userId].currPeerId,
         }
       })
   }
@@ -120,9 +129,13 @@ CourseSearch.propTypes = {
     add: PropTypes.func.isRequired,
   }).isRequired,
   isTeacher: PropTypes.bool.isRequired,
+  courseIdList: PropTypes.arrayOf(PropTypes.string),
   multiPeer: PropTypes.shape({
     peersStatus: PropTypes.object.isRequired,
     peersInfo: PropTypes.object.isRequired,
+  }).isRequired,
+  currCourseAction: PropTypes.shape({
+    setData: PropTypes.func.isRequired,
   }).isRequired,
 }
 

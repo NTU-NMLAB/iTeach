@@ -37,9 +37,13 @@ const invitationMiddleware = ({ dispatch, getState }) => (
         if (
           profile.isTeacher &&
           change === 'found' &&
-          (multiPeer.isReleasing || peerStatus.currCourse.courseId === currCourse.courseId)
+          (multiPeer.isReleasing || peerStatus.currCourse.courseId === currCourse.courseId) &&
+          currCourse !== undefined
         ) {
-          dispatch(multiPeer.backend.invite(peerStatus.currPeerId, getSelfInfo({ profile, currCourse, multiPeer })))
+          dispatch(multiPeerAction.backend.invite(peerStatus.currPeerId, {
+            ...getSelfInfo({ profile, currCourse, multiPeer }),
+            inviting: true, // a flag lets students recognize whether teacher is releasing or not.
+          }))
         }
       }
       return next(action)
@@ -250,8 +254,12 @@ const messageMiddleware = ({ dispatch, getState }) => (
           break
         case 'RESPONSE_QUIZ_UPDATE':
           courseData = state.courseMenu.courseList.find(item => item.courseId === data.courseId)
+          senderEntry = Object.entries(state.multiPeer.peersStatus).find(e => e[1].currPeerId === senderPeerId)
+          if (senderEntry === undefined) {
+            break
+          }
           data.newQuestions.forEach((q) => {
-            courseData.studentQuizHistory.push({ ...q, senderPeerId, answerState: 'unAnswered' })
+            courseData.studentQuizHistory.push({ ...q, senderUserId: senderEntry[0], answerState: 'unAnswered' })
           })
           if (state.currentRouteName === 'CourseHome') {
             dispatch(courseHomeAction.alert({

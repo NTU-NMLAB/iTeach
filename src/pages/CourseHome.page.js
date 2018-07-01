@@ -77,8 +77,6 @@ class CourseHome extends Component {
   }
 }
 
-CourseHome.defaultProps = { alertInfo: { okLabel: 'OK' } }
-
 CourseHome.propTypes = {
   isTeacher: PropTypes.bool.isRequired,
   alertInfo: PropTypes.shape({

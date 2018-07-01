@@ -13,7 +13,7 @@ const { courseMenu } = createActions({
       add: classItem => (async (dispatch, getState) => {
         let success = false
         const { courseList } = getState().courseMenu
-        courseList.splice(0, 0, { ...classItem, quizHistory: [] })
+        courseList.splice(0, 0, { ...classItem, quizHistory: [], userIds: [] })
         await AsyncStorage.setItem('iTeachStore:Class', JSON.stringify(courseList), (error) => {
           if (error) {
             Alert.alert(

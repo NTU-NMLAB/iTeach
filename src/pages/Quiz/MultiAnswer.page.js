@@ -93,7 +93,7 @@ class MultiAnswerPage extends Component {
       break
     default:
     }
-    this.props.quizItemAction.answer(dataToSave, quizData.senderId)
+    this.props.quizItemAction.answer(dataToSave, quizData.senderUserId)
     this.props.navAction.onExit()
   }
   render() {

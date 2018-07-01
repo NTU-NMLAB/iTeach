@@ -40,7 +40,6 @@ class OnlinePeerList extends Component {
   }
   getOfflinePeerList() {
     const { currCourseData } = this.props.navigation.state.params
-
     return currCourseData.userIds
       .filter(userId => !(userId in this.props.multiPeer.peersStatus) || !this.props.multiPeer.peersStatus[userId].connected)
       .map(userId => this.props.multiPeer.peersInfo[userId])
@@ -65,10 +64,10 @@ class OnlinePeerList extends Component {
           <FlatList
             style={styles.list}
             data={this.getOnlinePeerList()}
-            keyExtractor={item => item.info.username}
+            keyExtractor={item => item.username}
             renderItem={({ item }) => (
               <OnlineListItem
-                title={item.info.username}
+                title={item.username}
                 color={'green'}
               />
             )}
@@ -83,10 +82,10 @@ class OnlinePeerList extends Component {
           <FlatList
             style={styles.list}
             data={this.getOfflinePeerList()}
-            keyExtractor={item => item.info.username}
+            keyExtractor={item => item.username}
             renderItem={({ item }) => (
               <OnlineListItem
-                title={item.info.username}
+                title={item.username}
                 color={'grey'}
               />
             )}
