@@ -19,7 +19,7 @@ const { quizItem } = createActions({
     answer: (reply, toWhom) => ((dispatch, getState) => {
       const { peers } = getState().multiPeer
       const timeOut = (reply.answerState === 'Answered') ? 1000 : 5000
-      if ((!peers[toWhom].online) || (peers[toWhom].info.currCourseId !== reply.courseId)) {
+      if ((!peers[toWhom].connected) || (peers[toWhom].info.currCourseId !== reply.courseId)) {
         Alert.alert(
           '教師離線',
           '請於教師上線時提交！',

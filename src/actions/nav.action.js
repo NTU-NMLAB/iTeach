@@ -40,6 +40,7 @@ const { nav } = createActions({
     multiAnswerPage: quizData => quizData,
     trueFalseAnswerPage: quizData => quizData,
     shortDescriptionAnswerPage: quizData => quizData,
+    reloadPage: payload => payload,
   },
 })
 

@@ -66,7 +66,7 @@ class CourseHome extends Component {
                   <Text style={styles.alertTitle}>{alertInfo.title}</Text>
                   <Text style={styles.alertText}>{alertInfo.message}</Text>
                   <View style={styles.alertButton}>
-                    <Button label="OK" onPress={alertInfo.okCallback}/>
+                    <Button label={alertInfo.okLabel} onPress={alertInfo.okCallback}/>
                   </View>
                 </View>
               </View>
@@ -77,11 +77,14 @@ class CourseHome extends Component {
   }
 }
 
+CourseHome.defaultProps = { alertInfo: { okLabel: 'OK' } }
+
 CourseHome.propTypes = {
   isTeacher: PropTypes.bool.isRequired,
   alertInfo: PropTypes.shape({
     title: PropTypes.string,
     message: PropTypes.string,
+    okLabel: PropTypes.string,
     okCallback: PropTypes.func,
   }),
   items: PropTypes.arrayOf(PropTypes.object),

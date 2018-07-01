@@ -15,65 +15,79 @@ const reducerMap = {
   editProfile: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'EditProfile' }), state.nav),
+    currentRouteName: 'EditProfile',
   }),
   courseMenu: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseMenu' }), state.nav),
+    currentRouteName: 'CourseMenu',
   }),
   courseHome: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseHome', params: { currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'CourseHome',
   }),
   courseSearch: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseSearch' }), state.nav),
+    currentRouteName: 'CourseSearch',
   }),
   addCourse: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'AddCourse' }), state.nav),
+    currentRouteName: 'AddCourse',
   }),
   editCourseInfo: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'EditCourseInfo', params: { currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'EditCourseInfo',
   }),
   onlinePeerList: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'OnlinePeerList', params: { currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'OnlinePeerList',
   }),
   quizMainPage: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuizHome', params: { currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'QuizHome',
   }),
   quizResultPage: (state, action) => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'QuestionResult', params: { currQuestion: action.payload } }), state.nav),
+    currentRouteName: 'QuestionResult',
   }),
   historyRecord: state => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'HistoryRecord', params: { currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'HistoryRecord',
   }),
   singleAnswerPage: (state, action) => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'SingleAnswerPage', params: { quizData: action.payload } }), state.nav),
+    currentRouteName: 'SingleAnswerPage',
   }),
   multiAnswerPage: (state, action) => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'MultiAnswerPage', params: { quizData: action.payload, currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'MultiAnswerPage',
   }),
   trueFalseAnswerPage: (state, action) => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'TrueFalseAnswerPage', params: { quizData: action.payload, currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'TrueFalseAnswerPage',
   }),
   shortDescriptionAnswerPage: (state, action) => ({
     ...state,
     nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'ShortDescriptionAnswerPage', params: { quizData: action.payload, currCourseData: state.currCourse } }), state.nav),
+    currentRouteName: 'ShortDescriptionAnswerPage',
   }),
   enterFeature: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
       NavigationActions.navigate({ routeName: action.payload, params: { currCourseData: state.currCourse } }),
       state.nav,
     )
-    return { ...state, nav }
+    return { ...state, nav, currentRouteName: action.payload }
   },
   draw: (state, action) => {
     const actionAllSpace = (action.payload === '')
@@ -91,6 +105,7 @@ const reducerMap = {
         drawAction,
         actionAllSpace,
       },
+      currentRouteName: 'DrawFinish',
     }
   },
   backToDraw: state => ({
@@ -100,6 +115,7 @@ const reducerMap = {
       ...state.drawLots,
       afterDraw: true,
     },
+    currentRouteName: 'DrawLots',
   }),
   questionCreate: (state, action) => {
     const nav = RootNavigator.router.getStateForAction(
@@ -113,7 +129,23 @@ const reducerMap = {
       }),
       state.nav,
     )
-    return { ...state, nav }
+    return { ...state, nav, currentRouteName: 'QuestionCreate' }
+  },
+  reloadPage: (state, action) => {
+    const nav = RootNavigator.router.getStateForAction(
+      NavigationActions.navigate({
+        routeName: action.payload.routeName,
+        params: {
+          currCourseData: action.payload.currCourse,
+        },
+      }),
+      state.nav,
+    )
+    return {
+      ...state,
+      nav,
+      currCourse: action.payload.currCourse,
+    }
   },
 }
 

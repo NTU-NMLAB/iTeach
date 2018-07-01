@@ -120,7 +120,7 @@ class EditCourseInfo extends Component {
       }
       const keysOnline = keysInThisCourse.filter(it =>
         Object.keys(multiPeer.peers).includes(it)
-        && multiPeer.peers[it].online
+        && multiPeer.peers[it].connected
         && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
       const newCourseInfo = {
         ...this.state,

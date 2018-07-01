@@ -9,10 +9,6 @@ import Appbar from '../../components/Appbar.component'
 import TeacherHistoryItem from '../../components/QuizTeacherHistoryItem.component'
 // import mockQuizHistory from '../../../asset/mockQuizHistory.json'
 
-const mapStateToProps = state => ({
-  quizHistory: state.currCourse.quizHistory,
-})
-
 const mapDispatchToProps = dispatch => ({
   navAction: {
     openDrawer: () => { dispatch(navAction.openDrawer()) },
@@ -50,7 +46,7 @@ class HistoryRecord extends Component {
   }
   render() {
     const questionType = '歷史紀錄'
-    const { quizHistory } = this.props
+    const { quizHistory } = { ...this.props.navigation.state.params.currCourseData }
     return (
       <View style={styles.container}>
         <Appbar title={questionType} withDrawer
@@ -91,7 +87,13 @@ HistoryRecord.propTypes = {
     onExit: PropTypes.func.isRequired,
     getResult: PropTypes.func.isRequired,
   }).isRequired,
-  quizHistory: PropTypes.array.isRequired,
+  navigation: PropTypes.shape({
+    state: PropTypes.shape({
+      params: PropTypes.shape({
+        currCourseData: PropTypes.object.isRequired,
+      }),
+    }),
+  }),
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HistoryRecord)
+export default connect(undefined, mapDispatchToProps)(HistoryRecord)

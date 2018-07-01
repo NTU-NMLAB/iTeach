@@ -4,6 +4,7 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 // import Background fro../components/Background.componentund'
 import courseMenuAction from '../actions/courseMenu.action'
 import navAction from '../actions/nav.action'
+import courseHomeAction from '../actions/courseHome.action'
 import multiPeerAction from '../actions/multiPeer.action'
 import currCourseAction from '../actions/currCourse.action'
 // import quizAction from '../actions/quiz.action'
@@ -39,11 +40,16 @@ const messageMiddleware = ({ dispatch, getState }) => (
         switch (data.messageType) {
         case 'CHOSEN_ONE':
           // dispatch(drawLotsAction.setChosen(data.textPop))
-          Alert.alert(
-            '您被老師抽到要',
-            data.textPop,
-            [{ text: 'OK' }],
-          )
+          if (getState().currentRouteName === 'CourseHome') {
+            dispatch(courseHomeAction.alert({
+              title: '您被老師抽到要',
+              message: data.textPop,
+              okLabel: 'OK',
+              okCallback: () => { dispatch(courseHomeAction.cancelAlert()) },
+            }))
+          } else {
+            Alert.alert('您被老師抽到要', data.textPop, [{ text: 'OK' }])
+          }
           break
         case 'QUESTION_DEBUT':
           dataToSave = { ...data, senderId, answerState: 'unAnswered' }
@@ -83,11 +89,20 @@ const messageMiddleware = ({ dispatch, getState }) => (
           dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
           courseData = getState().courseMenu.courseList.find(it => it.courseId === data.courseId)
           dataToSave = courseData.quizHistory.find(it => it.questionID === data.questionID)
-          Alert.alert(
-            dataToSave.questionType,
-            `Quiz: ${dataToSave.questionState}\n\nAns: ${JSON.stringify(data.answer)}`,
-            [{ text: `from: ${getState().multiPeer.peers[senderId].info.username}` }],
-          )
+          if (getState().currentRouteName === 'CourseHome') {
+            dispatch(courseHomeAction.alert({
+              title: `學生作答：${dataToSave.questionType}`,
+              message: `來自 ${getState().multiPeer.peers[senderId].info.username} 的回答`,
+              okLabel: '收到',
+              okCallback: () => { dispatch(courseHomeAction.cancelAlert()) },
+            }))
+          } else {
+            Alert.alert(
+              `學生作答：${dataToSave.questionType}`,
+              `\n來自 ${getState().multiPeer.peers[senderId].info.username} 的回答`,
+              [{ text: '收到' }],
+            )
+          }
           dataToSave.studentAnswers.push({
             studentName: getState().multiPeer.peers[senderId].info.username,
             answer: data.answer,
@@ -95,18 +110,45 @@ const messageMiddleware = ({ dispatch, getState }) => (
           courseData.quizHistory[courseData.quizHistory.findIndex(it => it.questionID === data.questionID)] = dataToSave
           dispatch(courseMenuAction.courseList.modify(courseData))
           dispatch(currCourseAction.setQuizHistory(courseData.quizHistory))
+          if (getState().currentRouteName === 'HistoryRecord') {
+            dispatch(navAction.reloadPage({
+              routeName: 'HistoryRecord',
+              currCourse: courseData,
+            }))
+          }
           break
         case 'ACK_BACK':
           courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
           dataToSave = courseData.studentQuizHistory.findIndex(it => it.questionID === data.questionID)
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
           dispatch(courseMenuAction.courseList.modify(courseData))
+          if (getState().currentRouteName === 'QuizHome') {
+            dispatch(navAction.reloadPage({
+              routeName: 'QuizHome',
+              currCourse: courseData,
+            }))
+          }
           break
         case 'COURSE_INFO_UPDATE':
           courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
           newCourseData = Object.assign({}, courseData, data.newCourseInfo)
           dispatch(courseMenuAction.courseList.modify(newCourseData))
-          Alert.alert(newCourseData.title, '課程資訊已更新', { text: '收到' })
+          if (getState().currentRouteName === 'CourseHome') {
+            dispatch(courseHomeAction.alert({
+              title: courseData.title,
+              message: '課程資訊已更新',
+              okLabel: '收到',
+              okCallback: () => { dispatch(courseHomeAction.cancelAlert()) },
+            }))
+          } else {
+            Alert.alert(courseData.title, '課程資訊已更新', [{ text: '收到' }])
+          }
+          if (getState().currentRouteName === 'CourseInfo') {
+            dispatch(navAction.reloadPage({
+              routeName: 'CourseInfo',
+              currCourse: newCourseData,
+            }))
+          }
           break
         case 'REQUEST_COURSE_INFO':
           currCourseData = getState().currCourse
@@ -183,8 +225,22 @@ const messageMiddleware = ({ dispatch, getState }) => (
           data.newQuestions.forEach((q) => {
             courseData.studentQuizHistory.push({ ...q, senderId, answerState: 'unAnswered' })
           })
-          dispatch(courseMenuAction.courseList.modify(courseData))
-          Alert.alert('隨堂測驗', '題目已更新', { text: '收到' })
+          if (getState().currentRouteName === 'CourseHome') {
+            dispatch(courseHomeAction.alert({
+              title: '隨堂測驗',
+              message: '測驗題目已更新',
+              okLabel: '了解',
+              okCallback: () => { dispatch(courseHomeAction.cancelAlert()) },
+            }))
+          } else {
+            Alert.alert('隨堂測驗', '測驗題目已更新', [{ text: '了解' }])
+          }
+          if (getState().currentRouteName === 'QuizHome') {
+            dispatch(navAction.reloadPage({
+              routeName: 'QuizHome',
+              currCourse: courseData,
+            }))
+          }
           break
         default:
           break
