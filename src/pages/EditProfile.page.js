@@ -18,12 +18,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  profileAction: {
-    set: (info) => { dispatch(profileAction.save(info)) },
-  },
-  navAction: {
-    courseMenu: () => { dispatch(navAction.courseMenu()) },
-  },
+  saveProfile: (info) => { dispatch(profileAction.save(info)) },
+  navToCourseMenu: () => { dispatch(navAction.courseMenu()) },
 })
 
 class EditProfile extends Component {
@@ -39,7 +35,7 @@ class EditProfile extends Component {
   }
 
   onPressCancel = () => {
-    this.props.navAction.courseMenu()
+    this.props.navToCourseMenu()
   }
 
   onPressConfirm = () => {
@@ -72,7 +68,7 @@ class EditProfile extends Component {
       }
     } else {
       // 符合規則，跳轉到 CourseMenu
-      this.props.profileAction.set(this.state)
+      this.props.saveProfile(this.state)
     }
   }
 
@@ -99,12 +95,8 @@ class EditProfile extends Component {
 }
 
 EditProfile.propTypes = {
-  profileAction: PropTypes.shape({
-    set: PropTypes.func.isRequired,
-  }).isRequired,
-  navAction: PropTypes.shape({
-    courseMenu: PropTypes.func.isRequired,
-  }).isRequired,
+  saveProfile: PropTypes.func.isRequired,
+  navToCourseMenu: PropTypes.func.isRequired,
   isTeacher: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,

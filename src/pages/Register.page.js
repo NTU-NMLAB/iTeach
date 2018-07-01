@@ -19,9 +19,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  profileAction: {
-    save: (info) => { dispatch(profileAction.save(info)) },
-  },
+  save: (info) => { dispatch(profileAction.save(info)) },
 })
 
 class Register extends Component {
@@ -71,7 +69,7 @@ class Register extends Component {
       }
     } else {
       // 符合規則，跳轉到 CourseMenu
-      this.props.profileAction.save(this.state)
+      this.props.save(this.state)
     }
   }
 
@@ -108,9 +106,7 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  profileAction: PropTypes.shape({
-    save: PropTypes.func.isRequired,
-  }).isRequired,
+  save: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 }
 
