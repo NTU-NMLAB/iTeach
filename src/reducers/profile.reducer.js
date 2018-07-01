@@ -1,6 +1,3 @@
-import { NavigationActions } from 'react-navigation'
-import RootNavigator from '../navigator/RootNavigator'
-
 const initialState = {
   isTeacher: false,
   username: '',
@@ -10,8 +7,7 @@ const initialState = {
 const reducerMap = {
   set: (state, action) => {
     if (action.payload) {
-      const nav = RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'CourseMenu' }), state.nav)
-      return { ...state, nav, profile: action.payload }
+      return { ...state, profile: action.payload }
     }
     return state
   },

@@ -10,16 +10,15 @@ import Button from '../components/Button.component'
 import TextFormInput from '../components/TextFormInput.component'
 import styles from './styles/Register.style'
 import signUpValidation from '../util/signUpValidation'
-import profileAction from '../actions/profile.action'
-import navAction from '../actions/nav.action'
+import editProfilePageAction from '../actions/page/editProfilePage.action'
 
 const mapStateToProps = state => ({
   ...state.profile,
 })
 
 const mapDispatchToProps = dispatch => ({
-  saveProfile: (info) => { dispatch(profileAction.save(info)) },
-  navToCourseMenu: () => { dispatch(navAction.courseMenu()) },
+  confirm: (info) => { dispatch(editProfilePageAction.confirm(info)) },
+  cancel: () => { dispatch(editProfilePageAction.cancel()) },
 })
 
 class EditProfile extends Component {
@@ -35,7 +34,7 @@ class EditProfile extends Component {
   }
 
   onPressCancel = () => {
-    this.props.navToCourseMenu()
+    this.props.cancel()
   }
 
   onPressConfirm = () => {
@@ -68,7 +67,7 @@ class EditProfile extends Component {
       }
     } else {
       // 符合規則，跳轉到 CourseMenu
-      this.props.saveProfile(this.state)
+      this.props.confirm(this.state)
     }
   }
 
@@ -95,8 +94,8 @@ class EditProfile extends Component {
 }
 
 EditProfile.propTypes = {
-  saveProfile: PropTypes.func.isRequired,
-  navToCourseMenu: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
   isTeacher: PropTypes.bool.isRequired,
   username: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,

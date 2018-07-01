@@ -12,14 +12,14 @@ import Button from '../components/Button.component'
 import TextFormInput from '../components/TextFormInput.component'
 import styles from './styles/Register.style'
 import signUpValidation from '../util/signUpValidation'
-import profileAction from '../actions/profile.action'
+import registerPageAction from '../actions/page/registerPage.action'
 
 const mapStateToProps = state => ({
   ...state.profile,
 })
 
 const mapDispatchToProps = dispatch => ({
-  save: (info) => { dispatch(profileAction.save(info)) },
+  confirm: (info) => { dispatch(registerPageAction.confirm(info)) },
 })
 
 class Register extends Component {
@@ -69,7 +69,7 @@ class Register extends Component {
       }
     } else {
       // 符合規則，跳轉到 CourseMenu
-      this.props.save(this.state)
+      this.props.confirm(this.state)
     }
   }
 
@@ -106,7 +106,7 @@ class Register extends Component {
 }
 
 Register.propTypes = {
-  save: PropTypes.func.isRequired,
+  confirm: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired,
 }
 
