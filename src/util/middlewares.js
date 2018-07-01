@@ -143,12 +143,10 @@ const messageMiddleware = ({ dispatch, getState }) => (
           } else {
             Alert.alert(courseData.title, '課程資訊已更新', [{ text: '收到' }])
           }
-          if (getState().currentRouteName === 'CourseInfo') {
-            dispatch(navAction.reloadPage({
-              routeName: 'CourseInfo',
-              currCourse: newCourseData,
-            }))
-          }
+          dispatch(navAction.reloadPage({
+            routeName: getState().currentRouteName,
+            currCourse: newCourseData,
+          }))
           break
         case 'REQUEST_COURSE_INFO':
           currCourseData = getState().currCourse

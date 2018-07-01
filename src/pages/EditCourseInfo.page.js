@@ -27,6 +27,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   nav: {
     courseHome: () => { dispatch(navAction.courseHome()) },
+    reloadPage: (payload) => { dispatch(navAction.reloadPage(payload)) },
   },
   courseMenuAction: {
     modify: (courseData) => { dispatch(courseMenuAction.courseList.modify(courseData)) },
@@ -143,7 +144,10 @@ class EditCourseInfo extends Component {
       // 符合規則，跳轉到 CourseMenu
       this.props.courseMenuAction.modify(newCourseInfo)
       this.props.multiPeerAction.sendData(keysOnline, data)
-      this.props.nav.courseHome()
+      this.props.nav.reloadPage({
+        routeName: 'CourseHome',
+        currCourse: newCourseInfo,
+      })
     }
   }
 
@@ -295,6 +299,7 @@ EditCourseInfo.propTypes = {
   }).isRequired,
   nav: PropTypes.shape({
     courseHome: PropTypes.func.isRequired,
+    reloadPage: PropTypes.func.isRequired,
   }).isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({
