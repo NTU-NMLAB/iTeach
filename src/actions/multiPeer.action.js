@@ -8,15 +8,16 @@ const getStudentPeerInfo = state => ({
   service: appConstants.SERVICE_TYPE,
   isTeacher: 'false',
   username: state.profile.username,
+  userId: state.multiPeer.userId,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
-  selfName: state.multiPeer.selfName,
 })
 
 const getTeacherPeerInfo = state => ({
   service: appConstants.SERVICE_TYPE,
   isTeacher: 'true',
   username: state.profile.username,
+  userId: state.multiPeer.userId,
   currCourseId: state.currCourse.courseId,
   currCourseTitle: state.currCourse.title,
   currCourseColor: state.currCourse.color,
@@ -26,7 +27,6 @@ const getTeacherPeerInfo = state => ({
   currCourseWeekday: state.currCourse.weekday,
   currCourseTime: state.currCourse.time,
   currCourseWebsite: state.currCourse.website,
-  selfName: state.multiPeer.selfName,
   currCourseTimestamp: state.currCourse.timestamp,
 })
 
@@ -96,10 +96,10 @@ const { multiPeer } = createActions({
     },
     backend: {
       init: () => (async (dispatch) => {
-        let selfName = JSON.parse(await AsyncStorage.getItem('iTeachStore:selfName'))
-        if (!selfName) {
-          selfName = `User-${Math.round(1e6 * Math.random())}`
-          await AsyncStorage.setItem('iTeachStore:selfName', JSON.stringify(selfName))
+        let userId = JSON.parse(await AsyncStorage.getItem('iTeachStore:userId'))
+        if (!userId) {
+          userId = `User-${Math.round(1e6 * Math.random())}`
+          await AsyncStorage.setItem('iTeachStore:userId', JSON.stringify(userId))
           dispatch(multiPeer.backend.initPeers({}, {}))
         } else {
           let peers = JSON.parse(await AsyncStorage.getItem('iTeachStore:peers'))
@@ -112,9 +112,9 @@ const { multiPeer } = createActions({
           }
           dispatch(multiPeer.backend.initPeers(peers, courses))
         }
-        dispatch(multiPeer.backend.setSelfName(selfName))
+        dispatch(multiPeer.backend.setUserId(userId))
       }),
-      setSelfName: selfName => ({ selfName }),
+      setUserId: userId => ({ userId }),
       initPeers: (peers, courses) => ({ peers, courses }),
       browse: () => {
         MultipeerConnectivity.browse()
@@ -175,7 +175,7 @@ const { multiPeer } = createActions({
         courses[peer.info.currCourseId][peer.id] = true
         const peers = {}
         Object.values(state.multiPeer.peers)
-          .filter(p => p.info.selfName !== peer.info.selfName)
+          .filter(p => p.info.userId !== peer.info.userId)
           .forEach((p) => { peers[p.id] = p })
         peers[peer.id] = peer
         await AsyncStorage.setItem('iTeachStore:peers', JSON.stringify(peers))
@@ -222,7 +222,7 @@ const { multiPeer } = createActions({
 
         const peers = {}
         Object.values(state.multiPeer.peers)
-          .filter(p => p.info.selfName !== peer.info.selfName)
+          .filter(p => p.info.userId !== peer.info.userId)
           .forEach((p) => { peers[p.id] = p })
         peers[peer.id] = peer
         await AsyncStorage.setItem('iTeachStore:peers', JSON.stringify(peers))
