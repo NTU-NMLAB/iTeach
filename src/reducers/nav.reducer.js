@@ -1,7 +1,7 @@
 import { NavigationActions } from 'react-navigation'
 import RootNavigator from '../navigator/RootNavigator'
 
-const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('Register'))
+const initialState = RootNavigator.router.getStateForAction(RootNavigator.router.getActionForPathAndParams('LoadingPage'))
 
 const reducerMap = {
   openDrawer: state => ({
@@ -147,6 +147,14 @@ const reducerMap = {
       currCourse: action.payload.currCourse,
     }
   },
+  loadingPage: state => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'LoadingPage' }), state.nav),
+  }),
+  registerPage: state => ({
+    ...state,
+    nav: RootNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Register' }), state.nav),
+  }),
 }
 
 export default { initialState, reducerMap }

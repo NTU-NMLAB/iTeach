@@ -44,6 +44,8 @@ const { profile } = createActions({
       if (profileData) {
         dispatch(profile.set(profileData))
         dispatch(navAction.courseMenu())
+      } else {
+        dispatch(navAction.registerPage())
       }
     }),
   },

@@ -21,6 +21,7 @@ import SingleAnswerPage from '../pages/Quiz/SingleAnswer.page'
 import MultiAnswerPage from '../pages/Quiz/MultiAnswer.page'
 import TrueFalseAnswerPage from '../pages/Quiz/TrueFalseAnswer.page'
 import ShortDescriptionAnswerPage from '../pages/Quiz/ShortDescriptionAnswer.page'
+import LoadingPage from '../pages/Loading.page'
 
 export default SwitchNavigator({
   Register: {
@@ -40,6 +41,9 @@ export default SwitchNavigator({
   },
   FileDownload: {
     screen: FileDownload,
+  },
+  LoadingPage: {
+    screen: LoadingPage,
   },
   Pages: DrawerNavigator({
     EditProfile: {
@@ -99,5 +103,5 @@ export default SwitchNavigator({
     drawerPosition: 'left',
   }),
 }, {
-  initialRouteName: 'Register',
+  initialRouteName: 'LoadingPage',
 })

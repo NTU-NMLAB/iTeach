@@ -41,6 +41,8 @@ const { nav } = createActions({
     trueFalseAnswerPage: quizData => quizData,
     shortDescriptionAnswerPage: quizData => quizData,
     reloadPage: payload => payload,
+    loadingPage: () => null,
+    registerPage: () => null,
   },
 })
 
