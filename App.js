@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import reducer from './src/reducers'
 import RootNavigator from './src/navigator/RootNavigator'
 import profileAction from './src/actions/profile.action'
-import courseMenu from './src/actions/courseMenu.action'
+import courseMenuAction from './src/actions/courseMenu.action'
 import middlewares from './src/util/middlewares'
 // import mockData from './asset/mockData.json'
 
@@ -18,8 +18,8 @@ export const store = createStore(reducer, applyMiddleware(...middlewares))
 const initStore = async () => {
   // Load data from local storage
   // store.dispatch(mockData)
-  store.dispatch(profileAction.get())
-  store.dispatch(courseMenu.courseList.get())
+  store.dispatch(profileAction.init())
+  store.dispatch(courseMenuAction.courseList.get())
 }
 
 initStore()

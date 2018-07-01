@@ -3,6 +3,7 @@ import {
   Alert,
 } from 'react-native'
 import { createActions } from 'redux-actions'
+import navAction from './nav.action'
 
 /*  In order to create an action with createActions
     you may call profile.set(data)
@@ -38,10 +39,11 @@ const { profile } = createActions({
     }),
 
     // get data from storage
-    get: () => (async (dispatch) => {
+    init: () => (async (dispatch) => {
       const profileData = JSON.parse(await AsyncStorage.getItem('iTeachStore:Profile'))
       if (profileData) {
         dispatch(profile.set(profileData))
+        dispatch(navAction.courseMenu())
       }
     }),
   },
