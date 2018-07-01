@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { View, Alert } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import CloseImage from '../../../asset/close.png'
 import styles from '../styles/Quiz.style'
@@ -70,14 +70,11 @@ class QuestionCreate extends Component {
     })
     quizData.courseListModify(currCourseData)
 
-    let keysInThisCourse = []
-    if (typeof multiPeer.courses[currCourseData.courseId] !== 'undefined') {
-      keysInThisCourse = Object.keys(multiPeer.courses[currCourseData.courseId])
-    }
-    const keysOnline = keysInThisCourse.filter(it =>
-      Object.keys(multiPeer.peers).includes(it)
-      && multiPeer.peers[it].connected
-      && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
+
+    const peerIdsOnline = currCourseData.userIds
+      .filter(userId => (userId in multiPeer.peersStatus) && multiPeer.peersStatus[userId].connected)
+      .map(userId => multiPeer.peersStatus[userId].currPeerId)
+
     const data = {
       messageType: 'QUESTION_DEBUT',
       courseId: currCourseData.courseId,
@@ -115,7 +112,7 @@ class QuestionCreate extends Component {
     default:
       break
     }
-    this.props.multiPeerAction.sendData(keysOnline, data)
+    this.props.multiPeerAction.sendData(peerIdsOnline, data)
 
     this.props.navAction.historyRecord()
   }
@@ -232,8 +229,7 @@ QuestionCreate.propTypes = {
     }),
   }),
   multiPeer: PropTypes.shape({
-    courses: PropTypes.object.isRequired,
-    peers: PropTypes.object.isRequired,
+    peersStatus: PropTypes.object.isRequired,
   }).isRequired,
   multiPeerAction: PropTypes.shape({
     sendData: PropTypes.func.isRequired,

@@ -34,18 +34,16 @@ class OnlinePeerList extends Component {
     this.getOfflinePeerList = this.getOfflinePeerList.bind(this)
   }
   getOnlinePeerList() {
-    const { currCourseData } = this.props.navigation.state.params
-    return Object.keys(this.props.multiPeer.peers)
-      .map(i => this.props.multiPeer.peers[i])
-      .filter(peer => peer.connected === true && peer.info.currCourseId === currCourseData.courseId)
+    return Object.keys(this.props.multiPeer.peersStatus)
+      .filter(userId => this.props.multiPeer.peersStatus[userId].connected === true)
+      .map(userId => this.props.multiPeer.peersInfo[userId])
   }
   getOfflinePeerList() {
     const { currCourseData } = this.props.navigation.state.params
-    return Object.keys(this.props.multiPeer.peers)
-      .map(i => this.props.multiPeer.peers[i])
-      .filter((peer => (peer.connected === false || !(peer.info.currCourseId === currCourseData.courseId)) &&
-        (!this.props.isTeacher || (this.props.multiPeer.courses[currCourseData.courseId] &&
-          peer.id in this.props.multiPeer.courses[currCourseData.courseId]))))
+
+    return currCourseData.userIds
+      .filter(userId => !(userId in this.props.multiPeer.peersStatus) || !this.props.multiPeer.peersStatus[userId].connected)
+      .map(userId => this.props.multiPeer.peersInfo[userId])
   }
   render() {
     return (
@@ -104,7 +102,10 @@ OnlinePeerList.propTypes = {
     openDrawer: PropTypes.func.isRequired,
     onExit: PropTypes.func.isRequired,
   }).isRequired,
-  multiPeer: PropTypes.object.isRequired,
+  multiPeer: PropTypes.shape({
+    peersStatus: PropTypes.object.isRequired,
+    peersInfo: PropTypes.object.isRequired,
+  }).isRequired,
   isTeacher: PropTypes.bool.isRequired,
   navigation: PropTypes.shape({
     state: PropTypes.shape({

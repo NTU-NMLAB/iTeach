@@ -45,7 +45,7 @@ const { courseHome } = createActions({
         }
         break
       case 5:
-        if (typeof multiPeer.courses[currCourse.courseId] === 'undefined') {
+        if (Object.keys(multiPeer.peersStatus).length === 0) {
           dispatch(courseHome.alert({
             title: '警告',
             message: '在線名單沒有任何同學',

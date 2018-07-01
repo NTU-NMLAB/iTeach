@@ -38,30 +38,33 @@ class DrawLots extends Component {
   drawCore() {
     const { drawLotsState, multiPeerState } = this.props
     const { currCourseData } = this.props.navigation.state.params
-    this.keysAfterShuffle = Object.keys(multiPeerState.courses[currCourseData.courseId])
+    this.userIdsAfterShuffle = currCourseData.userIds
+      .filter(userId => (userId in multiPeerState.peersStatus) && multiPeerState.peersStatus[userId].connected)
 
     for (let it = 0; it < drawLotsState.drawCount; it += 1) {
-      const chosenID = Math.floor(Math.random() * this.keysAfterShuffle.length)
-      const tmp = this.keysAfterShuffle[it]
-      this.keysAfterShuffle[it] = this.keysAfterShuffle[chosenID]
-      this.keysAfterShuffle[chosenID] = tmp
+      const chosenID = Math.floor(Math.random() * this.userIdsAfterShuffle.length)
+      const tmp = this.userIdsAfterShuffle[it]
+      this.userIdsAfterShuffle[it] = this.userIdsAfterShuffle[chosenID]
+      this.userIdsAfterShuffle[chosenID] = tmp
     }
-    this.keysAfterShuffle = this.keysAfterShuffle.slice(0, drawLotsState.drawCount)
+    this.userIdsAfterShuffle = this.userIdsAfterShuffle.slice(0, drawLotsState.drawCount)
   }
-  checkOnlineForThisCourse(it) {
+  checkOnlineForThisCourse(userId) {
     const { multiPeerState } = this.props
-    const { currCourseData } = this.props.navigation.state.params
-    if (!multiPeerState.peers[it].online) return false
-    return multiPeerState.peers[it].info.currCourseId === currCourseData.courseId
+    if (!(userId in multiPeerState.peersStatus)) return false
+    if (!multiPeerState.peersStatus[userId].connected) return false
+    return true
   }
   send() {
-    const keys = this.keysAfterShuffle.filter(this.checkOnlineForThisCourse.bind(this))
+    const peerIds = this.userIdsAfterShuffle
+      .filter(this.checkOnlineForThisCourse.bind(this))
+      .map(userId => this.props.multiPeerState.peersStatus[userId].currPeerId)
     const data = {
       messageType: 'CHOSEN_ONE',
       textPop: this.props.drawLotsState.drawAction,
     }
 
-    this.props.multiPeerAction.sendData(keys, data, () => {})
+    this.props.multiPeerAction.sendData(peerIds, data, () => {})
   }
   render() {
     const { drawLotsState, multiPeerState } = this.props
@@ -81,11 +84,11 @@ class DrawLots extends Component {
             <Text style={styles.textBold}>抽籤結果</Text>
             <View style={styles.rowDrawLotsList}>
               <View style={styles.columnContainer}>
-                {this.keysAfterShuffle.map(it => (
-                  <View key={it} style={styles.rowAvatar}>
-                    <View style={[styles.AvatarContainer, styles[(this.checkOnlineForThisCourse(it) ? 'green' : 'grey')]]} />
+                {this.userIdsAfterShuffle.map(userId => (
+                  <View key={userId} style={styles.rowAvatar}>
+                    <View style={[styles.AvatarContainer, styles[(this.checkOnlineForThisCourse(userId) ? 'green' : 'grey')]]} />
                     <Text style={styles.name} numberOfLines={1}>
-                      {`   ${multiPeerState.peers[it].info.username}`}
+                      {`   ${multiPeerState.peersInfo[userId].username}`}
                     </Text>
                   </View>
                 ))}
@@ -108,8 +111,8 @@ DrawLots.propTypes = {
     drawAction: PropTypes.string.isRequired,
   }).isRequired,
   multiPeerState: PropTypes.shape({
-    courses: PropTypes.object.isRequired,
-    peers: PropTypes.object.isRequired,
+    peersStatus: PropTypes.object,
+    peersInfo: PropTypes.object,
   }).isRequired,
   navAction: PropTypes.shape({
     openDrawer: PropTypes.func.isRequired,

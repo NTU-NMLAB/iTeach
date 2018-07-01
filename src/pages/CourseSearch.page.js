@@ -18,7 +18,7 @@ import multiPeerAction from '../actions/multiPeer.action'
 
 const mapStateToProps = state => ({
   isTeacher: state.profile.isTeacher,
-  peers: state.multiPeer.peers,
+  multiPeer: state.multiPeer,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -74,24 +74,15 @@ class CourseSearch extends Component {
   }
 
   getCourseInfo() {
-    // return Object.keys(this.props.peers).map(i => this.props.peers[i].info)
-    return Object.keys(this.props.peers).map((i) => {
-      const { info } = this.props.peers[i]
-      return {
-        title: info.currCourseTitle,
-        courseId: info.currCourseId,
-        teacher: info.username,
-        color: info.currCourseColor,
-        year: info.currCourseYear,
-        semester: info.currCourseSemester,
-        classroom: info.currCourseClassroom,
-        weekday: info.currCourseWeekday,
-        time: info.currCourseTime,
-        website: info.currCourseWebsite,
-        timestamp: info.currCourseTimestamp,
-        isTeacher: info.isTeacher,
-      }
-    }).filter(item => item.isTeacher)
+    return Object.keys(this.props.multiPeer.peersStatus)
+      .filter(userId => this.props.multiPeer.peersInfo[userId].isTeacher)
+      .map((userId) => {
+        const { currCourse } = this.props.multiPeer.peersStatus[userId]
+        return {
+          ...currCourse,
+          teacher: this.props.multiPeer.peersInfo[userId].username,
+        }
+      })
   }
 
   render() {
@@ -129,7 +120,10 @@ CourseSearch.propTypes = {
     add: PropTypes.func.isRequired,
   }).isRequired,
   isTeacher: PropTypes.bool.isRequired,
-  peers: PropTypes.object.isRequired,
+  multiPeer: PropTypes.shape({
+    peersStatus: PropTypes.object.isRequired,
+    peersInfo: PropTypes.object.isRequired,
+  }).isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseSearch)

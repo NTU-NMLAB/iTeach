@@ -8,6 +8,7 @@ import courseHomeAction from '../actions/courseHome.action'
 import multiPeerAction from '../actions/multiPeer.action'
 import currCourseAction from '../actions/currCourse.action'
 // import quizAction from '../actions/quiz.action'
+import getSelfInfo from '../submodule/react-native-multipeer/utils/getSelfInfo.util'
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
@@ -25,6 +26,27 @@ const asyncFunctionMiddleware = ({ dispatch, getState }) => (
   )
 )
 
+const invitationMiddleware = ({ dispatch, getState }) => (
+  next => (
+    (action) => {
+      // when a teacher found students, add the students into Peers
+      if (action.type === 'multiPeer/common/updatePeerStatus') {
+        const { peerStatus, change } = action.payload
+        // change: 'found', 'lost'
+        const { profile, currCourse, multiPeer } = getState()
+        if (
+          profile.isTeacher &&
+          change === 'found' &&
+          (multiPeer.isReleasing || peerStatus.currCourse.courseId === currCourse.courseId)
+        ) {
+          dispatch(multiPeer.backend.invite(peerStatus.currPeerId, getSelfInfo({ profile, currCourse, multiPeer })))
+        }
+      }
+      return next(action)
+    }
+  )
+)
+
 const messageMiddleware = ({ dispatch, getState }) => (
   next => (
     (action) => {
@@ -35,12 +57,14 @@ const messageMiddleware = ({ dispatch, getState }) => (
         let dataToSave
         let dataToSend
         let quizHistory
-        const { data, senderId } = action.payload
+        let senderEntry
+        const { data, senderPeerId } = action.payload
+        const state = getState()
 
         switch (data.messageType) {
         case 'CHOSEN_ONE':
           // dispatch(drawLotsAction.setChosen(data.textPop))
-          if (getState().currentRouteName === 'CourseHome') {
+          if (state.currentRouteName === 'CourseHome') {
             dispatch(courseHomeAction.alert({
               title: '您被老師抽到要',
               message: data.textPop,
@@ -52,8 +76,12 @@ const messageMiddleware = ({ dispatch, getState }) => (
           }
           break
         case 'QUESTION_DEBUT':
-          dataToSave = { ...data, senderId, answerState: 'unAnswered' }
-          courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
+          senderEntry = Object.entries(state.multiPeer.peersStatus).find(e => e[1].currPeerId === senderPeerId)
+          if (senderEntry === undefined) {
+            break
+          }
+          dataToSave = { ...data, senderUserId: senderEntry[0], answerState: 'unAnswered' }
+          courseData = state.courseMenu.courseList.find(item => item.courseId === data.courseId)
           courseData.studentQuizHistory.push(dataToSave)
           dispatch(courseMenuAction.courseList.modify(courseData))
           Alert.alert(
@@ -86,31 +114,33 @@ const messageMiddleware = ({ dispatch, getState }) => (
           break
         case 'ANSWER_BACK':
           dataToSend = { messageType: 'ACK_BACK', questionID: data.questionID, courseId: data.courseId }
-          dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
-          courseData = getState().courseMenu.courseList.find(it => it.courseId === data.courseId)
+          dispatch(multiPeerAction.backend.sendData([senderPeerId], dataToSend))
+          courseData = state.courseMenu.courseList.find(it => it.courseId === data.courseId)
           dataToSave = courseData.quizHistory.find(it => it.questionID === data.questionID)
-          if (getState().currentRouteName === 'CourseHome') {
+          senderEntry = Object.entries(state.multiPeer.peersStatus).find(e => e[1].currPeerId === senderPeerId)
+          if (state.currentRouteName === 'CourseHome') {
             dispatch(courseHomeAction.alert({
               title: `學生作答：${dataToSave.questionType}`,
-              message: `來自 ${getState().multiPeer.peers[senderId].info.username} 的回答`,
+              message: `來自 ${state.multiPeer.peersInfo[senderEntry[0]].username} 的回答`,
               okLabel: '收到',
               okCallback: () => { dispatch(courseHomeAction.cancelAlert()) },
             }))
           } else {
             Alert.alert(
               `學生作答：${dataToSave.questionType}`,
-              `\n來自 ${getState().multiPeer.peers[senderId].info.username} 的回答`,
+              `\n來自 ${state.multiPeer.peersInfo[senderEntry[0]].username} 的回答`,
               [{ text: '收到' }],
             )
           }
+
           dataToSave.studentAnswers.push({
-            studentName: getState().multiPeer.peers[senderId].info.username,
+            studentName: state.multiPeer.peersInfo[senderEntry[0]].username,
             answer: data.answer,
           })
           courseData.quizHistory[courseData.quizHistory.findIndex(it => it.questionID === data.questionID)] = dataToSave
           dispatch(courseMenuAction.courseList.modify(courseData))
           dispatch(currCourseAction.setQuizHistory(courseData.quizHistory))
-          if (getState().currentRouteName === 'HistoryRecord') {
+          if (state.currentRouteName === 'HistoryRecord') {
             dispatch(navAction.reloadPage({
               routeName: 'HistoryRecord',
               currCourse: courseData,
@@ -118,11 +148,11 @@ const messageMiddleware = ({ dispatch, getState }) => (
           }
           break
         case 'ACK_BACK':
-          courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
+          courseData = state.courseMenu.courseList.find(item => item.courseId === data.courseId)
           dataToSave = courseData.studentQuizHistory.findIndex(it => it.questionID === data.questionID)
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
           dispatch(courseMenuAction.courseList.modify(courseData))
-          if (getState().currentRouteName === 'QuizHome') {
+          if (state.currentRouteName === 'QuizHome') {
             dispatch(navAction.reloadPage({
               routeName: 'QuizHome',
               currCourse: courseData,
@@ -130,10 +160,10 @@ const messageMiddleware = ({ dispatch, getState }) => (
           }
           break
         case 'COURSE_INFO_UPDATE':
-          courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
+          courseData = state.courseMenu.courseList.find(item => item.courseId === data.courseId)
           newCourseData = Object.assign({}, courseData, data.newCourseInfo)
           dispatch(courseMenuAction.courseList.modify(newCourseData))
-          if (getState().currentRouteName === 'CourseHome') {
+          if (state.currentRouteName === 'CourseHome') {
             dispatch(courseHomeAction.alert({
               title: courseData.title,
               message: '課程資訊已更新',
@@ -144,12 +174,12 @@ const messageMiddleware = ({ dispatch, getState }) => (
             Alert.alert(courseData.title, '課程資訊已更新', [{ text: '收到' }])
           }
           dispatch(navAction.reloadPage({
-            routeName: getState().currentRouteName,
+            routeName: state.currentRouteName,
             currCourse: newCourseData,
           }))
           break
         case 'REQUEST_COURSE_INFO':
-          currCourseData = getState().currCourse
+          currCourseData = state.currCourse
           if (data.timestamp < currCourseData.timestamp) {
             dataToSend = {
               messageType: 'COURSE_INFO_UPDATE',
@@ -165,12 +195,12 @@ const messageMiddleware = ({ dispatch, getState }) => (
                 timestamp: currCourseData.timestamp,
               },
             }
-            dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
+            dispatch(multiPeerAction.backend.sendData([senderPeerId], dataToSend))
           }
           break
         case 'REQUEST_QUIZ_UPDATE':
-          currCourseData = getState().currCourse
-          quizHistory = getState().profile.isTeacher ? currCourseData.quizHistory : currCourseData.studentQuizHistory
+          currCourseData = state.currCourse
+          quizHistory = state.profile.isTeacher ? currCourseData.quizHistory : currCourseData.studentQuizHistory
           if (quizHistory.length > 0 && (data.timestamp === undefined || data.timestamp < quizHistory[quizHistory.length - 1].releaseTime)) {
             dataToSend = {
               messageType: 'RESPONSE_QUIZ_UPDATE',
@@ -215,15 +245,15 @@ const messageMiddleware = ({ dispatch, getState }) => (
                   }
                 }),
             }
-            dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
+            dispatch(multiPeerAction.backend.sendData([senderPeerId], dataToSend))
           }
           break
         case 'RESPONSE_QUIZ_UPDATE':
-          courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
+          courseData = state.courseMenu.courseList.find(item => item.courseId === data.courseId)
           data.newQuestions.forEach((q) => {
-            courseData.studentQuizHistory.push({ ...q, senderId, answerState: 'unAnswered' })
+            courseData.studentQuizHistory.push({ ...q, senderPeerId, answerState: 'unAnswered' })
           })
-          if (getState().currentRouteName === 'CourseHome') {
+          if (state.currentRouteName === 'CourseHome') {
             dispatch(courseHomeAction.alert({
               title: '隨堂測驗',
               message: '測驗題目已更新',
@@ -233,7 +263,7 @@ const messageMiddleware = ({ dispatch, getState }) => (
           } else {
             Alert.alert('隨堂測驗', '測驗題目已更新', [{ text: '了解' }])
           }
-          if (getState().currentRouteName === 'QuizHome') {
+          if (state.currentRouteName === 'QuizHome') {
             dispatch(navAction.reloadPage({
               routeName: 'QuizHome',
               currCourse: courseData,
@@ -249,4 +279,4 @@ const messageMiddleware = ({ dispatch, getState }) => (
   )
 )
 
-export default [navigationMiddleware, asyncFunctionMiddleware, messageMiddleware]
+export default [navigationMiddleware, asyncFunctionMiddleware, invitationMiddleware, messageMiddleware]

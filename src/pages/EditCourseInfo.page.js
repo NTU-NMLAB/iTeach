@@ -115,14 +115,10 @@ class EditCourseInfo extends Component {
     } else {
       const { multiPeer } = this.props
       const { currCourseData } = { ...this.props.navigation.state.params }
-      let keysInThisCourse = []
-      if (typeof multiPeer.courses[currCourseData.courseId] !== 'undefined') {
-        keysInThisCourse = Object.keys(multiPeer.courses[currCourseData.courseId])
-      }
-      const keysOnline = keysInThisCourse.filter(it =>
-        Object.keys(multiPeer.peers).includes(it)
-        && multiPeer.peers[it].connected
-        && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
+
+      const peerIdsOnline = currCourseData.userIds
+        .filter(userId => (userId in multiPeer.peersStatus) && multiPeer.peersStatus[userId].connected)
+        .map(userId => multiPeer.peersStatus[userId].currPeerId)
       const newCourseInfo = {
         ...this.state,
         timestamp: getTime(),
@@ -143,7 +139,7 @@ class EditCourseInfo extends Component {
       }
       // 符合規則，跳轉到 CourseMenu
       this.props.courseMenuAction.modify(newCourseInfo)
-      this.props.multiPeerAction.sendData(keysOnline, data)
+      this.props.multiPeerAction.sendData(peerIdsOnline, data)
       this.props.nav.reloadPage({
         routeName: 'CourseHome',
         currCourse: newCourseInfo,
@@ -309,8 +305,8 @@ EditCourseInfo.propTypes = {
     }),
   }),
   multiPeer: PropTypes.shape({
-    courses: PropTypes.object.isRequired,
-    peers: PropTypes.object.isRequired,
+    peersStatus: PropTypes.object.isRequired,
+    peersInfo: PropTypes.object.isRequired,
   }).isRequired,
   multiPeerAction: PropTypes.shape({
     sendData: PropTypes.func.isRequired,
