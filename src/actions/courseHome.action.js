@@ -39,6 +39,11 @@ const { courseHome } = createActions({
           dispatch(multiPeerAction.student.requestCourseInfo())
         }
         break
+      case 3:
+        if (!profile.isTeacher) {
+          dispatch(multiPeerAction.student.requestQuizUpdate())
+        }
+        break
       case 5:
         if (typeof multiPeer.courses[currCourse.courseId] === 'undefined') {
           dispatch(courseHome.alert({

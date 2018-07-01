@@ -7,6 +7,7 @@ const reducerMap = {
   setQuizHistory: (state, action) => ({
     ...state,
     currCourse: {
+      ...state.currCourse,
       quizHistory: action.payload,
     },
   }),

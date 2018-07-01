@@ -76,7 +76,7 @@ class QuestionCreate extends Component {
     }
     const keysOnline = keysInThisCourse.filter(it =>
       Object.keys(multiPeer.peers).includes(it)
-      && multiPeer.peers[it].online
+      && multiPeer.peers[it].connected
       && multiPeer.peers[it].info.currCourseId === currCourseData.courseId)
     const data = {
       messageType: 'QUESTION_DEBUT',

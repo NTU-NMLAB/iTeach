@@ -56,6 +56,13 @@ const { multiPeer } = createActions({
           timestamp: getState().currCourse.timestamp,
         }))
       },
+      requestQuizUpdate: () => (dispatch, getState) => {
+        const quizHistory = getState().currCourse.studentQuizHistory
+        dispatch(multiPeer.backend.broadcastData({
+          messageType: 'REQUEST_QUIZ_UPDATE',
+          timestamp: quizHistory.length > 0 ? quizHistory[quizHistory.length - 1].releaseTime : undefined,
+        }))
+      },
     },
     teacher: {
       startRelease: () => (dispatch) => {

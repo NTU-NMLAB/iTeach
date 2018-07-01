@@ -30,8 +30,10 @@ const messageMiddleware = ({ dispatch, getState }) => (
       if (action.type === 'multiPeer/backend/onDataReceived') {
         let courseData
         let newCourseData
+        let currCourseData
         let dataToSave
         let dataToSend
+        let quizHistory
         const { data, senderId } = action.payload
 
         switch (data.messageType) {
@@ -104,27 +106,88 @@ const messageMiddleware = ({ dispatch, getState }) => (
           courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
           newCourseData = Object.assign({}, courseData, data.newCourseInfo)
           dispatch(courseMenuAction.courseList.modify(newCourseData))
+          Alert.alert(newCourseData.title, '課程資訊已更新', { text: '收到' })
           break
         case 'REQUEST_COURSE_INFO':
-          if (data.timestamp < getState().currCourse.timestamp) {
+          currCourseData = getState().currCourse
+          if (data.timestamp < currCourseData.timestamp) {
             dataToSend = {
               messageType: 'COURSE_INFO_UPDATE',
-              courseId: getState().currCourse.courseId,
+              courseId: currCourseData.courseId,
               newCourseInfo: {
-                title: getState().currCourse.title,
-                classroom: getState().currCourse.classroom,
-                website: getState().currCourse.website,
-                year: getState().currCourse.year,
-                semester: getState().currCourse.semester,
-                weekday: getState().currCourse.weekday,
-                time: getState().currCourse.time,
-                timestamp: getState().currCourse.timestamp,
+                title: currCourseData.title,
+                classroom: currCourseData.classroom,
+                website: currCourseData.website,
+                year: currCourseData.year,
+                semester: currCourseData.semester,
+                weekday: currCourseData.weekday,
+                time: currCourseData.time,
+                timestamp: currCourseData.timestamp,
               },
             }
             dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
           }
           break
+        case 'REQUEST_QUIZ_UPDATE':
+          currCourseData = getState().currCourse
+          quizHistory = getState().profile.isTeacher ? currCourseData.quizHistory : currCourseData.studentQuizHistory
+          if (quizHistory.length > 0 && (data.timestamp === undefined || data.timestamp < quizHistory[quizHistory.length - 1].releaseTime)) {
+            dataToSend = {
+              messageType: 'RESPONSE_QUIZ_UPDATE',
+              courseId: currCourseData.courseId,
+              newQuestions: quizHistory
+                .filter(q => (data.timestamp === undefined || q.releaseTime > data.timestamp))
+                .map((q) => {
+                  const {
+                    questionID, questionType, questionState, releaseTime,
+                  } = { ...q }
+                  let options
+                  let randIndex
+                  let tmpStr
+                  switch (questionType) {
+                  case '單選題':
+                    options = [
+                      q.single.rightAns,
+                      q.single.wrongAns1,
+                      q.single.wrongAns2,
+                      q.single.wrongAns3,
+                    ]
+                    randIndex = Math.floor(Math.random() * Math.floor(4))
+                    tmpStr = options[randIndex]
+                    options[randIndex] = q.single.rightAns
+                    options[0] = tmpStr
+                    break
+                  case '多選題':
+                    options = [
+                      q.multi.ans1State,
+                      q.multi.ans2State,
+                      q.multi.ans3State,
+                      q.multi.ans4State,
+                      q.multi.ans5State,
+                    ]
+                    break
+                  default:
+                    options = []
+                    break
+                  }
+                  return {
+                    courseId: currCourseData.courseId, questionID, questionType, questionState, releaseTime, options,
+                  }
+                }),
+            }
+            dispatch(multiPeerAction.backend.sendData([senderId], dataToSend))
+          }
+          break
+        case 'RESPONSE_QUIZ_UPDATE':
+          courseData = getState().courseMenu.courseList.find(item => item.courseId === data.courseId)
+          data.newQuestions.forEach((q) => {
+            courseData.studentQuizHistory.push({ ...q, senderId, answerState: 'unAnswered' })
+          })
+          dispatch(courseMenuAction.courseList.modify(courseData))
+          Alert.alert('隨堂測驗', '題目已更新', { text: '收到' })
+          break
         default:
+          break
         }
       }
       return next(action)
