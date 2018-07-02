@@ -5,7 +5,18 @@ import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-hel
 import classMenuAction from '../actions/classMenu.action'
 import navAction from '../actions/nav.action'
 import multiPeerAction from '../actions/multiPeer.action'
+import multiPeer from '../actions/multiPeer.action';
 // import quizAction from '../actions/quiz.action'
+import { AsyncStorage } from 'react-native'
+
+// Get Quiz History from local storage
+_retriveQuizHistory = async(state) => {
+  const val = JSON.parse(await AsyncStorage.getItem('iTeachStore:Class'))
+  if (val) {
+    quizHistory = (state.account.status === "teacher")? val[0].quizHistory : val[0].studentQuizHistory
+    return quizHistory
+  }
+}
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
@@ -26,6 +37,19 @@ const asyncFunctionMiddleware = ({ dispatch, getState }) => (
 const messageMiddleware = ({ dispatch, getState }) => (
   next => (
     (action) => {
+      if (action.type === "multiPeer/backend/onPeerFoundSet"
+          && getState().account.status === "student"
+          && action.payload.peer.info.identity === "teacher" 
+      ){
+        data = action.payload
+        _retriveQuizHistory(getState()).then((quizHistory) => {
+          dataToSend = { 
+            messageType: 'CHECK_QUIZ', 
+            lastData: (quizHistory.length)? quizHistory[quizHistory.length - 1] : "0"
+          }
+          dispatch(multiPeerAction.backend.sendData([data.peer], dataToSend))
+        })
+      }
       if (action.type === 'multiPeer/backend/onDataReceived') {
         let courseData
         let dataToSave
@@ -91,6 +115,39 @@ const messageMiddleware = ({ dispatch, getState }) => (
           courseData.studentQuizHistory[dataToSave].answerState = 'Checked'
           dispatch(classMenuAction.classList.modify(courseData, data.courseName))
           break
+        case 'CHECK_QUIZ':
+          lastData = data.lastData
+          _retriveQuizHistory(getState()).then((quizHistory) => {
+            if (quizHistory.length != 0) {
+              if (quizHistory[quizHistory.length - 1].questionID != lastData.questionID){
+                /*Alert.alert(
+                  "Warning",
+                  "Detected Async. Question state, resending",
+                  [{text: "OK"}]
+                )*/
+                courseName = getState().course.courseName
+                const resendQuizData = {
+                  messageType: 'QUESTION_DEBUT',
+                  courseName,
+                  questionID: quizHistory[quizHistory.length - 1].questionID,
+                  questionType: quizHistory[quizHistory.length - 1].questionType,
+                  questionState: quizHistory[quizHistory.length - 1].questionState,
+                  releaseTime: quizHistory[quizHistory.length - 1].releaseTime
+                }
+                Alert.alert(
+                  "Student didn't receive this question.",
+                  JSON.stringify(resendQuizData),
+                  [{
+                    text : "Resend",
+                    onPress: () => {
+                      dispatch(multiPeerAction.backend.sendData([senderId], resendQuizData))
+                    }
+                  }]
+                )
+              } 
+            }
+          })
+          //break
         default:
         }
       }

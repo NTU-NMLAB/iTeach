@@ -34,7 +34,7 @@ const { multiPeer } = createActions({
       openCourse: () => (dispatch, getState) => {
         dispatch(multiPeer.backend.browse())
         dispatch(multiPeer.backend.advertise(getStudentPeerInfo(getState())))
-        dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING))
+        dispatch(multiPeer.common.setStatus(PeerStatus.VIEWING)) 
       },
       exitCourse: () => (dispatch) => {
         dispatch(multiPeer.backend.stopBrowse())
