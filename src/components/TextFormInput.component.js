@@ -1,11 +1,11 @@
 import React from 'react'
 import {
   Text,
-  TextInput,
   View,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/TextFormInput.style'
+import StatefulTextInput from './StatefulTextInput.component'
 
 const TextFormInput = (props) => {
   const {
@@ -19,9 +19,9 @@ const TextFormInput = (props) => {
       <Text style={styles.text}>
         {label}
       </Text>
-      <TextInput
+      <StatefulTextInput
         style={styles.input}
-        onBlur={ e => onChangeText(e.nativeEvent.text) }
+        onChangeText={onChangeText}
         value={value}
         autoCapitalize={autoCapitalize} />
     </View>

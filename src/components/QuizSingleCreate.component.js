@@ -2,11 +2,11 @@ import React from 'react'
 import {
   View,
   Text,
-  TextInput,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/Question.style'
 import Button from './Button.component'
+import StatefulTextInput from '../components/StatefulTextInput.component'
 
 const SingleCreate = (props) => {
   const {
@@ -23,9 +23,9 @@ const SingleCreate = (props) => {
         </Text>
       </View>
       <View style={styles.questionContext}>
-        <TextInput
+        <StatefulTextInput
           style={styles.text}
-          onBlur={ e => onChangeCallbacks.questionState(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.questionState(e) }
           value={questionState}
           placeholder='題目敘述'
         />
@@ -34,9 +34,9 @@ const SingleCreate = (props) => {
         <Text style={styles.text}>
               正確選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.rightAns(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.rightAns(e) }
           value={answerOptions.rightAns}
           placeholder='正確答案'
         />
@@ -45,9 +45,9 @@ const SingleCreate = (props) => {
         <Text style={styles.text}>
               錯誤選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.wrongAns1(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.wrongAns1(e) }
           value={answerOptions.wrongAns1}
           placeholder='錯誤答案'
         />
@@ -56,9 +56,9 @@ const SingleCreate = (props) => {
         <Text style={styles.text}>
               錯誤選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.wrongAns2(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.wrongAns2(e) }
           value={answerOptions.wrongAns2}
           placeholder='錯誤答案'
         />
@@ -67,9 +67,9 @@ const SingleCreate = (props) => {
         <Text style={styles.text}>
               錯誤選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.wrongAns3(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.wrongAns3(e) }
           value={answerOptions.wrongAns3}
           placeholder='錯誤答案'
         />

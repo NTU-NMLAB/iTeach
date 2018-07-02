@@ -2,12 +2,12 @@ import React from 'react'
 import {
   View,
   Text,
-  TextInput,
 } from 'react-native'
 import CheckBox from 'react-native-check-box'
 import PropTypes from 'prop-types'
 import styles from './styles/Question.style'
 import Button from './Button.component'
+import StatefulTextInput from '../components/StatefulTextInput.component'
 
 const MultiCreate = (props) => {
   const {
@@ -25,9 +25,9 @@ const MultiCreate = (props) => {
         </Text>
       </View>
       <View style={styles.questionContext}>
-        <TextInput
+        <StatefulTextInput
           style={styles.text}
-          onBlur={ e => onChangeCallbacks.questionState(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.questionState(e) }
           value={questionState}
           placeholder='題目敘述'
         />
@@ -36,9 +36,9 @@ const MultiCreate = (props) => {
         <Text style={styles.text}>
           選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.ans1State(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.ans1State(e) }
           value={answerOptions.ans1State}
           placeholder='選項'
         />
@@ -50,9 +50,9 @@ const MultiCreate = (props) => {
         <Text style={styles.text}>
           選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.ans2State(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.ans2State(e) }
           value={answerOptions.ans2State}
           placeholder='選項'
         />
@@ -64,9 +64,9 @@ const MultiCreate = (props) => {
         <Text style={styles.text}>
           選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.ans3State(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.ans3State(e) }
           value={answerOptions.ans3State}
           placeholder='選項'
         />
@@ -78,9 +78,9 @@ const MultiCreate = (props) => {
         <Text style={styles.text}>
           選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.ans4State(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.ans4State(e) }
           value={answerOptions.ans4State}
           placeholder='選項'
         />
@@ -92,9 +92,9 @@ const MultiCreate = (props) => {
         <Text style={styles.text}>
           選項：
         </Text>
-        <TextInput
+        <StatefulTextInput
           style={styles.singleInput}
-          onBlur={ e => onChangeCallbacks.ans5State(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.ans5State(e) }
           value={answerOptions.ans5State}
           placeholder='選項'
         />

@@ -2,12 +2,12 @@ import React from 'react'
 import {
   View,
   Text,
-  TextInput,
   Switch,
 } from 'react-native'
 import PropTypes from 'prop-types'
 import styles from './styles/Question.style'
 import Button from './Button.component'
+import StatefulTextInput from '../components/StatefulTextInput.component'
 
 const TrueFalseCreate = (props) => {
   const {
@@ -24,9 +24,9 @@ const TrueFalseCreate = (props) => {
         </Text>
       </View>
       <View style={styles.questionContext}>
-        <TextInput
+        <StatefulTextInput
           style={styles.text}
-          onBlur={ e => onChangeCallbacks.questionState(e.nativeEvent.text) }
+          onChangeText={ e => onChangeCallbacks.questionState(e) }
           value={questionState}
           placeholder='題目敘述'
         />

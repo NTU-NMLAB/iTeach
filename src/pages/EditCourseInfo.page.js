@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {
   Text,
   View,
-  TextInput,
   NetInfo,
   Alert,
 } from 'react-native'
@@ -19,6 +18,7 @@ import multiPeerAction from '../actions/multiPeer.action'
 import navAction from '../actions/nav.action'
 import Appbar from '../components/Appbar.component'
 import getTime from '../util/getTime'
+import StatefulTextInput from '../components/StatefulTextInput.component'
 
 const mapStateToProps = state => ({
   multiPeer: state.multiPeer, // will be removed soon
@@ -158,10 +158,10 @@ class EditCourseInfo extends Component {
           <View>
             <View style={styles.courseInputContainer}>
               <View style={[styles.colorBox, { backgroundColor: this.state.color }]} />
-              <TextInput
+              <StatefulTextInput
                 style={styles.input}
                 defaultValue={this.state.title}
-                onBlur={e => this.setState({ title: e.nativeEvent.text }) }
+                onChangeText={e => this.setState({ title: e }) }
                 value={this.state.title}
                 autoCapitalize = 'none'
               />
@@ -207,9 +207,9 @@ class EditCourseInfo extends Component {
                   <Text style={styles.text}>
                     上課教室 ：
                   </Text>
-                  <TextInput
+                  <StatefulTextInput
                     style={styles.input}
-                    onBlur={e => this.setState({ classroom: e.nativeEvent.text }) }
+                    onChangeText={e => this.setState({ classroom: e }) }
                     value={this.state.classroom}
                     autoCapitalize = 'none'
                   />
@@ -268,9 +268,9 @@ class EditCourseInfo extends Component {
                   <Text style={styles.text}>
                     課程網站 ：
                   </Text>
-                  <TextInput
+                  <StatefulTextInput
                     style={styles.input}
-                    onBlur={e => this.setState({ website: e.nativeEvent.text }) }
+                    onChangeText={e => this.setState({ website: e }) }
                     value={this.state.website}
                     autoCapitalize = 'none'
                   />

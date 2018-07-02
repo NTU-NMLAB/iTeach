@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {
   Text,
   View,
-  TextInput,
   Modal,
 } from 'react-native'
 import { Picker } from 'react-native-picker-dropdown'
@@ -14,6 +13,7 @@ import drawLots from '../actions/drawLots.action'
 import CloseImage from '../../asset/close.png'
 import Button from '../components/Button.component'
 import Appbar from '../components/Appbar.component'
+import StatefulTextInput from '../components/StatefulTextInput.component'
 
 const mapStateToProps = state => ({
   drawLotsState: state.drawLots,
@@ -96,9 +96,9 @@ class DrawLots extends Component {
               ))}
             </Picker>
             <Text style={styles.text}>位同學</Text>
-            <TextInput
+            <StatefulTextInput
               style={styles.input}
-              onBlur={e => this.props.drawLots.setDrawAction(e.nativeEvent.text) }
+              onChangeText={e => this.props.drawLots.setDrawAction(e) }
               placeholder="回答問題"
               value={drawLotsState.drawAction}
             />
