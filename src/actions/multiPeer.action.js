@@ -107,9 +107,10 @@ const { multiPeer } = createActions({
       hide: () => {
         MultipeerConnectivity.hide()
       },
-      invite: (peerId, myInfo, callback = () => {}) => {
-        MultipeerConnectivity.invite(peerId, myInfo, callback)
-        return { peerId }
+      invite: (peerId, inviting, myInfo, callback = () => {}) => {
+        // inviting: a flag lets students recognize whether teacher is releasing or not.
+        MultipeerConnectivity.invite(peerId, { ...myInfo, inviting }, callback)
+        return { peerId, inviting }
       },
       responseInvite: (sender, accept, callback = () => {}) => {
         MultipeerConnectivity.responseInvite(sender.invitationId, accept, callback)

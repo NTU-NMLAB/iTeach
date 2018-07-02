@@ -30,20 +30,39 @@ const invitationMiddleware = ({ dispatch, getState }) => (
   next => (
     (action) => {
       // when a teacher found students, add the students into Peers
+      const { profile, currCourse, multiPeer } = getState()
       if (action.type === 'multiPeer/common/updatePeerStatus') {
         const { peerStatus, change } = action.payload
         // change: 'found', 'lost'
-        const { profile, currCourse, multiPeer } = getState()
         if (
           profile.isTeacher &&
           change === 'found' &&
-          (multiPeer.isReleasing || peerStatus.currCourse.courseId === currCourse.courseId) &&
-          currCourse !== undefined
+          currCourse !== undefined &&
+          (multiPeer.isReleasing || peerStatus.currCourse.courseId === currCourse.courseId)
         ) {
-          dispatch(multiPeerAction.backend.invite(peerStatus.currPeerId, {
-            ...getSelfInfo({ profile, currCourse, multiPeer }),
-            inviting: true, // a flag lets students recognize whether teacher is releasing or not.
-          }))
+          dispatch(multiPeerAction.backend.invite(peerStatus.currPeerId, true, getSelfInfo({ profile, currCourse, multiPeer })))
+        }
+      } else if (action.type === 'multiPeer/common/updateOwnStatus') {
+        const peersFound = Object.entries(multiPeer.peersStatus).filter(e => !e[1].connected).map(e => e[1])
+        switch (action.payload) {
+        case 'RELEASE':
+        case 'START_RELEASE':
+          peersFound.forEach((peerStatus) => {
+            dispatch(multiPeerAction.backend.invite(peerStatus.currPeerId, true, getSelfInfo({ profile, currCourse, multiPeer })))
+          })
+          break
+        case 'STOP_RELEASE':
+          peersFound.forEach((peerStatus) => {
+            dispatch(multiPeerAction.backend.invite(peerStatus.currPeerId, false, getSelfInfo({ profile, currCourse, multiPeer })))
+          })
+          break
+        case 'STOP_ADVERTISE':
+          peersFound.forEach((peerStatus) => {
+            dispatch(multiPeerAction.backend.onPeerLost(peerStatus.currPeerId))
+          })
+          break
+        default:
+          break
         }
       }
       return next(action)

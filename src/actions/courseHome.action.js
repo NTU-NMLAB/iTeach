@@ -14,13 +14,6 @@ const { courseHome } = createActions({
       if (profile.isTeacher && items[1].isOn) {
         dispatch(courseHome.toggleItem(1))
         dispatch(multiPeerAction.common.updateOwnStatus('STOP_RELEASE'))
-
-        const multiPeerState = getState().multiPeer
-        Object.keys(multiPeerState.peersStatus)
-          .filter(userId => !multiPeerState.peersStatus[userId].connected)
-          .forEach((userId) => {
-            dispatch(multiPeerAction.backend.invite(multiPeerState.peersStatus[userId].currPeerId, { inviting: false }))
-          })
       }
       dispatch(multiPeerAction[profile.isTeacher ? 'teacher' : 'student'].exitCourse())
       dispatch(navAction.courseMenu())
@@ -36,13 +29,6 @@ const { courseHome } = createActions({
       case 1:
         if (items[1].isOn) {
           dispatch(multiPeerAction.common.updateOwnStatus('STOP_RELEASE'))
-
-          const multiPeerState = getState().multiPeer
-          Object.keys(multiPeerState.peersStatus)
-            .filter(userId => !multiPeerState.peersStatus[userId].connected)
-            .forEach((userId) => {
-              dispatch(multiPeerAction.backend.invite(multiPeerState.peersStatus[userId].currPeerId, { inviting: false }))
-            })
         } else {
           dispatch(multiPeerAction.common.updateOwnStatus('START_RELEASE'))
         }
