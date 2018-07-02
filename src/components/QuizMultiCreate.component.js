@@ -27,7 +27,7 @@ const MultiCreate = (props) => {
       <View style={styles.questionContext}>
         <TextInput
           style={styles.text}
-          onChangeText={onChangeCallbacks.questionState}
+          onBlur={ e => onChangeCallbacks.questionState(e.nativeEvent.text) }
           value={questionState}
           placeholder='題目敘述'
         />
@@ -38,7 +38,7 @@ const MultiCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.ans1State}
+          onBlur={ e => onChangeCallbacks.ans1State(e.nativeEvent.text) }
           value={answerOptions.ans1State}
           placeholder='選項'
         />
@@ -52,7 +52,7 @@ const MultiCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.ans2State}
+          onBlur={ e => onChangeCallbacks.ans2State(e.nativeEvent.text) }
           value={answerOptions.ans2State}
           placeholder='選項'
         />
@@ -66,7 +66,7 @@ const MultiCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.ans3State}
+          onBlur={ e => onChangeCallbacks.ans3State(e.nativeEvent.text) }
           value={answerOptions.ans3State}
           placeholder='選項'
         />
@@ -80,7 +80,7 @@ const MultiCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.ans4State}
+          onBlur={ e => onChangeCallbacks.ans4State(e.nativeEvent.text) }
           value={answerOptions.ans4State}
           placeholder='選項'
         />
@@ -94,7 +94,7 @@ const MultiCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.ans5State}
+          onBlur={ e => onChangeCallbacks.ans5State(e.nativeEvent.text) }
           value={answerOptions.ans5State}
           placeholder='選項'
         />

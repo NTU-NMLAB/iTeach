@@ -98,7 +98,7 @@ class DrawLots extends Component {
             <Text style={styles.text}>位同學</Text>
             <TextInput
               style={styles.input}
-              onChangeText={this.props.drawLots.setDrawAction}
+              onBlur={e => this.props.drawLots.setDrawAction(e.nativeEvent.text) }
               placeholder="回答問題"
               value={drawLotsState.drawAction}
             />

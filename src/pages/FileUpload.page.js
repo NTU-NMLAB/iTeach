@@ -60,7 +60,7 @@ class FileUpload extends Component {
           <Text style={styles.text}>檔案描述</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(fileDesc) => { this.setState({ fileDesc }) }}
+            onEndEditing={e => this.setState({ fileDesc: e.nativeEvent.text }) }
             value={this.state.fileDesc}
             multiline={true}
             numberOfLines={3}

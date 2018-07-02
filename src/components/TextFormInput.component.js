@@ -15,13 +15,13 @@ const TextFormInput = (props) => {
     autoCapitalize,
   } = props
   return (
-    <View>
+    <View keyboardShouldPersistTaps="handled" >
       <Text style={styles.text}>
         {label}
       </Text>
       <TextInput
         style={styles.input}
-        onChangeText={onChangeText}
+        onBlur={ e => onChangeText(e.nativeEvent.text) }
         value={value}
         autoCapitalize={autoCapitalize} />
     </View>

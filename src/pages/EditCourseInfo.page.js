@@ -166,7 +166,7 @@ class EditCourseInfo extends Component {
               <TextInput
                 style={styles.input}
                 defaultValue={this.state.title}
-                onChangeText={(title) => { this.setState({ title }) }}
+                onBlur={e => this.setState({ title: e.nativeEvent.text }) }
                 value={this.state.title}
                 autoCapitalize = 'none'
               />
@@ -214,7 +214,7 @@ class EditCourseInfo extends Component {
                   </Text>
                   <TextInput
                     style={styles.input}
-                    onChangeText={(classroom) => { this.setState({ classroom }) }}
+                    onBlur={e => this.setState({ classroom: e.nativeEvent.text }) }
                     value={this.state.classroom}
                     autoCapitalize = 'none'
                   />
@@ -275,7 +275,7 @@ class EditCourseInfo extends Component {
                   </Text>
                   <TextInput
                     style={styles.input}
-                    onChangeText={(website) => { this.setState({ website }) }}
+                    onBlur={e => this.setState({ website: e.nativeEvent.text }) }
                     value={this.state.website}
                     autoCapitalize = 'none'
                   />

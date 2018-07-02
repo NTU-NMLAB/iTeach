@@ -26,7 +26,7 @@ const TrueFalseCreate = (props) => {
       <View style={styles.questionContext}>
         <TextInput
           style={styles.text}
-          onChangeText={onChangeCallbacks.questionState}
+          onBlur={ e => onChangeCallbacks.questionState(e.nativeEvent.text) }
           value={questionState}
           placeholder='題目敘述'
         />

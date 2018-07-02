@@ -25,7 +25,7 @@ const SingleCreate = (props) => {
       <View style={styles.questionContext}>
         <TextInput
           style={styles.text}
-          onChangeText={onChangeCallbacks.questionState}
+          onBlur={ e => onChangeCallbacks.questionState(e.nativeEvent.text) }
           value={questionState}
           placeholder='題目敘述'
         />
@@ -36,7 +36,7 @@ const SingleCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.rightAns}
+          onBlur={ e => onChangeCallbacks.rightAns(e.nativeEvent.text) }
           value={answerOptions.rightAns}
           placeholder='正確答案'
         />
@@ -47,7 +47,7 @@ const SingleCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.wrongAns1}
+          onBlur={ e => onChangeCallbacks.wrongAns1(e.nativeEvent.text) }
           value={answerOptions.wrongAns1}
           placeholder='錯誤答案'
         />
@@ -58,7 +58,7 @@ const SingleCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.wrongAns2}
+          onBlur={ e => onChangeCallbacks.wrongAns2(e.nativeEvent.text) }
           value={answerOptions.wrongAns2}
           placeholder='錯誤答案'
         />
@@ -69,7 +69,7 @@ const SingleCreate = (props) => {
         </Text>
         <TextInput
           style={styles.singleInput}
-          onChangeText={onChangeCallbacks.wrongAns3}
+          onBlur={ e => onChangeCallbacks.wrongAns3(e.nativeEvent.text) }
           value={answerOptions.wrongAns3}
           placeholder='錯誤答案'
         />
