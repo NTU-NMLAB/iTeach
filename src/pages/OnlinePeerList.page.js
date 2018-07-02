@@ -36,12 +36,14 @@ class OnlinePeerList extends Component {
   getOnlinePeerList() {
     return Object.keys(this.props.multiPeer.peersStatus)
       .filter(userId => this.props.multiPeer.peersStatus[userId].connected === true)
+      .filter(userId => Object.keys(this.props.multiPeer.peersInfo).includes(userId)) // in order to avoid crashes
       .map(userId => this.props.multiPeer.peersInfo[userId])
   }
   getOfflinePeerList() {
     const { currCourseData } = this.props.navigation.state.params
     return currCourseData.userIds
       .filter(userId => !(userId in this.props.multiPeer.peersStatus) || !this.props.multiPeer.peersStatus[userId].connected)
+      .filter(userId => Object.keys(this.props.multiPeer.peersInfo).includes(userId)) // in order to avoid crashes
       .map(userId => this.props.multiPeer.peersInfo[userId])
   }
   render() {

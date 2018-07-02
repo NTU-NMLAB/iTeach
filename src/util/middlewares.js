@@ -1,5 +1,7 @@
 import { Alert } from 'react-native'
 import { createReactNavigationReduxMiddleware } from 'react-navigation-redux-helpers'
+import PeerInfo from '../submodule/react-native-multipeer/classes/PeerInfo.class'
+import PeerStatus from '../submodule/react-native-multipeer/classes/PeerStatus.class'
 // import drawLotsAction from '../actions/drawLots.action'
 // import Background fro../components/Background.componentund'
 import courseMenuAction from '../actions/courseMenu.action'
@@ -70,6 +72,26 @@ const invitationMiddleware = ({ dispatch, getState }) => (
   )
 )
 
+const connectionMiddleware = ({ dispatch, getState }) => (
+  next => (
+    (action) => {
+      if (action.type === 'multiPeer/backend/onPeerConnected') {
+        const state = getState()
+        if (!Object.keys(state.multiPeer.peersStatus)
+          .map(userId => state.multiPeer.peersStatus[userId].currPeerId)
+          .includes(action.payload)) {
+          const dataToSend = {
+            messageType: 'REQUEST_PEER_INFO',
+            courseId: state.currCourse.courseId,
+          }
+          dispatch(multiPeerAction.backend.sendData([action.payload], dataToSend))
+        }
+      }
+      return next(action)
+    }
+  )
+)
+
 const messageMiddleware = ({ dispatch, getState }) => (
   next => (
     (action) => {
@@ -81,10 +103,44 @@ const messageMiddleware = ({ dispatch, getState }) => (
         let dataToSend
         let quizHistory
         let senderEntry
+        let peerInfo
+        let peerStatus
         const { data, senderPeerId } = action.payload
         const state = getState()
 
         switch (data.messageType) {
+        case 'REQUEST_PEER_INFO':
+          if (data.courseId !== state.currCourse.courseId) { break }
+          dataToSend = {
+            messageType: 'RESPONSE_PEER_INFO',
+            selfInfo: getSelfInfo({
+              profile: state.profile,
+              multiPeer: state.multiPeer,
+              currCourse: state.currCourse,
+            }),
+          }
+          dispatch(multiPeerAction.backend.sendData([senderPeerId], dataToSend))
+          break
+        case 'RESPONSE_PEER_INFO':
+          peerInfo = new PeerInfo(data.selfInfo)
+          peerStatus = new PeerStatus(
+            senderPeerId,
+            data.selfInfo,
+            true,
+            false,
+            '',
+          )
+          if (data.selfInfo.currCourseId !== undefined) { // is not a course-searching student (already in course)
+            const { courseList } = state.courseMenu
+            courseData = courseList.find(c => c.courseId === data.selfInfo.currCourseId)
+            if (courseData && !courseData.userIds.includes(peerInfo.userId)) {
+              courseData.userIds.push(peerInfo.userId)
+              dispatch(courseMenuAction.courseList.modify(courseData))
+            }
+          }
+          dispatch(multiPeerAction.common.savePeerInfo(peerInfo))
+          dispatch(multiPeerAction.common.updatePeerStatus(peerInfo.userId, peerStatus, 'found'))
+          break
         case 'CHOSEN_ONE':
           // dispatch(drawLotsAction.setChosen(data.textPop))
           if (state.currentRouteName === 'CourseHome') {
@@ -237,34 +293,39 @@ const messageMiddleware = ({ dispatch, getState }) => (
                   let options
                   let randIndex
                   let tmpStr
-                  switch (questionType) {
-                  case '單選題':
-                    options = [
-                      q.single.rightAns,
-                      q.single.wrongAns1,
-                      q.single.wrongAns2,
-                      q.single.wrongAns3,
-                    ]
-                    randIndex = Math.floor(Math.random() * Math.floor(4))
-                    tmpStr = options[randIndex]
-                    options[randIndex] = q.single.rightAns
-                    options[0] = tmpStr
-                    break
-                  case '多選題':
-                    options = [
-                      q.multi.ans1State,
-                      q.multi.ans2State,
-                      q.multi.ans3State,
-                      q.multi.ans4State,
-                      q.multi.ans5State,
-                    ]
-                    break
-                  default:
-                    options = []
-                    break
+                  if (state.profile.isTeacher) {
+                    switch (questionType) {
+                    case '單選題':
+                      options = [
+                        q.single.rightAns,
+                        q.single.wrongAns1,
+                        q.single.wrongAns2,
+                        q.single.wrongAns3,
+                      ]
+                      randIndex = Math.floor(Math.random() * Math.floor(4))
+                      tmpStr = options[randIndex]
+                      options[randIndex] = q.single.rightAns
+                      options[0] = tmpStr
+                      break
+                    case '多選題':
+                      options = [
+                        q.multi.ans1State,
+                        q.multi.ans2State,
+                        q.multi.ans3State,
+                        q.multi.ans4State,
+                        q.multi.ans5State,
+                      ]
+                      break
+                    default:
+                      options = []
+                      break
+                    }
+                    return {
+                      courseId: currCourseData.courseId, questionID, questionType, questionState, releaseTime, options,
+                    }
                   }
                   return {
-                    courseId: currCourseData.courseId, questionID, questionType, questionState, releaseTime, options,
+                    courseId: currCourseData.courseId, questionID, questionType, questionState, releaseTime, options: q.options,
                   }
                 }),
             }
@@ -278,7 +339,9 @@ const messageMiddleware = ({ dispatch, getState }) => (
             break
           }
           data.newQuestions.forEach((q) => {
-            courseData.studentQuizHistory.push({ ...q, senderUserId: senderEntry[0], answerState: 'unAnswered' })
+            if (q.releaseTime > courseData.studentQuizHistory[courseData.studentQuizHistory.length - 1].releaseTime) {
+              courseData.studentQuizHistory.push({ ...q, senderUserId: senderEntry[0], answerState: 'unAnswered' })
+            }
           })
           if (state.currentRouteName === 'CourseHome') {
             dispatch(courseHomeAction.alert({
@@ -306,4 +369,4 @@ const messageMiddleware = ({ dispatch, getState }) => (
   )
 )
 
-export default [navigationMiddleware, asyncFunctionMiddleware, invitationMiddleware, messageMiddleware]
+export default [navigationMiddleware, asyncFunctionMiddleware, invitationMiddleware, messageMiddleware, connectionMiddleware]
