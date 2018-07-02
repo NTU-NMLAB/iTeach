@@ -339,7 +339,8 @@ const messageMiddleware = ({ dispatch, getState }) => (
             break
           }
           data.newQuestions.forEach((q) => {
-            if (q.releaseTime > courseData.studentQuizHistory[courseData.studentQuizHistory.length - 1].releaseTime) {
+            if (courseData.studentQuizHistory.length === 0 ||
+              q.releaseTime > courseData.studentQuizHistory[courseData.studentQuizHistory.length - 1].releaseTime) {
               courseData.studentQuizHistory.push({ ...q, senderUserId: senderEntry[0], answerState: 'unAnswered' })
             }
           })
