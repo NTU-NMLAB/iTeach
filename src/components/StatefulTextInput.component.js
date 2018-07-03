@@ -23,7 +23,7 @@ class StatefulTextInput extends Component {
 }
 
 StatefulTextInput.propTypes = {
-  style: PropTypes.object,
+  style: PropTypes.number,
   value: PropTypes.string.isRequired,
   onChangeText: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
