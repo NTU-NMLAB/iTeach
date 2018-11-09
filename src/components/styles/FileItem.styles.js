@@ -1,0 +1,81 @@
+import { StyleSheet } from 'react-native'
+
+export default StyleSheet.create({
+  unDownloadedFileItemContainer: {
+    height: 100,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%',
+    borderBottomWidth: 1.3,
+    borderLeftWidth: 0.8,
+    borderRightWidth: 0.8,
+    borderTopWidth: 0,
+    borderColor: '#EC173F',
+    backgroundColor: 'rgba(248, 107, 143, 0.4)',
+  },
+  DownloadedFileItemContainer: {
+    height: 100,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '100%',
+    borderBottomWidth: 1.3,
+    borderLeftWidth: 0.8,
+    borderRightWidth: 0.8,
+    borderTopWidth: 0,
+    borderColor: '#4BEC46',
+    backgroundColor: 'rgba(123, 205, 121, 0.4)',
+  },
+  fileNameContainer: {
+    width: 200,
+    height: 25,
+    position: 'absolute',
+    top: 5,
+    left: 12,
+  },
+  fileName: {
+    fontFamily: 'Avenir',
+    fontWeight: 'bold',
+    fontSize: 18,
+    textAlign: 'left',
+  },
+  stateContainer: {
+    height: 25,
+    position: 'absolute',
+    top: 5,
+    right: 10,
+  },
+  unDownloaded: {
+    fontFamily: 'Avenir',
+    fontSize: 16,
+    textAlign: 'right',
+    color: '#EC173F',
+  },
+  Downloaded: {
+    fontFamily: 'Avenir',
+    fontSize: 16,
+    textAlign: 'right',
+    color: '#4D8E4B',
+  },
+  descriptionContainer: {
+    height: 25,
+    position: 'absolute',
+    top: 40,
+    left: 12,
+  },
+  fileDescription: {
+    fontFamily: 'Avenir',
+    fontSize: 16,
+    textAlign: 'left',
+  },
+  timeContainer: {
+    height: 25,
+    position: 'absolute',
+    bottom: 3,
+    right: 10,
+  },
+  uploadTime: {
+    fontFamily: 'Avenir',
+    fontSize: 14,
+    color: '#696969',
+  },
+})
